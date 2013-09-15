@@ -3,3 +3,4 @@ main: net.supersmashcraft.SSCPlugin
 description: Super Smash Plugin
 author: Ultimate
 version: ${project.version}
+website: http://supersmashcraft.net
