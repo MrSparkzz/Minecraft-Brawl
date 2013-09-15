@@ -17,8 +17,7 @@ public class ClassKirby extends SSCClass {
 
 	@Override
 	public void onPlayerSpawn(Player p) {
-		// TODO Auto-generated method stub
-
+		// TODO
 	}
 
 }

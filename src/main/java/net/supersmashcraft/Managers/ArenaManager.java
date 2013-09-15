@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.supersmashcraft.Arena.Arena;
+import net.supersmashcraft.Classes.SSCClass;
 
 import org.bukkit.entity.Player;
 
@@ -34,6 +35,10 @@ public class ArenaManager {
 
 	public static boolean isPlayerInArena(Player p) {
 		return getPlayerArena(p) == null ? false : true;
+	}
+	
+	public static SSCClass getPlayerClass(Player p){
+		return getPlayerArena(p).getPlayerManager().getPlayerClass(p);
 	}
 	
 	public static List<String> getAllPlayers(){

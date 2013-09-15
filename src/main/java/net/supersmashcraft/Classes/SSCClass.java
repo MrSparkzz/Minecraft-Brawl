@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -12,7 +13,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 public abstract class SSCClass {
 
 	private ItemStack[] items;
-	public String name;
+	protected String name;
 
 	private Material[] armor = new Material[] { Material.LEATHER_BOOTS,
 			Material.LEATHER_LEGGINGS, Material.LEATHER_CHESTPLATE,
@@ -26,6 +27,10 @@ public abstract class SSCClass {
 	public SSCClass(String name, ItemStack... items) {
 		this.items = items;
 		this.name = name;
+	}
+	
+	public String name(){
+		return name;
 	}
 	
 	public abstract void onPlayerSpawn(Player p);
@@ -49,7 +54,9 @@ public abstract class SSCClass {
 	}
 	
 	public static ItemStack item(Material ma){
-		return new ItemStack(ma, 1);
+		ItemStack i =new ItemStack(ma, 1);
+		i.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
+		return i;
 	}
 	
 	public static ItemStack armor(Material ma, Color c){

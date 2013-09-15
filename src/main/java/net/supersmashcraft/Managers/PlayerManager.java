@@ -1,16 +1,19 @@
 package net.supersmashcraft.Managers;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Set;
+
+import net.supersmashcraft.Classes.SSCClass;
 
 import org.bukkit.entity.Player;
 
 public class PlayerManager {
 
-	private List<String> players = new ArrayList<String>();
+	private HashMap<String, SSCClass>players = new HashMap<String, SSCClass>();
+	//private List<String> players = new ArrayList<String>();
 
-	public void addPlayer(Player p) {
-		players.add(p.getName());
+	public void addPlayer(Player p, SSCClass c) {
+		players.put(p.getName(), c);
 	}
 
 	public void removePlayer(Player p) {
@@ -22,10 +25,14 @@ public class PlayerManager {
 	}
 
 	public boolean containsPlayer(Player p) {
-		return players.contains(p.getName());
+		return players.containsKey(p.getName());
 	}
 	
-	public List<String> getPlayers(){
-		return this.players;
+	public Set<String> getPlayers(){
+		return players.keySet();
+	}
+	
+	public SSCClass getPlayerClass(Player p){
+		return players.get(p.getName());
 	}
 }

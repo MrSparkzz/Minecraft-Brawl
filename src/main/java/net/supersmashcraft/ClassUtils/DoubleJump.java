@@ -75,7 +75,11 @@ public class DoubleJump implements Listener {
 			event.getPlayer().addAttachment(SSCPlugin.instance,
 					"doublejump.using", true);
 			event.getPlayer().setAllowFlight(false);
-			player.setExp(0.0f);
+			if(ArenaManager.getPlayerClass(event.getPlayer()).name() == "Kirby"){
+				player.setExp(player.getExp() + 0.17f);
+			} else {
+				player.setExp(0.0f);
+			}
 			event.setCancelled(true);
 
 			double pitch = Math.toRadians(player.getLocation().getPitch());
