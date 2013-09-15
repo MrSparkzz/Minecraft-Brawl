@@ -25,6 +25,8 @@ public abstract class SSCClass {
 		this.items = items;
 		this.name = name;
 	}
+	
+	public abstract void onPlayerSpawn(Player p);
 
 	public void setupPlayer(Player p) {
 		List<ItemStack> pArmor = new ArrayList<ItemStack>();
