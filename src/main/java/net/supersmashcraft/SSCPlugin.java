@@ -1,6 +1,6 @@
-package me.SSC;
+package net.supersmashcraft;
 
-import me.SSC.ClassUtils.DoubleJump;
+import net.supersmashcraft.ClassUtils.DoubleJump;
 
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;

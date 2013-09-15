@@ -1,5 +1,5 @@
 name: Super Smash Bros
-main: me.SSC.SSCPlugin
+main: net.supersmashcraft.SSCPlugin
 description: Super Smash Plugin
 author: Ultimate
 version: ${project.version}

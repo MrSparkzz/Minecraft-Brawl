@@ -1,11 +1,13 @@
-package me.SSC.Classes;
+package net.supersmashcraft.Classes;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public abstract class SSCClass {
 
@@ -44,6 +46,18 @@ public abstract class SSCClass {
 			}
 		}
 		p.getInventory().setArmorContents((ItemStack[]) pArmor.toArray());
+	}
+	
+	public static ItemStack item(Material ma){
+		return new ItemStack(ma, 1);
+	}
+	
+	public static ItemStack armor(Material ma, Color c){
+		ItemStack i = new ItemStack(ma, 1);
+		LeatherArmorMeta m = (LeatherArmorMeta) i.getItemMeta();
+		m.setColor(c);
+		i.setItemMeta(m);
+		return i;
 	}
 	
 }

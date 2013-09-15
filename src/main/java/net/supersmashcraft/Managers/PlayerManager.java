@@ -1,4 +1,4 @@
-package me.SSC.Managers;
+package net.supersmashcraft.Managers;
 
 import java.util.ArrayList;
 import java.util.List;

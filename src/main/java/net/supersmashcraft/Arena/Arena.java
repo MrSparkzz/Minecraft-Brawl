@@ -1,11 +1,11 @@
-package me.SSC.Arena;
+package net.supersmashcraft.Arena;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import me.SSC.Managers.PlayerManager;
+import net.supersmashcraft.Managers.PlayerManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

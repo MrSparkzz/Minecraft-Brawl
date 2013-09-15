@@ -1,9 +1,9 @@
-package me.SSC.ClassUtils;
+package net.supersmashcraft.ClassUtils;
 
 import javax.annotation.Nonnull;
 
-import me.SSC.SSCPlugin;
-import me.SSC.Managers.ArenaManager;
+import net.supersmashcraft.SSCPlugin;
+import net.supersmashcraft.Managers.ArenaManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

@@ -1,9 +1,9 @@
-package me.SSC.Managers;
+package net.supersmashcraft.Managers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.SSC.Arena.Arena;
+import net.supersmashcraft.Arena.Arena;
 
 import org.bukkit.entity.Player;
 
