@@ -35,5 +35,13 @@ public class ArenaManager {
 	public static boolean isPlayerInArena(Player p) {
 		return getPlayerArena(p) == null ? false : true;
 	}
+	
+	public static List<String> getAllPlayers(){
+		List<String>players = new ArrayList<String>();
+		for(Arena arena : arenas){
+			players.addAll(arena.getPlayerManager().getPlayers());
+		}
+		return players;
+	}
 
 }

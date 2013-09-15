@@ -24,4 +24,8 @@ public class PlayerManager {
 	public boolean containsPlayer(Player p) {
 		return players.contains(p.getName());
 	}
+	
+	public List<String> getPlayers(){
+		return this.players;
+	}
 }
