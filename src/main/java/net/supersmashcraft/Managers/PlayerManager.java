@@ -6,7 +6,11 @@ import java.util.Set;
 import net.supersmashcraft.Classes.SSCClass;
 
 import org.bukkit.entity.Player;
-
+/**
+ * 
+ * @author Paul, Breezeyboy, Max_The_Link_Fan
+ *
+ */
 public class PlayerManager {
    
    private HashMap<String, SSCClass> players = new HashMap<String, SSCClass>();

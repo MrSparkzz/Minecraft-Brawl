@@ -7,7 +7,11 @@ import net.supersmashcraft.Arena.Arena;
 import net.supersmashcraft.Classes.SSCClass;
 
 import org.bukkit.entity.Player;
-
+/**
+ * 
+ * @author Paul, Breezeyboy, Max_The_Link_Fan
+ *
+ */
 public class ArenaManager {
    
    private static List<Arena> arenas = new ArrayList<Arena>();

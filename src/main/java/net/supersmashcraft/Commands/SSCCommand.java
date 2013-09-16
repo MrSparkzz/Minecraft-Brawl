@@ -1,7 +1,11 @@
 package net.supersmashcraft.Commands;
 
 import org.bukkit.entity.Player;
-
+/**
+ * 
+ * @author Paul, Breezeyboy, Max_The_Link_Fan
+ *
+ */
 public abstract class SSCCommand {
    
    public SSCCommand(String command, String permission) {

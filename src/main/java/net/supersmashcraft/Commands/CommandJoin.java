@@ -5,7 +5,11 @@ import net.supersmashcraft.Classes.ClassKirby;
 import net.supersmashcraft.Managers.ArenaManager;
 
 import org.bukkit.entity.Player;
-
+/**
+ * 
+ * @author Paul, Breezeyboy, Max_The_Link_Fan
+ *
+ */
 public class CommandJoin extends SSCCommand {
    
    public CommandJoin() {
