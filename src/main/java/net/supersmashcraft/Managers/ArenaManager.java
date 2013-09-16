@@ -23,6 +23,15 @@ public class ArenaManager {
 	public static boolean arenaRegistered(Arena arena) {
 		return arenas.contains(arena);
 	}
+	
+	public static boolean arenaRegistered(String arena){
+		for(Arena a : arenas){
+			if(a.getName().equalsIgnoreCase(arena)){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public static Arena getPlayerArena(Player p) {
 		for (Arena arena : arenas) {

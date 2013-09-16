@@ -14,17 +14,23 @@ import org.bukkit.entity.Player;
 public class Arena {
 
 	private PlayerManager pMan;
+	private String name;
 	private Location l1;
 	private Location l2;
 	private Location stop;
 	private List<Location> spawns = new ArrayList<Location>();
 
-	public Arena(Location l1, Location l2, Location stop, Location... spawns) {
+	public Arena(String name, Location l1, Location l2, Location stop, Location... spawns) {
+		this.name = name;
 		this.l1 = l1;
 		this.l2 = l2;
 		this.pMan = new PlayerManager();
 		this.stop = stop;
 		this.spawns = Arrays.asList(spawns);
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 
 	public PlayerManager getPlayerManager() {
