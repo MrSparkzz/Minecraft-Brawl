@@ -14,7 +14,9 @@ public abstract class SSCCommand {
    private int args;
    
    public SSCCommand(final String command, final String permission, int args) {
-      
+      this.command = command;
+      this.permission = permission;
+      this.args = args;
    }
    
    public abstract void onCommand(Player p, String[] args);
