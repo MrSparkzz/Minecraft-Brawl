@@ -4,3 +4,8 @@ description: Super Smash Plugin
 author: Ultimate
 version: 0.0.1-dev
 website: http://supersmashcraft.net
+
+commands:
+   ssc:
+      description: The main Super Smash Craft command
+      usage: /<command> [args]

@@ -3,6 +3,8 @@ package net.supersmashcraft;
 import java.util.logging.Logger;
 
 import net.supersmashcraft.ClassUtils.DoubleJump;
+import net.supersmashcraft.Commands.CommandJoin;
+import net.supersmashcraft.Commands.MainCommand;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -23,6 +25,9 @@ public class SSCPlugin extends JavaPlugin {
    public void onEnable() {
       instance = this;
       log = Bukkit.getServer().getLogger();
+      getCommand("ssc").setExecutor(new MainCommand());
+      MainCommand.registerCommand(new CommandJoin());
+      
       this.registerListener(new DoubleJump());
       log.info("[SuperSmashCraft] v" + this.getDescription().getVersion() + " enabled.");
    }
