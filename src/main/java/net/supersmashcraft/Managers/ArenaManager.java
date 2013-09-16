@@ -7,29 +7,30 @@ import net.supersmashcraft.Arena.Arena;
 import net.supersmashcraft.Classes.SSCClass;
 
 import org.bukkit.entity.Player;
+
 /**
  * 
  * @author Paul, Breezeyboy, Max_The_Link_Fan
- *
+ * 
  */
 public class ArenaManager {
    
    private static List<Arena> arenas = new ArrayList<Arena>();
    
-   public static void addArena(Arena arena) {
+   public static void addArena(final Arena arena) {
       arenas.add(arena);
    }
    
-   public static void deleteArena(Arena arena) {
+   public static void deleteArena(final Arena arena) {
       arenas.remove(arena);
    }
    
-   public static boolean arenaRegistered(Arena arena) {
+   public static boolean arenaRegistered(final Arena arena) {
       return arenas.contains(arena);
    }
    
-   public static boolean arenaRegistered(String arena) {
-      for (Arena a : arenas) {
+   public static boolean arenaRegistered(final String arena) {
+      for (final Arena a : arenas) {
          if (a.getName().equalsIgnoreCase(arena)) {
             return true;
          }
@@ -37,8 +38,8 @@ public class ArenaManager {
       return false;
    }
    
-   public static Arena getArena(String arena){
-      for (Arena a : arenas) {
+   public static Arena getArena(final String arena) {
+      for (final Arena a : arenas) {
          if (a.getName().equalsIgnoreCase(arena)) {
             return a;
          }
@@ -46,8 +47,8 @@ public class ArenaManager {
       return null;
    }
    
-   public static Arena getPlayerArena(Player p) {
-      for (Arena arena : arenas) {
+   public static Arena getPlayerArena(final Player p) {
+      for (final Arena arena : arenas) {
          if (arena.getPlayerManager().containsPlayer(p)) {
             return arena;
          }
@@ -55,17 +56,17 @@ public class ArenaManager {
       return null;
    }
    
-   public static boolean isPlayerInArena(Player p) {
+   public static boolean isPlayerInArena(final Player p) {
       return getPlayerArena(p) == null ? false : true;
    }
    
-   public static SSCClass getPlayerClass(Player p) {
+   public static SSCClass getPlayerClass(final Player p) {
       return getPlayerArena(p).getPlayerManager().getPlayerClass(p);
    }
    
    public static List<String> getAllPlayers() {
-      List<String> players = new ArrayList<String>();
-      for (Arena arena : arenas) {
+      final List<String> players = new ArrayList<String>();
+      for (final Arena arena : arenas) {
          players.addAll(arena.getPlayerManager().getPlayers());
       }
       return players;

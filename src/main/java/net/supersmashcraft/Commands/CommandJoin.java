@@ -5,10 +5,11 @@ import net.supersmashcraft.Classes.ClassKirby;
 import net.supersmashcraft.Managers.ArenaManager;
 
 import org.bukkit.entity.Player;
+
 /**
  * 
  * @author Paul, Breezeyboy, Max_The_Link_Fan
- *
+ * 
  */
 public class CommandJoin extends SSCCommand {
    
@@ -17,11 +18,12 @@ public class CommandJoin extends SSCCommand {
    }
    
    @Override
-   public void onCommand(Player p, String[] args) {
+   public void onCommand(final Player p, final String[] args) {
       if (ArenaManager.arenaRegistered(args[0])) {
          if (!ArenaManager.isPlayerInArena(p)) {
             if (p.hasPermission("scb.arena.join." + args[0])) {
-               ArenaManager.getArena(args[0]).getPlayerManager().addPlayer(p, new ClassKirby());
+               ArenaManager.getArena(args[0]).getPlayerManager()
+                        .addPlayer(p, new ClassKirby());
             } else {
                Msg.warning(p, "You do not have permission to join that arena!!");
             }

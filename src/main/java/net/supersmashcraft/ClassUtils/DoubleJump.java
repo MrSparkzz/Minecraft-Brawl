@@ -18,27 +18,29 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
 /**
  * 
  * @author Paul, Breezeyboy, Max_The_Link_Fan, Double0Negative
- *
+ * 
  */
 public class DoubleJump implements Listener {
-public DoubleJump(){
-new BukkitRunnable(){
-public void run(){
-for(String pName : ArenaManager.getAllPlayers()){
-Player player = Bukkit.getPlayerExact(pName);
-if(player.getExp() < 1.0f) {
-player.setExp(player.getExp() + 0.2f);
-}else if(player.getExp() > 1.0f) {
-player.setExp(1.0f);
-}
-refreshJump(player);
-}
-}
-}.runTaskTimer(SSCPlugin.instance, 0, 10);
-}
+   public DoubleJump() {
+      new BukkitRunnable() {
+         @Override
+         public void run() {
+            for (final String pName : ArenaManager.getAllPlayers()) {
+               final Player player = Bukkit.getPlayerExact(pName);
+               if (player.getExp() < 1.0f) {
+                  player.setExp(player.getExp() + 0.2f);
+               } else if (player.getExp() > 1.0f) {
+                  player.setExp(1.0f);
+               }
+               refreshJump(player);
+            }
+         }
+      }.runTaskTimer(SSCPlugin.instance, 0, 10);
+   }
    
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void noFallDamage(final EntityDamageEvent event) {
@@ -46,7 +48,7 @@ refreshJump(player);
          return;
       if (!(event.getEntity() instanceof Player))
          return;
-      Player player = (Player) event.getEntity();
+      final Player player = (Player) event.getEntity();
       if (ArenaManager.isPlayerInArena(player))
          return;
       
@@ -56,7 +58,7 @@ refreshJump(player);
    
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onGroundStateChanged(final PlayerMoveEvent event) {
-      Player p = event.getPlayer();
+      final Player p = event.getPlayer();
       if (p.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.AIR)
          return;
       if (!ArenaManager.isPlayerInArena(p))
@@ -72,7 +74,7 @@ refreshJump(player);
    public void onPlayerToggleFlight(final PlayerToggleFlightEvent event) {
       if (!ArenaManager.isPlayerInArena(event.getPlayer()))
          return;
-      Player player = event.getPlayer();
+      final Player player = event.getPlayer();
       if (event.isFlying()) {
          event.getPlayer().addAttachment(SSCPlugin.instance, "doublejump.using", true);
          event.getPlayer().setAllowFlight(false);
@@ -83,11 +85,11 @@ refreshJump(player);
          }
          event.setCancelled(true);
          
-         double pitch = Math.toRadians(player.getLocation().getPitch());
-         double yaw = Math.toRadians(player.getLocation().getYaw());
+         final double pitch = Math.toRadians(player.getLocation().getPitch());
+         final double yaw = Math.toRadians(player.getLocation().getYaw());
          
-         Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)), -Math.sin(pitch),
-                  Math.cos(pitch) * Math.cos(yaw));
+         final Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)),
+                  -Math.sin(pitch), Math.cos(pitch) * Math.cos(yaw));
          
          normal.setY(0.75 + Math.abs(normal.getY()) * 0.5);
          event.getPlayer().setVelocity(normal);
@@ -96,7 +98,7 @@ refreshJump(player);
       }
    }
    
-   public void refreshJump(@Nonnull Player player) {
+   public void refreshJump(@Nonnull final Player player) {
       if (player.getExp() >= 1.0f) {
          player.setAllowFlight(true);
       }

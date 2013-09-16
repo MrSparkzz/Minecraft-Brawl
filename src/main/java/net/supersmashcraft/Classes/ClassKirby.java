@@ -15,7 +15,7 @@ public class ClassKirby extends SSCClass {
    }
    
    @Override
-   public void onPlayerSpawn(Player p) {
+   public void onPlayerSpawn(final Player p) {
       // TODO
    }
    
