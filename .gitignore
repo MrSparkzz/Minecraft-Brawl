@@ -1,6 +1,17 @@
+# Java Class's#
+
 *.class
 
 # Package Files #
 *.jar
 *.war
 *.ear
+
+#Eclipse Shit #
+
+/.settings
+.classpath
+
+# target Folder #
+
+/target

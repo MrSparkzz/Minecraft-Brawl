@@ -18,24 +18,27 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-
+/**
+ * 
+ * @author Paul, Breezeyboy, Max_The_Link_Fan, Double0Negative
+ *
+ */
 public class DoubleJump implements Listener {
-   
-   public DoubleJump() {
-      new BukkitRunnable() {
-         public void run() {
-            for (String pName : ArenaManager.getAllPlayers()) {
-               Player player = Bukkit.getPlayerExact(pName);
-               if (player.getExp() < 1.0f) {
-                  player.setExp(player.getExp() + 0.2f);
-               } else if (player.getExp() > 1.0f) {
-                  player.setExp(1.0f);
-               }
-               refreshJump(player);
-            }
-         }
-      }.runTaskTimer(SSCPlugin.instance, 0, 10);
-   }
+public DoubleJump(){
+new BukkitRunnable(){
+public void run(){
+for(String pName : ArenaManager.getAllPlayers()){
+Player player = Bukkit.getPlayerExact(pName);
+if(player.getExp() < 1.0f) {
+player.setExp(player.getExp() + 0.2f);
+}else if(player.getExp() > 1.0f) {
+player.setExp(1.0f);
+}
+refreshJump(player);
+}
+}
+}.runTaskTimer(SSCPlugin.instance, 0, 10);
+}
    
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void noFallDamage(final EntityDamageEvent event) {
