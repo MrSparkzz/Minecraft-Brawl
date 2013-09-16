@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
  */
 public class Msg {
    
-   private static String prefix = "&7[&aSSB&7]&e ";
+   private static String prefix = "&8[&aSSB&8]&e ";
    
    public static void msg(final Player player, final String msg) {
       player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + msg));

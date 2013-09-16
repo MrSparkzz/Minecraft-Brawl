@@ -20,7 +20,7 @@ public class JoinUtils {
       } else {
          Msg.warning(p, "That arena does not exist!");
       }
-      return true;
+      return false;
    }
    
 }
