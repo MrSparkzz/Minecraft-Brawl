@@ -33,6 +33,15 @@ public class ArenaManager {
       return false;
    }
    
+   public static Arena getArena(String arena){
+      for (Arena a : arenas) {
+         if (a.getName().equalsIgnoreCase(arena)) {
+            return a;
+         }
+      }
+      return null;
+   }
+   
    public static Arena getPlayerArena(Player p) {
       for (Arena arena : arenas) {
          if (arena.getPlayerManager().containsPlayer(p)) {

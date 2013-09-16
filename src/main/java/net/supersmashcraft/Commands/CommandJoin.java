@@ -1,6 +1,7 @@
 package net.supersmashcraft.Commands;
 
 import net.supersmashcraft.ClassUtils.Msg;
+import net.supersmashcraft.Classes.ClassKirby;
 import net.supersmashcraft.Managers.ArenaManager;
 
 import org.bukkit.entity.Player;
@@ -16,7 +17,7 @@ public class CommandJoin extends SSCCommand {
       if (ArenaManager.arenaRegistered(args[0])) {
          if (!ArenaManager.isPlayerInArena(p)) {
             if (p.hasPermission("scb.arena.join." + args[0])) {
-               // Have him join the arena
+               ArenaManager.getArena(args[0]).getPlayerManager().addPlayer(p, new ClassKirby());
             } else {
                Msg.warning(p, "You do not have permission to join that arena!!");
             }
