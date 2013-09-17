@@ -32,6 +32,7 @@ public class CreationManager {
    public static Arena createArena(String path) {
       FileConfiguration config = SSCPlugin.instance.getConfig();
       List<Location> spawns = new ArrayList<Location>();
+      path = "Arenas." + path;
       for (String st : config.getConfigurationSection(path + ".Spawns").getKeys(false)) {
          spawns.add(getFromPath(st));
       }
