@@ -3,10 +3,12 @@ package net.supersmashcraft;
 import java.util.logging.Logger;
 
 import net.supersmashcraft.ClassUtils.DoubleJump;
+import net.supersmashcraft.Classes.ClassKirby;
 import net.supersmashcraft.Commands.CommandCreation;
 import net.supersmashcraft.Commands.CommandJoin;
 import net.supersmashcraft.Commands.MainCommand;
 import net.supersmashcraft.Managers.ArenaManager;
+import net.supersmashcraft.Managers.ClassManager;
 import net.supersmashcraft.Managers.CreationManager;
 
 import org.bukkit.Bukkit;
@@ -31,6 +33,7 @@ public class SSCPlugin extends JavaPlugin {
       getCommand("ssc").setExecutor(new MainCommand());
       MainCommand.registerCommand(new CommandJoin());
       MainCommand.registerCommand(new CommandCreation());
+      ClassManager.registerClass(new ClassKirby());
       
       this.registerListener(new DoubleJump());
       log.info("[SuperSmashCraft] v" + this.getDescription().getVersion() + " enabled.");

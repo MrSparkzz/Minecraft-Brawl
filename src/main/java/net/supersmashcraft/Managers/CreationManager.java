@@ -34,15 +34,21 @@ public class CreationManager {
       List<Location> spawns = new ArrayList<Location>();
       path = "Arenas." + path;
       for (String st : config.getConfigurationSection(path + ".Spawns").getKeys(false)) {
-         spawns.add(getFromPath(st));
+         spawns.add(getFromPath(path + ".Spawns." + st));
       }
-      return new Arena(config.getString(path + ".Name"), getFromPath(path + ".l1"), getFromPath(path + ".l2"),
-               getFromPath(path + ".EndPoint"), (Location[]) spawns.toArray());
+      Location[] spawnsArray = new Location[spawns.size()];
+      spawns.toArray(spawnsArray);
+      return new Arena(c(path + ".Name"), getFromPath(path + ".l1"), getFromPath(path + ".l2"), getFromPath(path
+               + ".EndPoint"), spawnsArray);
+   }
+   
+   private static String c(String path) {
+      return SSCPlugin.instance.getConfig().getString(path);
    }
    
    private static Location getFromPath(String path) {
       FileConfiguration config = SSCPlugin.instance.getConfig();
-      World w = Bukkit.getWorld(config.getString(path + ".World"));
+      World w = Bukkit.getWorld(c(path + ".World"));
       int x = config.getInt(path + ".x");
       int y = config.getInt(path + ".y");
       int z = config.getInt(path + ".z");
