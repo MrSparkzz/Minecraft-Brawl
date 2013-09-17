@@ -14,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 /**
  * 
  * @author Paul, Breezeyboy, Max_The_Link_Fan
- * Jnks test
+ *
  */
 public class SSCPlugin extends JavaPlugin {
    public static SSCPlugin instance;
