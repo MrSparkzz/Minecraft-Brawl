@@ -21,7 +21,8 @@ public class CommandJoin extends SSCCommand {
    @Override
    public void onCommand(final Player p, final String[] args) {
       if (JoinUtils.basicArenaChecks(p, args[0])) {
-         // For now, lets not have a lobby. Lets just have them define it with the name
+         // For now, lets not have a lobby. Lets just have them define it with
+         // the name
          if (ClassManager.classExists(args[1])) {
             if (p.hasPermission("scb.class." + args[1])) {
                // Have him join arena

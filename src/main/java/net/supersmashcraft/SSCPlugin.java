@@ -1,12 +1,19 @@
 package net.supersmashcraft;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
+import net.supersmashcraft.Arena.Arena;
 import net.supersmashcraft.ClassUtils.DoubleJump;
 import net.supersmashcraft.Commands.CommandJoin;
 import net.supersmashcraft.Commands.MainCommand;
+import net.supersmashcraft.Managers.ArenaManager;
+import net.supersmashcraft.Managers.CreationManager;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,6 +37,10 @@ public class SSCPlugin extends JavaPlugin {
       
       this.registerListener(new DoubleJump());
       log.info("[SuperSmashCraft] v" + this.getDescription().getVersion() + " enabled.");
+      
+      for (String s : getConfig().getConfigurationSection("Arenas").getKeys(false)) {
+         ArenaManager.addArena(CreationManager.createArena(s));
+      }
    }
    
    @Override
