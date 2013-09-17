@@ -8,7 +8,7 @@
 	<description>Super Smash Bros - Bukkit Plugin</description>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
-		<finalName>${project.artifactId}</finalName>
+		<finalName>SuperSmashCraft-${project.version}-b${BUILD_NUMBER}</finalName>
 		<defaultGoal>clean install</defaultGoal>
 		<resources>
 			<resource>
