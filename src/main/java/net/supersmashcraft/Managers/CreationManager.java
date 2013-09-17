@@ -46,13 +46,38 @@ public class CreationManager {
       return SSCPlugin.instance.getConfig().getString(path);
    }
    
-   private static Location getFromPath(String path) {
-      FileConfiguration config = SSCPlugin.instance.getConfig();
-      World w = Bukkit.getWorld(c(path + ".World"));
-      int x = config.getInt(path + ".x");
-      int y = config.getInt(path + ".y");
-      int z = config.getInt(path + ".z");
+   private static String fromLocation(Location l, boolean block) {
+      String world = l.getWorld().getName();
+      double x = l.getX();
+      double y = l.getY();
+      double z = l.getZ();
+      
+      if (block) {
+         x = l.getBlockX();
+         y = l.getBlockY();
+         z = l.getBlockZ();
+      } else {
+         x = l.getX();
+         y = l.getY();
+         z = l.getZ();
+      }
+      
+      String f = world + ";" + x + ";" + y + ";" + z;
+      return f;
+   }
+   
+   private static Location toLocation(String s) {
+      String[] fi = s.split(";");
+      World w = Bukkit.getWorld(fi[0]);
+      double x = Double.parseDouble(fi[1]);
+      double y = Double.parseDouble(fi[2]);
+      double z = Double.parseDouble(fi[3]);
+      
       return new Location(w, x, y, z);
+   }
+   
+   private static Location getFromPath(String path) {
+      return toLocation(SSCPlugin.instance.getConfig().getString(path));
    }
    
    public static class DataHolder {
@@ -66,20 +91,17 @@ public class CreationManager {
          FileConfiguration c = SSCPlugin.instance.getConfig();
          c.set("Arenas." + name + ".Name", name);
          c.set("Arenas." + name + ".Name", name);
-         lTC("Arenas." + name + ".l1", l1, c);
-         lTC("Arenas." + name + ".l2", l2, c);
+         lTC("Arenas." + name + ".l1", l1, c, true);
+         lTC("Arenas." + name + ".l2", l2, c, true);
          for (int i = 0; i < spawns.size(); i++) {
-            lTC("Arenas." + name + ".Spawns." + i, spawns.get(i), c);
+            lTC("Arenas." + name + ".Spawns." + i, spawns.get(i), c, false);
          }
-         lTC("Arenas." + name + ".EndPoint", end, c);
+         lTC("Arenas." + name + ".EndPoint", end, c, false);
          SSCPlugin.instance.saveConfig();
       }
       
-      private void lTC(String path, Location l, FileConfiguration c) {
-         c.set(path + ".World", l.getWorld().getName());
-         c.set(path + ".x", l.getX());
-         c.set(path + ".y", l.getY());
-         c.set(path + ".z", l.getZ());
+      private void lTC(String path, Location l, FileConfiguration c, boolean block) {
+         c.set(path, CreationManager.fromLocation(l, block));
       }
       
       public String check() {

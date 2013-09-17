@@ -6,6 +6,7 @@ import java.util.Set;
 import net.supersmashcraft.Classes.SSCClass;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * 
@@ -40,5 +41,16 @@ public class PlayerManager {
    
    public SSCClass getPlayerClass(final Player p) {
       return players.get(p.getName());
+   }
+   
+   public static class PlayerData {
+      public String name;
+      public ItemStack[] inventory;
+      public ItemStack[] armor;
+      public PlayerData(Player p){
+         name = p.getName();
+         inventory = p.getInventory().getContents();
+         armor = p.getInventory().getArmorContents();
+      }
    }
 }

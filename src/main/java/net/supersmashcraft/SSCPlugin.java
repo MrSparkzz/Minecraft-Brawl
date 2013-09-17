@@ -35,6 +35,18 @@ public class SSCPlugin extends JavaPlugin {
       MainCommand.registerCommand(new CommandCreation());
       ClassManager.registerClass(new ClassKirby());
       
+      int x = 5;
+      int y = 12;
+      int z = -3;
+      String world = "world";
+      
+      String f = world + ";" + x + ";" + y + ";" + z;
+      String[] fi = f.split(";");
+      log.info("World: " + fi[0]);
+      log.info("x: " + fi[1]);
+      log.info("y: " + fi[2]);
+      log.info("z: " + fi[3]);
+      
       this.registerListener(new DoubleJump());
       log.info("[SuperSmashCraft] v" + this.getDescription().getVersion() + " enabled.");
       

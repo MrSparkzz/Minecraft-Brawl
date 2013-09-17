@@ -1,7 +1,10 @@
 package net.supersmashcraft.ClassUtils;
 
+import net.supersmashcraft.Arena.Arena;
+import net.supersmashcraft.Classes.SSCClass;
 import net.supersmashcraft.Managers.ArenaManager;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 public class JoinUtils {
@@ -21,6 +24,13 @@ public class JoinUtils {
          Msg.warning(p, "That arena does not exist!");
       }
       return false;
+   }
+   
+   public static void startPlayer(Player p, Arena a, SSCClass c) {
+      a.getPlayerManager().addPlayer(p, c);
+      p.teleport(a.getRandomSpawn());
+      p.setGameMode(GameMode.ADVENTURE);
+      c.setupPlayer(p);
    }
    
 }
