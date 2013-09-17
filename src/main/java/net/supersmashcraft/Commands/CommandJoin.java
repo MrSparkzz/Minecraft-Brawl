@@ -5,6 +5,7 @@ import net.supersmashcraft.ClassUtils.Msg;
 import net.supersmashcraft.Managers.ArenaManager;
 import net.supersmashcraft.Managers.ClassManager;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 /**
@@ -28,6 +29,9 @@ public class CommandJoin extends SSCCommand {
                // Have him join arena
                ArenaManager.getArena(args[0]).getPlayerManager()
                         .addPlayer(p, ClassManager.getRegisteredClass(args[1]));
+               p.teleport(ArenaManager.getArena(args[0]).getRandomSpawn());
+               p.setGameMode(GameMode.ADVENTURE);
+               ClassManager.getRegisteredClass(args[1]).setupPlayer(p);
             } else {
                Msg.warning(p, "You do not have permission to use that class!");
             }

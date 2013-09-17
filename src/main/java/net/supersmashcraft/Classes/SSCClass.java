@@ -47,7 +47,9 @@ public abstract class SSCClass {
             p.getInventory().addItem(item);
          }
       }
-      p.getInventory().setArmorContents((ItemStack[]) pArmor.toArray());
+      ItemStack[] items = new ItemStack[pArmor.size()];
+      pArmor.toArray(items);
+      p.getInventory().setArmorContents(items);
    }
    
    public static ItemStack item(final Material ma) {
