@@ -15,12 +15,11 @@ public abstract class SSCClass {
    private final ItemStack[] items;
    protected String name;
    
-   private final Material[] armor = new Material[] { Material.LEATHER_BOOTS,
-            Material.LEATHER_LEGGINGS, Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET,
-            Material.IRON_BOOTS, Material.IRON_LEGGINGS, Material.IRON_CHESTPLATE,
-            Material.IRON_HELMET, Material.GOLD_BOOTS, Material.GOLD_LEGGINGS,
-            Material.GOLD_CHESTPLATE, Material.GOLD_HELMET, Material.DIAMOND_BOOTS,
-            Material.DIAMOND_LEGGINGS, Material.DIAMOND_CHESTPLATE, Material.DIAMOND_HELMET };
+   private final Material[] armor = new Material[] { Material.LEATHER_BOOTS, Material.LEATHER_LEGGINGS,
+            Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET, Material.IRON_BOOTS, Material.IRON_LEGGINGS,
+            Material.IRON_CHESTPLATE, Material.IRON_HELMET, Material.GOLD_BOOTS, Material.GOLD_LEGGINGS,
+            Material.GOLD_CHESTPLATE, Material.GOLD_HELMET, Material.DIAMOND_BOOTS, Material.DIAMOND_LEGGINGS,
+            Material.DIAMOND_CHESTPLATE, Material.DIAMOND_HELMET };
    
    public SSCClass(final String name, final ItemStack... items) {
       this.items = items;

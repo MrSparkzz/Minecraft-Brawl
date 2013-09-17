@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 public class JoinUtils {
    
-   public static boolean basicArenaChecks(Player p, String arena){
+   public static boolean basicArenaChecks(Player p, String arena) {
       if (ArenaManager.arenaRegistered(arena)) {
          if (!ArenaManager.isPlayerInArena(p)) {
             if (p.hasPermission("scb.arena.join." + arena)) {

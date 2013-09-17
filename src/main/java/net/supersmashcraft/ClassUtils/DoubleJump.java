@@ -88,10 +88,10 @@ public class DoubleJump implements Listener {
          final double pitch = Math.toRadians(player.getLocation().getPitch());
          final double yaw = Math.toRadians(player.getLocation().getYaw());
          
-         final Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)),
-                  -Math.sin(pitch), Math.cos(pitch) * Math.cos(yaw));
+         final Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)), -Math.sin(pitch), Math.cos(pitch)
+                  * Math.cos(yaw));
          
-         normal.setY(0.75 + Math.abs(normal.getY()) * 0.5);
+         normal.setY(0.75 + Math.abs(normal.getY()) * 0.6);
          event.getPlayer().setVelocity(normal);
          
          player.getWorld().playSound(player.getLocation(), Sound.ZOMBIE_INFECT, 0.5f, 1.8f);
