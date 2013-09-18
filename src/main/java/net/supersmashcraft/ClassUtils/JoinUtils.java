@@ -3,6 +3,7 @@ package net.supersmashcraft.ClassUtils;
 import net.supersmashcraft.Arena.Arena;
 import net.supersmashcraft.Classes.SSCClass;
 import net.supersmashcraft.Managers.ArenaManager;
+import net.supersmashcraft.Managers.PlayerManager.PlayerData;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -31,6 +32,11 @@ public class JoinUtils {
       p.teleport(a.getRandomSpawn());
       p.setGameMode(GameMode.ADVENTURE);
       c.setupPlayer(p);
+   }
+   
+   public static void stopPlayer(Player p){
+      PlayerData d = ArenaManager.getPlayerArena(p).getPlayerManager().getPlayerData(p);
+      d.reset();
    }
    
 }

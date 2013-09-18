@@ -50,6 +50,7 @@ public abstract class SSCClass {
       ItemStack[] items = new ItemStack[pArmor.size()];
       pArmor.toArray(items);
       p.getInventory().setArmorContents(items);
+      onPlayerSpawn(p);
    }
    
    public static ItemStack item(final Material ma) {

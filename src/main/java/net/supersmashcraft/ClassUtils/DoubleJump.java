@@ -31,6 +31,9 @@ public class DoubleJump implements Listener {
          public void run() {
             for (final String pName : ArenaManager.getAllPlayers()) {
                final Player player = Bukkit.getPlayerExact(pName);
+               if(player == null){
+                  return;
+               }
                if (player.getExp() < 1.0f) {
                   player.setExp(player.getExp() + 0.2f);
                } else if (player.getExp() > 1.0f) {
@@ -39,7 +42,7 @@ public class DoubleJump implements Listener {
                refreshJump(player);
             }
          }
-      }.runTaskTimer(SSCPlugin.instance, 0, 10);
+      }.runTaskTimer(SSCPlugin.instance, 0, 5);
    }
    
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -49,19 +52,19 @@ public class DoubleJump implements Listener {
       if (!(event.getEntity() instanceof Player))
          return;
       final Player player = (Player) event.getEntity();
-      if (ArenaManager.isPlayerInArena(player))
+      if (ArenaManager.isPlayerInArena(player)) {
+         event.setCancelled(true);
+         player.addAttachment(SSCPlugin.instance, "doublejump.nofalldamage", false);
          return;
-      
-      event.setCancelled(true);
-      player.addAttachment(SSCPlugin.instance, "doublejump.nofalldamage", false);
+      }
    }
    
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onGroundStateChanged(final PlayerMoveEvent event) {
       final Player p = event.getPlayer();
-      if (p.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.AIR)
-         return;
       if (!ArenaManager.isPlayerInArena(p))
+         return;
+      if (p.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.AIR)
          return;
       
       if (p.getExp() == 0.0f) {
