@@ -58,7 +58,7 @@ public class ArenaManager {
    }
    
    public static boolean isPlayerInArena(final Player p) {
-      return getPlayerArena(p) == null ? false : true;
+      return getPlayerArena(p) != null;
    }
    
    public static SSCClass getPlayerClass(final Player p) {
