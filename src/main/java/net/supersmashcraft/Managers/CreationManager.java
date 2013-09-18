@@ -98,6 +98,7 @@ public class CreationManager {
          }
          lTC("Arenas." + name + ".EndPoint", end, c, false);
          SSCPlugin.instance.saveConfig();
+         SSCPlugin.instance.reloadConfig();
       }
       
       private void lTC(String path, Location l, FileConfiguration c, boolean block) {
