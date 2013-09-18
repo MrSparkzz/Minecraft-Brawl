@@ -3,6 +3,7 @@ package net.supersmashcraft.Managers;
 import java.util.HashMap;
 import java.util.Set;
 
+import net.supersmashcraft.Arena.Arena;
 import net.supersmashcraft.Classes.SSCClass;
 
 import org.bukkit.Bukkit;
@@ -27,8 +28,8 @@ public class PlayerManager {
    
    public void removePlayer(final Player p) {
       PlayerData d = new PlayerData(p);
-      for(PlayerData set : players.keySet()){
-         if(set.name == p.getName()){
+      for (PlayerData set : players.keySet()) {
+         if (set.name == p.getName()) {
             d = set;
             break;
          }
@@ -41,14 +42,12 @@ public class PlayerManager {
    }
    
    public boolean containsPlayer(final Player p) {
-      PlayerData d = new PlayerData(p);
-      for(PlayerData set : players.keySet()){
-         if(set.name == p.getName()){
-            d = set;
-            break;
+      for (PlayerData set : players.keySet()) {
+         if (set.name == p.getName()) {
+            return true;
          }
       }
-      return players.containsKey(d);
+      return false;
    }
    
    public Set<PlayerData> getPlayers() {
@@ -57,8 +56,8 @@ public class PlayerManager {
    
    public SSCClass getPlayerClass(final Player p) {
       PlayerData d = new PlayerData(p);
-      for(PlayerData set : players.keySet()){
-         if(set.name == p.getName()){
+      for (PlayerData set : players.keySet()) {
+         if (set.name == p.getName()) {
             d = set;
             break;
          }
@@ -66,10 +65,10 @@ public class PlayerManager {
       return players.get(d);
    }
    
-   public PlayerData getPlayerData(Player p){
+   public PlayerData getPlayerData(Player p) {
       PlayerData d = new PlayerData(p);
-      for(PlayerData set : players.keySet()){
-         if(set.name == p.getName()){
+      for (PlayerData set : players.keySet()) {
+         if (set.name == p.getName()) {
             d = set;
             break;
          }
@@ -86,8 +85,11 @@ public class PlayerManager {
       public float exhaust;
       public double maxHealth;
       public GameMode mode;
+      public int lives;
+      private Arena a;
       
       public PlayerData(Player p) {
+         a = ArenaManager.getPlayerArena(p);
          name = p.getName();
          inventory = p.getInventory().getContents();
          armor = p.getInventory().getArmorContents();
@@ -96,6 +98,22 @@ public class PlayerManager {
          exhaust = p.getExhaustion();
          maxHealth = p.getMaxHealth();
          mode = p.getGameMode();
+         lives = 5;
+      }
+      
+      public void removeLifes(int amount) {
+         lives -= amount;
+         Player p = Bukkit.getPlayer(name);
+         p.setHealth(p.getMaxHealth());
+         if(a == null){
+            Bukkit.getLogger().severe("Arena is null!");
+            a = ArenaManager.getPlayerArena(p);
+            removeLifes(amount);
+         } else {
+            a.getPlayerManager().getPlayerClass(p).setupPlayer(p);
+            a.refreshScoreboard();  
+            p.teleport(a.getRandomSpawn());
+         }
       }
       
       public void reset() {

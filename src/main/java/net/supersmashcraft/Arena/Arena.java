@@ -52,4 +52,8 @@ public class Arena {
       return spawns.get(new Random().nextInt(spawns.size()));
    }
    
+   public void refreshScoreboard(){
+      
+   }
+   
 }

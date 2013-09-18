@@ -2,11 +2,13 @@ package net.supersmashcraft;
 
 import java.util.logging.Logger;
 
+import net.supersmashcraft.Arena.ArenaListener;
 import net.supersmashcraft.ClassUtils.DoubleJump;
 import net.supersmashcraft.Classes.ClassBowser;
 import net.supersmashcraft.Classes.ClassKirby;
 import net.supersmashcraft.Commands.CommandCreation;
 import net.supersmashcraft.Commands.CommandJoin;
+import net.supersmashcraft.Commands.CommandLeave;
 import net.supersmashcraft.Commands.MainCommand;
 import net.supersmashcraft.Managers.ArenaManager;
 import net.supersmashcraft.Managers.ClassManager;
@@ -34,11 +36,13 @@ public class SSCPlugin extends JavaPlugin {
       getCommand("ssc").setExecutor(new MainCommand());
       MainCommand.registerCommand(new CommandJoin());
       MainCommand.registerCommand(new CommandCreation());
+      MainCommand.registerCommand(new CommandLeave());
+      
       ClassManager.registerClass(new ClassKirby());
       ClassManager.registerClass(new ClassBowser());
       
-      this.registerListener(new DoubleJump());
-      log.info("[SuperSmashCraft] v" + this.getDescription().getVersion() + " enabled.");
+      registerListener(new DoubleJump());
+      registerListener(new ArenaListener());
       
       if (getConfig().isSet("Arenas")) {
          for (String s : getConfig().getConfigurationSection("Arenas").getKeys(false)) {
@@ -46,6 +50,7 @@ public class SSCPlugin extends JavaPlugin {
             ArenaManager.addArena(CreationManager.createArena(s));
          }
       }
+      log.info("[SuperSmashCraft] v" + this.getDescription().getVersion() + " enabled.");
    }
    
    @Override

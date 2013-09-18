@@ -33,6 +33,7 @@ public abstract class SSCClass {
    public abstract void onPlayerSpawn(Player p);
    
    public void setupPlayer(final Player p) {
+      p.getInventory().clear();
       final List<ItemStack> pArmor = new ArrayList<ItemStack>();
       for (final ItemStack item : items) {
          boolean isArmor = false;

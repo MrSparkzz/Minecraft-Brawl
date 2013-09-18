@@ -34,9 +34,14 @@ public class JoinUtils {
       c.setupPlayer(p);
    }
    
-   public static void stopPlayer(Player p){
-      PlayerData d = ArenaManager.getPlayerArena(p).getPlayerManager().getPlayerData(p);
+   public static String stopPlayer(Player p) {
+      Arena a = ArenaManager.getPlayerArena(p);
+      String name = a.getName();
+      PlayerData d = a.getPlayerManager().getPlayerData(p);
       d.reset();
+      p.teleport(a.getStop());
+      a.getPlayerManager().removePlayer(p);
+      return name;
    }
    
 }
