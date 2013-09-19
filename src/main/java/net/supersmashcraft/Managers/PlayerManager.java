@@ -109,7 +109,6 @@ public class PlayerManager {
       }
       
       public void removeLifes(int amount) {
-         lives -= amount;
          Player p = Bukkit.getPlayer(name);
          p.setHealth(p.getMaxHealth());
          if (a == null) {
@@ -117,15 +116,19 @@ public class PlayerManager {
             a = ArenaManager.getPlayerArena(p);
             removeLifes(0);
          } else {
+            if (lives <= 1) {
+               JoinUtils.stopPlayer(p);
+               for (PlayerData d : a.getPlayerManager().getPlayers()) {
+                  Msg.msg(Bukkit.getPlayer(d.name), this.name + " has left the arena!");
+               }
+            }
+            lives -= amount;
             a.getPlayerManager().getPlayerClass(p).setupPlayer(p);
             a.refreshScoreboard();
             p.teleport(a.getRandomSpawn());
             p.setHealth(p.getMaxHealth());
-         }
-         if(lives < 1){
-            String name = JoinUtils.stopPlayer(p);
-            for(PlayerData d : a.getPlayerManager().getPlayers()){
-               Msg.msg(Bukkit.getPlayer(d.name), this.name + " has the the arena " + name + "!");
+            for (PlayerData d : a.getPlayerManager().getPlayers()) {
+               Msg.msg(Bukkit.getPlayer(d.name), this.name + " died!");
             }
          }
       }
