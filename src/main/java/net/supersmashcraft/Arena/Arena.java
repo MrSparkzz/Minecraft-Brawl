@@ -7,9 +7,7 @@ import java.util.Random;
 
 import net.supersmashcraft.Managers.PlayerManager;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 public class Arena {
    
@@ -46,21 +44,16 @@ public class Arena {
       return this.l2;
    }
    
+   public Location getStop() {
+      return stop;
+   }
+   
    public Location getRandomSpawn() {
       return spawns.get(new Random().nextInt(spawns.size()));
    }
    
-   public void startArena() {
-      for (final String s : pMan.getPlayers()) {
-         final Player p = Bukkit.getServer().getPlayerExact(s);
-         p.teleport(getRandomSpawn());
-      }
+   public void refreshScoreboard(){
+      
    }
    
-   public void endArena() {
-      for (final String s : pMan.getPlayers()) {
-         final Player p = Bukkit.getServer().getPlayerExact(s);
-         p.teleport(stop);
-      }
-   }
 }

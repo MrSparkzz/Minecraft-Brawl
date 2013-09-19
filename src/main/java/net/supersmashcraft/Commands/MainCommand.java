@@ -28,7 +28,7 @@ public class MainCommand implements CommandExecutor {
          Player p = (Player) sender;
          for (SSCCommand c : commands) {
             if (c.getCommand().equalsIgnoreCase(args[0])) {
-               if (c.getArgumentLength() == args.length - 1) {
+               if (c.getArgumentLength() == -1 || c.getArgumentLength() == args.length - 1) {
                   if (p.hasPermission(c.getPermission())) {
                      cmd = c;
                   } else {

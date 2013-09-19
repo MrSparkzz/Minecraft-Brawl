@@ -2,7 +2,7 @@ name: Super Smash Bros
 main: net.supersmashcraft.SSCPlugin
 description: Super Smash Plugin
 author: Ultimate
-version: 0.0.1-dev
+version: 0.0.2(dev)-b${BUILD_NUMBER}
 website: http://supersmashcraft.net
 
 commands:
