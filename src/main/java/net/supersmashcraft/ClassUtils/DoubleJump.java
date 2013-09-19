@@ -1,6 +1,6 @@
 package net.supersmashcraft.ClassUtils;
 
-import javax.annotation.Nonnull;
+import java.util.HashMap;
 
 import net.supersmashcraft.SSCPlugin;
 import net.supersmashcraft.Managers.ArenaManager;
@@ -14,7 +14,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -31,7 +30,10 @@ public class DoubleJump implements Listener {
          public void run() {
             for (final String pName : ArenaManager.getAllPlayers()) {
                final Player player = Bukkit.getPlayerExact(pName);
-               if(player == null){
+               if (player == null) {
+                  return;
+               }
+               if(player.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.AIR){
                   return;
                }
                if (player.getExp() < 1.0f) {
@@ -54,24 +56,10 @@ public class DoubleJump implements Listener {
       final Player player = (Player) event.getEntity();
       if (ArenaManager.isPlayerInArena(player)) {
          event.setCancelled(true);
-         player.addAttachment(SSCPlugin.instance, "doublejump.nofalldamage", false);
-         return;
       }
    }
    
-   @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-   public void onGroundStateChanged(final PlayerMoveEvent event) {
-      final Player p = event.getPlayer();
-      if (!ArenaManager.isPlayerInArena(p))
-         return;
-      if (p.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.AIR)
-         return;
-      
-      if (p.getExp() == 0.0f) {
-         p.addAttachment(SSCPlugin.instance, "doublejump.nofalldamage", true);
-         p.addAttachment(SSCPlugin.instance, "doublejump.using", false);
-      }
-   }
+   HashMap<String, Integer> kirby = new HashMap<String, Integer>();
    
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onPlayerToggleFlight(final PlayerToggleFlightEvent event) {
@@ -79,12 +67,19 @@ public class DoubleJump implements Listener {
          return;
       final Player player = event.getPlayer();
       if (event.isFlying()) {
-         event.getPlayer().addAttachment(SSCPlugin.instance, "doublejump.using", true);
          event.getPlayer().setAllowFlight(false);
-         if (ArenaManager.getPlayerClass(event.getPlayer()).name() == "Kirby") {
-            player.setExp(player.getExp() + 0.17f);
-         } else {
-            player.setExp(0.0f);
+         player.setExp(0.0f);
+         if (kirby.containsKey(player.getName())) {
+            if (kirby.get(player.getName()) < 6) {
+               int value = kirby.get(player.getName()) + 1;
+               kirby.remove(player.getName());
+               kirby.put(player.getName(), value);
+               player.setExp(0.9f);
+            } else {
+               kirby.remove(player.getName());
+            }
+         } else if (ArenaManager.getPlayerClass(player).name() == "Kirby") {
+            kirby.put(player.getName(), 0);
          }
          event.setCancelled(true);
          
@@ -101,7 +96,7 @@ public class DoubleJump implements Listener {
       }
    }
    
-   public void refreshJump(@Nonnull final Player player) {
+   public void refreshJump(Player player) {
       if (player.getExp() >= 1.0f) {
          player.setAllowFlight(true);
       }
