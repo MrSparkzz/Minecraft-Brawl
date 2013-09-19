@@ -21,7 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * 
- * @author Paul, Breezeyboy, Max_The_Link_Fan
+ * @author Paul, Breezeyboy, Max_The_Link_Fan, Doubleboss00, chasechocolate
  * 
  */
 public class SSCPlugin extends JavaPlugin {
