@@ -62,7 +62,7 @@ public class DoubleJump implements Listener {
          event.setCancelled(true);
          if (kirby.containsKey(player.getName())) {
             int jump = kirby.get(player.getName());
-            if (jump < 4) {
+            if (jump < 3) {
                kirby.remove(player.getName());
                kirby.put(player.getName(), jump + 1);
                player.setAllowFlight(true);
@@ -75,12 +75,12 @@ public class DoubleJump implements Listener {
          final double pitch = Math.toRadians(player.getLocation().getPitch());
          final double yaw = Math.toRadians(player.getLocation().getYaw());
          
-         final Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)) / 2, -Math.sin(pitch) / 2,
-                  Math.cos(pitch) * Math.cos(yaw) / 2);
+         final Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)) / 1.5, -Math.sin(pitch) / 1.5,
+                  Math.cos(pitch) * Math.cos(yaw) / 1.5);
          if(ArenaManager.getPlayerClass(player).name() == "Kirby"){
-            normal.setY(0.75 + Math.abs(normal.getY()) * 0.2);
+            normal.setY(0.75 + Math.abs(normal.getY()) * 0.98);
          } else {
-            normal.setY(0.75 + Math.abs(normal.getY()) * 0.6);
+            normal.setY(0.75 + Math.abs(normal.getY()) * 0.65);
          }
          event.getPlayer().setVelocity(normal);
          
