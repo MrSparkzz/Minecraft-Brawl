@@ -53,7 +53,7 @@ public abstract class SSCClass {
    
    public static ItemStack item(final Material ma) {
       final ItemStack i = new ItemStack(ma, 1);
-      i.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
+      i.addUnsafeEnchantment(Enchantment.KNOCKBACK, 3);
       return i;
    }
    
