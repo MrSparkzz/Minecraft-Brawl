@@ -33,9 +33,9 @@ public class DoubleJump implements Listener {
                if (player == null) {
                   return;
                }
-               if (player.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.AIR) {
-                  if (kirby.containsKey(player.getName()) || kirby.get(player.getName()) == 0) {
-                     return;
+               if (!kirby.containsKey(pName) && ArenaManager.getPlayerClass(player).name() == "Kirby") {
+                  if (player.getLocation().subtract(0, 1, 0).getBlock().getType() != Material.AIR) {
+                     kirby.put(pName, 0);
                   }
                }
                if (player.getExp() < 1.0f) {
@@ -76,12 +76,11 @@ public class DoubleJump implements Listener {
                int value = kirby.get(player.getName()) + 1;
                kirby.remove(player.getName());
                kirby.put(player.getName(), value);
-               player.setExp(0.9f);
+               player.setExp(1.0f);
+               refreshJump(player);
             } else {
                kirby.remove(player.getName());
             }
-         } else if (ArenaManager.getPlayerClass(player).name() == "Kirby") {
-            kirby.put(player.getName(), 0);
          }
          event.setCancelled(true);
          
