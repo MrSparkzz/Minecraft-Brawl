@@ -38,8 +38,8 @@ public class JoinUtils {
       a.getPlayerManager().addPlayer(p, c);
       p.teleport(a.getRandomSpawn());
       p.setGameMode(GameMode.ADVENTURE);
-      p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 1), true);
-      p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100000, 1), true);
+      p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 0), true);
+      p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100000, 0), true);
       c.setupPlayer(p);
    }
    
@@ -53,6 +53,9 @@ public class JoinUtils {
       d.reset();
       a.getPlayerManager().getPlayerClass(p).onPlayerDespawn(p);
       a.getPlayerManager().removePlayer(p);
+      for(PotionEffect e : p.getActivePotionEffects()){
+         p.removePotionEffect(e.getType());
+      }
       teleporting.add(p.getName());
       p.teleport(a.getStop());
       teleporting.remove(p.getName());
