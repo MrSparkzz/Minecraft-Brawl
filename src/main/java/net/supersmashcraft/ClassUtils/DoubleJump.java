@@ -33,8 +33,10 @@ public class DoubleJump implements Listener {
                if (player == null) {
                   return;
                }
-               if(player.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.AIR){
-                  return;
+               if (player.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.AIR) {
+                  if (kirby.containsKey(player.getName()) || kirby.get(player.getName()) == 0) {
+                     return;
+                  }
                }
                if (player.getExp() < 1.0f) {
                   player.setExp(player.getExp() + 0.2f);
@@ -44,7 +46,7 @@ public class DoubleJump implements Listener {
                refreshJump(player);
             }
          }
-      }.runTaskTimer(SSCPlugin.instance, 0, 5);
+      }.runTaskTimer(SSCPlugin.instance, 0, 3);
    }
    
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
