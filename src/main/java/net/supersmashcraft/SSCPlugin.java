@@ -36,6 +36,9 @@ public class SSCPlugin extends JavaPlugin {
       ClassManager.registerClass(new ClassBowser());
       ClassManager.registerClass(new ClassRoy());
       ClassManager.registerClass(new ClassMario());
+      ClassManager.registerClass(new ClassFox());
+      ClassManager.registerClass(new ClassLink());
+      ClassManager.registerClass(new ClassLuigi());
       
       registerListener(new DoubleJump());
       registerListener(new ArenaListener());

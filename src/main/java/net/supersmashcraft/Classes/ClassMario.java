@@ -4,7 +4,7 @@ import net.supersmashcraft.Managers.ArenaManager;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.entity.Fireball;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,7 +29,9 @@ public class ClassMario extends SSCClass implements Listener {
          Player p = event.getPlayer();
          if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
                   && p.getItemInHand().getType() == Material.BLAZE_ROD) {
-            p.launchProjectile(Fireball.class);
+            Arrow a = p.launchProjectile(Arrow.class);
+            a.setFireTicks(40);
+            a.setTicksLived(40);
          }
       }
    }
