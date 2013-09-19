@@ -36,12 +36,12 @@ public class DoubleJump implements Listener {
                Location l = player.getLocation().subtract(0, 1, 0);
                if (!l.getBlock().getType().equals(Material.AIR)) {
                   player.setAllowFlight(true);
-                  if(ArenaManager.getPlayerClass(player).name() != "Kirby")
+                  if (ArenaManager.getPlayerClass(player).name() != "Kirby")
                      return;
                   if (!kirby.containsKey(player.getName())) {
                      player.sendMessage("On ground & kirby refresh");
                      kirby.put(player.getName(), 0);
-                  } else if(kirby.get(player.getName()) != 0){
+                  } else if (kirby.get(player.getName()) != 0) {
                      kirby.remove(player.getName());
                      player.sendMessage("On ground & kirby refresh");
                      kirby.put(player.getName(), 0);
@@ -49,7 +49,7 @@ public class DoubleJump implements Listener {
                }
             }
          }
-      }.runTaskTimer(SSCPlugin.instance, 0, 10);
+      }.runTaskTimer(SSCPlugin.instance, 0, 3);
    }
    
    public static HashMap<String, Integer> kirby = new HashMap<String, Integer>();
@@ -79,9 +79,8 @@ public class DoubleJump implements Listener {
          final double pitch = Math.toRadians(player.getLocation().getPitch());
          final double yaw = Math.toRadians(player.getLocation().getYaw());
          
-         final Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)), -Math.sin(pitch), Math.cos(pitch)
-                  * Math.cos(yaw));
-         
+         final Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)) / 2, -Math.sin(pitch) / 2,
+                  Math.cos(pitch) * Math.cos(yaw) / 2);
          normal.setY(0.75 + Math.abs(normal.getY()) * 0.6);
          event.getPlayer().setVelocity(normal);
          

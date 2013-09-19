@@ -10,6 +10,8 @@ import net.supersmashcraft.Managers.PlayerManager.PlayerData;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class JoinUtils {
    
@@ -36,6 +38,8 @@ public class JoinUtils {
       a.getPlayerManager().addPlayer(p, c);
       p.teleport(a.getRandomSpawn());
       p.setGameMode(GameMode.ADVENTURE);
+      p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 1), true);
+      p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100000, 1), true);
       c.setupPlayer(p);
    }
    
