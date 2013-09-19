@@ -11,7 +11,6 @@ public class ClassKirby extends SSCClass {
       armor(Material.LEATHER_LEGGINGS, Color.fromRGB(255, 161, 161));
       armor(Material.LEATHER_CHESTPLATE, Color.fromRGB(255, 161, 161));
       armor(Material.LEATHER_HELMET, Color.fromRGB(255, 161, 161));
-      item(Material.GHAST_TEAR);
    }
    
 }

@@ -39,11 +39,9 @@ public class DoubleJump implements Listener {
                   if (ArenaManager.getPlayerClass(player).name() != "Kirby")
                      return;
                   if (!kirby.containsKey(player.getName())) {
-                     player.sendMessage("On ground & kirby refresh");
                      kirby.put(player.getName(), 0);
                   } else if (kirby.get(player.getName()) != 0) {
                      kirby.remove(player.getName());
-                     player.sendMessage("On ground & kirby refresh");
                      kirby.put(player.getName(), 0);
                   }
                }
@@ -64,14 +62,12 @@ public class DoubleJump implements Listener {
          event.setCancelled(true);
          if (kirby.containsKey(player.getName())) {
             int jump = kirby.get(player.getName());
-            if (jump < 6) {
-               player.sendMessage("jump < 6");
+            if (jump < 4) {
                kirby.remove(player.getName());
                kirby.put(player.getName(), jump + 1);
                player.setAllowFlight(true);
             } else {
                kirby.remove(player.getName());
-               player.sendMessage("to high remove");
                return;
             }
          }
@@ -81,7 +77,11 @@ public class DoubleJump implements Listener {
          
          final Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)) / 2, -Math.sin(pitch) / 2,
                   Math.cos(pitch) * Math.cos(yaw) / 2);
-         normal.setY(0.75 + Math.abs(normal.getY()) * 0.6);
+         if(ArenaManager.getPlayerClass(player).name() == "Kirby"){
+            normal.setY(0.75 + Math.abs(normal.getY()) * 0.3);
+         } else {
+            normal.setY(0.75 + Math.abs(normal.getY()) * 0.6);
+         }
          event.getPlayer().setVelocity(normal);
          
          player.getWorld().playSound(player.getLocation(), Sound.ZOMBIE_INFECT, 0.5f, 1.8f);
