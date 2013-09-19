@@ -3,18 +3,16 @@ package net.supersmashcraft.Classes;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
-public class ClassFox extends SSCClass {
+public class ClassLink extends SSCClass {
    
-   public ClassFox() {
-      super("Fox");
+   public ClassLink() {
+      super("Link");
       armor(Material.LEATHER_BOOTS, Color.fromRGB(255, 161, 161));
       armor(Material.LEATHER_LEGGINGS, Color.fromRGB(255, 161, 161));
       armor(Material.LEATHER_CHESTPLATE, Color.fromRGB(255, 161, 161));
       armor(Material.LEATHER_HELMET, Color.fromRGB(255, 161, 161));
-      item(Material.GHAST_TEAR);
-      // I have to change items and armor color still
-      // Fox has two events, ask on skype if your finishing fox.
-      // ~Max
+      item(Material.IRON_SWORD);
+      // I have to fix armor colors.
    }
    
 }
