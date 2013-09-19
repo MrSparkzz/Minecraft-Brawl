@@ -16,8 +16,8 @@ public class ClassBowser extends SSCClass {
       ItemStack boot = colorArmor(Material.LEATHER_BOOTS, Color.fromRGB(110, 80, 0));
       
       helm.addEnchantment(Enchantment.THORNS, 1);
-      chest.addEnchantment(Enchantment.THORNS, 1);
-      leg.addEnchantment(Enchantment.THORNS, 1);
+      chest.addUnsafeEnchantment(Enchantment.THORNS, 4);
+      leg.addUnsafeEnchantment(Enchantment.THORNS, 4);
       boot.addEnchantment(Enchantment.THORNS, 1);
       this.addItem(new ItemStack[] { helm, chest, leg, boot });
    }

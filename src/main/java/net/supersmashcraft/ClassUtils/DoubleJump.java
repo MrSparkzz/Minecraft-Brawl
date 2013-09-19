@@ -1,20 +1,18 @@
 package net.supersmashcraft.ClassUtils;
 
-import javax.annotation.Nonnull;
+import java.util.HashMap;
 
 import net.supersmashcraft.SSCPlugin;
 import net.supersmashcraft.Managers.ArenaManager;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -31,47 +29,20 @@ public class DoubleJump implements Listener {
          public void run() {
             for (final String pName : ArenaManager.getAllPlayers()) {
                final Player player = Bukkit.getPlayerExact(pName);
-               if(player == null){
+               if (player == null) {
                   return;
                }
-               if (player.getExp() < 1.0f) {
-                  player.setExp(player.getExp() + 0.2f);
-               } else if (player.getExp() > 1.0f) {
-                  player.setExp(1.0f);
+               // Check if under them isn't air, if so allow them to jump
+               Location l = player.getLocation().subtract(0, 1, 0);
+               if(!l.getBlock().getType().equals(Material.AIR)){
+                  player.setAllowFlight(true);
                }
-               refreshJump(player);
             }
          }
-      }.runTaskTimer(SSCPlugin.instance, 0, 5);
+      }.runTaskTimer(SSCPlugin.instance, 0, 3);
    }
    
-   @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-   public void noFallDamage(final EntityDamageEvent event) {
-      if (event.getCause() != DamageCause.FALL)
-         return;
-      if (!(event.getEntity() instanceof Player))
-         return;
-      final Player player = (Player) event.getEntity();
-      if (ArenaManager.isPlayerInArena(player)) {
-         event.setCancelled(true);
-         player.addAttachment(SSCPlugin.instance, "doublejump.nofalldamage", false);
-         return;
-      }
-   }
-   
-   @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-   public void onGroundStateChanged(final PlayerMoveEvent event) {
-      final Player p = event.getPlayer();
-      if (!ArenaManager.isPlayerInArena(p))
-         return;
-      if (p.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.AIR)
-         return;
-      
-      if (p.getExp() == 0.0f) {
-         p.addAttachment(SSCPlugin.instance, "doublejump.nofalldamage", true);
-         p.addAttachment(SSCPlugin.instance, "doublejump.using", false);
-      }
-   }
+   HashMap<String, Integer> kirby = new HashMap<String, Integer>();
    
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onPlayerToggleFlight(final PlayerToggleFlightEvent event) {
@@ -79,13 +50,7 @@ public class DoubleJump implements Listener {
          return;
       final Player player = event.getPlayer();
       if (event.isFlying()) {
-         event.getPlayer().addAttachment(SSCPlugin.instance, "doublejump.using", true);
-         event.getPlayer().setAllowFlight(false);
-         if (ArenaManager.getPlayerClass(event.getPlayer()).name() == "Kirby") {
-            player.setExp(player.getExp() + 0.17f);
-         } else {
-            player.setExp(0.0f);
-         }
+         player.setAllowFlight(false);
          event.setCancelled(true);
          
          final double pitch = Math.toRadians(player.getLocation().getPitch());
@@ -98,12 +63,6 @@ public class DoubleJump implements Listener {
          event.getPlayer().setVelocity(normal);
          
          player.getWorld().playSound(player.getLocation(), Sound.ZOMBIE_INFECT, 0.5f, 1.8f);
-      }
-   }
-   
-   public void refreshJump(@Nonnull final Player player) {
-      if (player.getExp() >= 1.0f) {
-         player.setAllowFlight(true);
       }
    }
    
