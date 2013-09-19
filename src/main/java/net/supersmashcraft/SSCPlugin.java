@@ -4,15 +4,9 @@ import java.util.logging.Logger;
 
 import net.supersmashcraft.Arena.ArenaListener;
 import net.supersmashcraft.ClassUtils.DoubleJump;
-import net.supersmashcraft.Classes.ClassBowser;
-import net.supersmashcraft.Classes.ClassKirby;
-import net.supersmashcraft.Commands.CommandCreation;
-import net.supersmashcraft.Commands.CommandJoin;
-import net.supersmashcraft.Commands.CommandLeave;
-import net.supersmashcraft.Commands.MainCommand;
-import net.supersmashcraft.Managers.ArenaManager;
-import net.supersmashcraft.Managers.ClassManager;
-import net.supersmashcraft.Managers.CreationManager;
+import net.supersmashcraft.Classes.*;
+import net.supersmashcraft.Commands.*;
+import net.supersmashcraft.Managers.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -21,7 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * 
- * @author Paul, Breezeyboy, Max_The_Link_Fan, Doubleboss00, chasechocolate
+ * @author Paul, Breezeyboy, Max_The_Link_Fan, chasechocolate
  * 
  */
 public class SSCPlugin extends JavaPlugin {
@@ -40,6 +34,7 @@ public class SSCPlugin extends JavaPlugin {
       
       ClassManager.registerClass(new ClassKirby());
       ClassManager.registerClass(new ClassBowser());
+      ClassManager.registerClass(new ClassRoy());
       
       registerListener(new DoubleJump());
       registerListener(new ArenaListener());

@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-public abstract class SSCClass {
+public class SSCClass {
    
-   private final ItemStack[] items;
+   private List<ItemStack>items = new ArrayList<ItemStack>();
    protected String name;
    
    private final Material[] armor = new Material[] { Material.LEATHER_BOOTS, Material.LEATHER_LEGGINGS,
@@ -21,8 +21,7 @@ public abstract class SSCClass {
             Material.GOLD_CHESTPLATE, Material.GOLD_HELMET, Material.DIAMOND_BOOTS, Material.DIAMOND_LEGGINGS,
             Material.DIAMOND_CHESTPLATE, Material.DIAMOND_HELMET };
    
-   public SSCClass(final String name, final ItemStack... items) {
-      this.items = items;
+   public SSCClass(final String name) {
       this.name = name;
    }
    
@@ -30,7 +29,9 @@ public abstract class SSCClass {
       return name;
    }
    
-   public abstract void onPlayerSpawn(Player p);
+   public void onPlayerSpawn(Player p){
+      
+   }
    
    public void setupPlayer(final Player p) {
       p.getInventory().clear();
@@ -54,18 +55,32 @@ public abstract class SSCClass {
       onPlayerSpawn(p);
    }
    
-   public static ItemStack item(final Material ma) {
+   public void item(final Material ma) {
       final ItemStack i = new ItemStack(ma, 1);
       i.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
-      return i;
+      items.add(i);
    }
    
-   public static ItemStack armor(final Material ma, final Color c) {
+   public void armor(final Material ma, final Color c) {
+      final ItemStack i = new ItemStack(ma, 1);
+      final LeatherArmorMeta m = (LeatherArmorMeta) i.getItemMeta();
+      m.setColor(c);
+      i.setItemMeta(m);
+      items.add(i);
+   }
+   
+   public ItemStack colorArmor(final Material ma, final Color c) {
       final ItemStack i = new ItemStack(ma, 1);
       final LeatherArmorMeta m = (LeatherArmorMeta) i.getItemMeta();
       m.setColor(c);
       i.setItemMeta(m);
       return i;
+   }
+   
+   public void addItem(ItemStack... i){
+      for(ItemStack item : i){
+         items.add(item);
+      }
    }
    
 }

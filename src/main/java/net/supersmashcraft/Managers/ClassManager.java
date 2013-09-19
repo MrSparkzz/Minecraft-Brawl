@@ -15,7 +15,7 @@ public class ClassManager {
    
    public static void registerClass(SSCClass c) {
       classes.add(c);
-      if(c.getClass().equals(Listener.class)){
+      if(c instanceof Listener){
          Bukkit.getPluginManager().registerEvents((Listener) c, SSCPlugin.instance);
       }
    }

@@ -18,7 +18,7 @@ public class CreationManager {
    private static HashMap<String, DataHolder> creators = new HashMap<String, DataHolder>();
    
    public static boolean playerStarted(Player p) {
-      return creators.containsKey(p.getName());
+      return creators.containsKey(p.getName()); 
    }
    
    public static void addPlayer(Player p) {

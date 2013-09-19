@@ -9,10 +9,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.util.Vector;
 
 public class ArenaListener implements Listener {
+   
+   public void onPlayerMove(PlayerMoveEvent event) {
+      if (ArenaManager.isPlayerInArena(event.getPlayer())) {
+         Player p = event.getPlayer();
+         Vector v = p.getLocation().toVector();
+         Arena a = ArenaManager.getPlayerArena(p);
+         if (v.isInAABB(a.getLocationOne().toVector(), a.getLocationOne().toVector())) {
+            PlayerData data = a.getPlayerManager().getPlayerData(p);
+            data.removeLifes(1);
+         }
+      }
+   }
    
    @EventHandler
    public void onPluginDisable(PluginDisableEvent event) {
