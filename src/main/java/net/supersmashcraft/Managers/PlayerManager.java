@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.Scoreboard;
 
 /**
  * 
@@ -86,10 +87,10 @@ public class PlayerManager {
       public double maxHealth;
       public GameMode mode;
       public int lives;
-      private Arena a;
+       Arena a;
+      private Scoreboard b = Bukkit.getScoreboardManager().getNewScoreboard();
       
       public PlayerData(Player p) {
-         a = ArenaManager.getPlayerArena(p);
          name = p.getName();
          inventory = p.getInventory().getContents();
          armor = p.getInventory().getArmorContents();
@@ -99,6 +100,10 @@ public class PlayerManager {
          maxHealth = p.getMaxHealth();
          mode = p.getGameMode();
          lives = 5;
+         if(p.getScoreboard() != null){
+            b = p.getScoreboard();
+         }
+         a = ArenaManager.getPlayerArena(p);
       }
       
       public void removeLifes(int amount) {
@@ -126,6 +131,7 @@ public class PlayerManager {
          p.setHealth(health);
          p.setExhaustion(exhaust);
          p.setGameMode(mode);
+         p.setScoreboard(b);
       }
    }
 }

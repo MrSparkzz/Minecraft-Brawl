@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
@@ -16,6 +17,7 @@ import org.bukkit.util.Vector;
 
 public class ArenaListener implements Listener {
    
+   @EventHandler
    public void onPlayerMove(PlayerMoveEvent event) {
       if (ArenaManager.isPlayerInArena(event.getPlayer())) {
          Player p = event.getPlayer();
@@ -40,6 +42,10 @@ public class ArenaListener implements Listener {
       if (event.getEntity() instanceof Player) {
          Player p = (Player) event.getEntity();
          if (ArenaManager.isPlayerInArena(p)) {
+            if (event.getCause() == DamageCause.FALL) {
+               event.setCancelled(true);
+               return;
+            }
             if (p.getHealth() - event.getDamage() < 1) {
                PlayerData data = ArenaManager.getPlayerArena(p).getPlayerManager().getPlayerData(p);
                data.removeLifes(1);
