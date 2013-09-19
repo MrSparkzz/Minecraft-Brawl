@@ -10,6 +10,7 @@ import net.supersmashcraft.Managers.PlayerManager;
 import net.supersmashcraft.Managers.PlayerManager.PlayerData;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -73,7 +74,7 @@ public class Arena {
    public void refreshScoreboard() {
       Scoreboard board = manager.getNewScoreboard();
       Objective objective = board.registerNewObjective("test", "dummy");
-      objective.setDisplayName("Players  -  Lives");
+      objective.setDisplayName(ChatColor.GREEN + "Players  " + ChatColor.RED + "   Lives");
       objective.setDisplaySlot(DisplaySlot.SIDEBAR);
       for (PlayerData data : pMan.getPlayers()) {
          Player p = Bukkit.getPlayer(data.name);

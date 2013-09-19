@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 import net.supersmashcraft.Arena.Arena;
+import net.supersmashcraft.ClassUtils.JoinUtils;
+import net.supersmashcraft.ClassUtils.Msg;
 import net.supersmashcraft.Classes.SSCClass;
 
 import org.bukkit.Bukkit;
@@ -87,7 +89,7 @@ public class PlayerManager {
       public double maxHealth;
       public GameMode mode;
       public int lives;
-       Arena a;
+      Arena a;
       private Scoreboard b = Bukkit.getScoreboardManager().getNewScoreboard();
       
       public PlayerData(Player p) {
@@ -100,7 +102,7 @@ public class PlayerManager {
          maxHealth = p.getMaxHealth();
          mode = p.getGameMode();
          lives = 5;
-         if(p.getScoreboard() != null){
+         if (p.getScoreboard() != null) {
             b = p.getScoreboard();
          }
          a = ArenaManager.getPlayerArena(p);
@@ -110,14 +112,21 @@ public class PlayerManager {
          lives -= amount;
          Player p = Bukkit.getPlayer(name);
          p.setHealth(p.getMaxHealth());
-         if(a == null){
+         if (a == null) {
             Bukkit.getLogger().severe("Arena is null!");
             a = ArenaManager.getPlayerArena(p);
-            removeLifes(amount);
+            removeLifes(0);
          } else {
             a.getPlayerManager().getPlayerClass(p).setupPlayer(p);
-            a.refreshScoreboard();  
+            a.refreshScoreboard();
             p.teleport(a.getRandomSpawn());
+            p.setHealth(p.getMaxHealth());
+         }
+         if(lives < 1){
+            String name = JoinUtils.stopPlayer(p);
+            for(PlayerData d : a.getPlayerManager().getPlayers()){
+               Msg.msg(Bukkit.getPlayer(d.name), this.name + " has the the arena " + name + "!");
+            }
          }
       }
       
