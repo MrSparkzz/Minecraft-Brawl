@@ -23,4 +23,9 @@ public class ClassRoy extends SSCClass {
       p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 100000000, 1), true);
    }
    
+   @Override
+   public void onPlayerDespawn(Player p){
+      p.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+   }
+   
 }

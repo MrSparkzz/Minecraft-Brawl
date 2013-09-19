@@ -50,6 +50,8 @@ public class ArenaListener implements Listener {
                PlayerData data = ArenaManager.getPlayerArena(p).getPlayerManager().getPlayerData(p);
                data.removeLifes(1);
             }
+         } else if (JoinUtils.teleporting.contains(p.getName())) {
+            event.setCancelled(true);
          }
       }
    }

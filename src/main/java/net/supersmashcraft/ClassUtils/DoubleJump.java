@@ -34,15 +34,25 @@ public class DoubleJump implements Listener {
                }
                // Check if under them isn't air, if so allow them to jump
                Location l = player.getLocation().subtract(0, 1, 0);
-               if(!l.getBlock().getType().equals(Material.AIR)){
+               if (!l.getBlock().getType().equals(Material.AIR)) {
                   player.setAllowFlight(true);
+                  if(ArenaManager.getPlayerClass(player).name() != "Kirby")
+                     return;
+                  if (!kirby.containsKey(player.getName())) {
+                     player.sendMessage("On ground & kirby refresh");
+                     kirby.put(player.getName(), 0);
+                  } else if(kirby.get(player.getName()) != 0){
+                     kirby.remove(player.getName());
+                     player.sendMessage("On ground & kirby refresh");
+                     kirby.put(player.getName(), 0);
+                  }
                }
             }
          }
-      }.runTaskTimer(SSCPlugin.instance, 0, 3);
+      }.runTaskTimer(SSCPlugin.instance, 0, 10);
    }
    
-   HashMap<String, Integer> kirby = new HashMap<String, Integer>();
+   public static HashMap<String, Integer> kirby = new HashMap<String, Integer>();
    
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onPlayerToggleFlight(final PlayerToggleFlightEvent event) {
@@ -52,6 +62,19 @@ public class DoubleJump implements Listener {
       if (event.isFlying()) {
          player.setAllowFlight(false);
          event.setCancelled(true);
+         if (kirby.containsKey(player.getName())) {
+            int jump = kirby.get(player.getName());
+            if (jump < 6) {
+               player.sendMessage("jump < 6");
+               kirby.remove(player.getName());
+               kirby.put(player.getName(), jump + 1);
+               player.setAllowFlight(true);
+            } else {
+               kirby.remove(player.getName());
+               player.sendMessage("to high remove");
+               return;
+            }
+         }
          
          final double pitch = Math.toRadians(player.getLocation().getPitch());
          final double yaw = Math.toRadians(player.getLocation().getYaw());

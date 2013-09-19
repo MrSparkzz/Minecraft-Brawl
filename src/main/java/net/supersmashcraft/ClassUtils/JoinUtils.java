@@ -1,5 +1,8 @@
 package net.supersmashcraft.ClassUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.supersmashcraft.Arena.Arena;
 import net.supersmashcraft.Classes.SSCClass;
 import net.supersmashcraft.Managers.ArenaManager;
@@ -27,6 +30,8 @@ public class JoinUtils {
       return false;
    }
    
+   public static List<String> teleporting = new ArrayList<String>();
+   
    public static void startPlayer(Player p, Arena a, SSCClass c) {
       a.getPlayerManager().addPlayer(p, c);
       p.teleport(a.getRandomSpawn());
@@ -35,12 +40,18 @@ public class JoinUtils {
    }
    
    public static String stopPlayer(Player p) {
+      if(DoubleJump.kirby.containsKey(p.getName())){
+         DoubleJump.kirby.remove(p.getName());
+      }
       Arena a = ArenaManager.getPlayerArena(p);
       String name = a.getName();
       PlayerData d = a.getPlayerManager().getPlayerData(p);
       d.reset();
-      p.teleport(a.getStop());
+      a.getPlayerManager().getPlayerClass(p).onPlayerDespawn(p);
       a.getPlayerManager().removePlayer(p);
+      teleporting.add(p.getName());
+      p.teleport(a.getStop());
+      teleporting.remove(p.getName());
       return name;
    }
    

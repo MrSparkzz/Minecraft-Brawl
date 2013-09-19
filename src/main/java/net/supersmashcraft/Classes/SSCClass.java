@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public class SSCClass {
    
-   private List<ItemStack>items = new ArrayList<ItemStack>();
+   private List<ItemStack> items = new ArrayList<ItemStack>();
    protected String name;
    
    private final Material[] armor = new Material[] { Material.LEATHER_BOOTS, Material.LEATHER_LEGGINGS,
@@ -29,7 +29,11 @@ public class SSCClass {
       return name;
    }
    
-   public void onPlayerSpawn(Player p){
+   public void onPlayerSpawn(Player p) {
+      
+   }
+   
+   public void onPlayerDespawn(Player p) {
       
    }
    
@@ -77,8 +81,8 @@ public class SSCClass {
       return i;
    }
    
-   public void addItem(ItemStack... i){
-      for(ItemStack item : i){
+   public void addItem(ItemStack... i) {
+      for (ItemStack item : i) {
          items.add(item);
       }
    }
