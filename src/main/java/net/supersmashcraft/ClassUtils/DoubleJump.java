@@ -78,7 +78,7 @@ public class DoubleJump implements Listener {
          final Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)) / 2, -Math.sin(pitch) / 2,
                   Math.cos(pitch) * Math.cos(yaw) / 2);
          if(ArenaManager.getPlayerClass(player).name() == "Kirby"){
-            normal.setY(0.75 + Math.abs(normal.getY()) * 0.3);
+            normal.setY(0.75 + Math.abs(normal.getY()) * 0.2);
          } else {
             normal.setY(0.75 + Math.abs(normal.getY()) * 0.6);
          }

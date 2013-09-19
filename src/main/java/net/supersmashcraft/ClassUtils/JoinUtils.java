@@ -57,6 +57,7 @@ public class JoinUtils {
          p.removePotionEffect(e.getType());
       }
       teleporting.add(p.getName());
+      p.setFallDistance(0);
       p.teleport(a.getStop());
       teleporting.remove(p.getName());
       return name;
