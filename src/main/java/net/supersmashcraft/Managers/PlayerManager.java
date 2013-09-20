@@ -23,10 +23,18 @@ public class PlayerManager {
    
    private final HashMap<PlayerData, SSCClass> players = new HashMap<PlayerData, SSCClass>();
    
+   Arena a;
+   public PlayerManager(Arena a){
+      this.a = a;
+   }
+   
    // private List<String> players = new ArrayList<String>();
    
    public void addPlayer(final Player p, final SSCClass c) {
       players.put(new PlayerData(p), c);
+      if(players.size() > 1){
+         a.start();
+      }
    }
    
    public void removePlayer(final Player p) {
@@ -101,7 +109,7 @@ public class PlayerManager {
          exhaust = p.getExhaustion();
          maxHealth = p.getMaxHealth();
          mode = p.getGameMode();
-         lives = 5;
+         lives = new FileManager("Config").getConfig().getInt("Default_Lives");
          if (p.getScoreboard() != null) {
             b = p.getScoreboard();
          }
@@ -121,6 +129,7 @@ public class PlayerManager {
                for (PlayerData d : a.getPlayerManager().getPlayers()) {
                   Msg.msg(Bukkit.getPlayer(d.name), this.name + " has left the arena!");
                }
+               return;
             }
             lives -= amount;
             a.getPlayerManager().getPlayerClass(p).setupPlayer(p);

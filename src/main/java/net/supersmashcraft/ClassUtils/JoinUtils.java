@@ -1,8 +1,5 @@
 package net.supersmashcraft.ClassUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.supersmashcraft.Arena.Arena;
 import net.supersmashcraft.Classes.SSCClass;
 import net.supersmashcraft.Managers.ArenaManager;
@@ -19,7 +16,11 @@ public class JoinUtils {
       if (ArenaManager.arenaRegistered(arena)) {
          if (!ArenaManager.isPlayerInArena(p)) {
             if (p.hasPermission("scb.arena.join." + arena)) {
-               return true;
+               if(!ArenaManager.getArena(arena).hasStarted()){
+                  return true;
+               } else {
+                  Msg.warning(p, "That arena has already started!");
+               }
             } else {
                Msg.warning(p, "You do not have permission to join that arena!");
             }
@@ -32,34 +33,34 @@ public class JoinUtils {
       return false;
    }
    
-   public static List<String> teleporting = new ArrayList<String>();
-   
    public static void startPlayer(Player p, Arena a, SSCClass c) {
       a.getPlayerManager().addPlayer(p, c);
       p.teleport(a.getRandomSpawn());
       p.setGameMode(GameMode.ADVENTURE);
-      p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 0), true);
-      p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100000, 0), true);
+      p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 1), true);
+      if (c.name() == "Kirby") {
+         p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100000, 0), true);
+      } else {
+         p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100000, 1), true);
+      }
       c.setupPlayer(p);
    }
    
    public static String stopPlayer(Player p) {
-      if(DoubleJump.kirby.containsKey(p.getName())){
+      if (DoubleJump.kirby.containsKey(p.getName())) {
          DoubleJump.kirby.remove(p.getName());
       }
       Arena a = ArenaManager.getPlayerArena(p);
+      a.getPlayerManager().getPlayerClass(p).onPlayerDespawn(p);
       String name = a.getName();
       PlayerData d = a.getPlayerManager().getPlayerData(p);
-      d.reset();
-      a.getPlayerManager().getPlayerClass(p).onPlayerDespawn(p);
       a.getPlayerManager().removePlayer(p);
-      for(PotionEffect e : p.getActivePotionEffects()){
+      d.reset();
+      for (PotionEffect e : p.getActivePotionEffects()) {
          p.removePotionEffect(e.getType());
       }
-      teleporting.add(p.getName());
       p.setFallDistance(0);
       p.teleport(a.getStop());
-      teleporting.remove(p.getName());
       return name;
    }
    

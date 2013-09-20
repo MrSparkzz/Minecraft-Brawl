@@ -4,11 +4,24 @@ import java.util.logging.Logger;
 
 import net.supersmashcraft.Arena.ArenaListener;
 import net.supersmashcraft.ClassUtils.DoubleJump;
-import net.supersmashcraft.Classes.*;
-import net.supersmashcraft.Commands.*;
-import net.supersmashcraft.Managers.*;
+import net.supersmashcraft.Classes.ClassBowser;
+import net.supersmashcraft.Classes.ClassFox;
+import net.supersmashcraft.Classes.ClassKirby;
+import net.supersmashcraft.Classes.ClassLink;
+import net.supersmashcraft.Classes.ClassLuigi;
+import net.supersmashcraft.Classes.ClassMario;
+import net.supersmashcraft.Classes.ClassRoy;
+import net.supersmashcraft.Commands.CommandCreation;
+import net.supersmashcraft.Commands.CommandJoin;
+import net.supersmashcraft.Commands.CommandLeave;
+import net.supersmashcraft.Commands.MainCommand;
+import net.supersmashcraft.Managers.ArenaManager;
+import net.supersmashcraft.Managers.ClassManager;
+import net.supersmashcraft.Managers.CreationManager;
+import net.supersmashcraft.Managers.FileManager;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,8 +38,10 @@ public class SSCPlugin extends JavaPlugin {
    
    @Override
    public void onEnable() {
+      FileManager.dataFolder = getDataFolder();
       instance = this;
       log = Bukkit.getServer().getLogger();
+      
       getCommand("ssc").setExecutor(new MainCommand());
       MainCommand.registerCommand(new CommandJoin());
       MainCommand.registerCommand(new CommandCreation());
@@ -42,13 +57,18 @@ public class SSCPlugin extends JavaPlugin {
       
       registerListener(new DoubleJump());
       registerListener(new ArenaListener());
-      
-      if (getConfig().isSet("Arenas")) {
-         for (String s : getConfig().getConfigurationSection("Arenas").getKeys(false)) {
+      FileManager man = new FileManager("Arenas");
+      FileConfiguration arenaConfig = man.getConfig();
+      if (arenaConfig.isSet("Arenas")) {
+         for (String s : arenaConfig.getConfigurationSection("Arenas").getKeys(false)) {
             log.info("Loaded Arena: " + s);
             ArenaManager.addArena(CreationManager.createArena(s));
          }
       }
+      FileManager cMan = new FileManager("Config");
+      cMan.addDefault("Default_Lives", 5);
+      cMan.saveConfig();
+      
       log.info("[SuperSmashCraft] v" + this.getDescription().getVersion() + " enabled.");
    }
    

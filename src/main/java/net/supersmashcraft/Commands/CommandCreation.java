@@ -3,6 +3,8 @@ package net.supersmashcraft.Commands;
 import net.supersmashcraft.ClassUtils.Msg;
 import net.supersmashcraft.Managers.ArenaManager;
 import net.supersmashcraft.Managers.CreationManager;
+import net.supersmashcraft.Managers.CreationManager.Reward;
+import net.supersmashcraft.Managers.CreationManager.Reward.RewardType;
 
 import org.bukkit.entity.Player;
 
@@ -80,13 +82,31 @@ public class CommandCreation extends SSCCommand {
          } else {
             Msg.warning(p, "You haven't started! Do /ssc creation start !");
          }
+      } else if (args[0].equalsIgnoreCase("reward")) {
+         if (CreationManager.playerStarted(p)) {
+            if (args.length == 2) {
+               CreationManager.getHolder(p).reward = new Reward(RewardType.Cash, Integer.parseInt(args[1]));
+            } else {
+               if (p.getItemInHand() != null) {
+                  CreationManager.getHolder(p).reward = new Reward(RewardType.Item, p.getItemInHand());
+               } else {
+                  Msg.warning(p, "You can't set the item to nothing!");
+               }
+            }
+         } else {
+            Msg.warning(p, "You haven't started! Do /ssc creation start !");
+         }
       } else if (args[0].equalsIgnoreCase("finish")) {
          String name = CreationManager.getHolder(p).name;
          String check = CreationManager.getHolder(p).check();
          if (check == null) {
-            Msg.msg(p, "You have finished! Saving now..");
+            Msg.msg(p, "You have finished! Saving now.. if there is an error, try restarting your server.");
             CreationManager.getHolder(p).save();
-            ArenaManager.addArena(CreationManager.createArena("Arenas." + name));
+            try {
+               ArenaManager.addArena(CreationManager.createArena("Arenas." + name));
+            } catch (NullPointerException e) {
+               Msg.warning(p, "Yep we had an error! Try restarting/reloading your server.");
+            }
          } else {
             Msg.warning(p, check);
          }
