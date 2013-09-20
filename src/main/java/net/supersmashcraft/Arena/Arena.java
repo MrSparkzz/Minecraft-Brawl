@@ -11,6 +11,7 @@ import net.supersmashcraft.ClassUtils.JoinUtils;
 import net.supersmashcraft.ClassUtils.Msg;
 import net.supersmashcraft.Managers.CreationManager.Reward;
 import net.supersmashcraft.Managers.CreationManager.Reward.RewardType;
+import net.supersmashcraft.Managers.ArenaManager;
 import net.supersmashcraft.Managers.PlayerManager;
 import net.supersmashcraft.Managers.PlayerManager.PlayerData;
 
@@ -18,6 +19,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -115,7 +118,7 @@ public class Arena {
       return this.maxLoc;
    }
    
-   public Location getLobbyLocation(){
+   public Location getLobbyLocation() {
       return this.lobby;
    }
    
@@ -133,6 +136,16 @@ public class Arena {
       if (!hasStarted()) {
          started = true;
       }
+      for(PlayerData data : pMan.getPlayers()){
+         Player p = Bukkit.getPlayer(data.name);
+         p.teleport(getRandomSpawn());
+         p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 1), true);
+         if (ArenaManager.getPlayerClass(p).name() == "Kirby") {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100000, 0), true);
+         } else {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100000, 1), true);
+         }
+      }
    }
    
    public Location getRandomSpawn() {
@@ -140,6 +153,12 @@ public class Arena {
    }
    
    public void refreshScoreboard() {
+      if (!hasStarted()) {
+         if(pMan.getPlayers().size() > 1){
+            start();
+         }
+         return;
+      }
       if (pMan.getPlayers().size() == 1) {
          String name = "Example Player";
          for (PlayerData d : pMan.getPlayers()) {

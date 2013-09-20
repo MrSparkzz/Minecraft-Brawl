@@ -12,6 +12,7 @@ import net.supersmashcraft.Classes.ClassLuigi;
 import net.supersmashcraft.Classes.ClassMario;
 import net.supersmashcraft.Classes.ClassRoy;
 import net.supersmashcraft.Commands.CommandCreation;
+import net.supersmashcraft.Commands.CommandDelete;
 import net.supersmashcraft.Commands.CommandJoin;
 import net.supersmashcraft.Commands.CommandLeave;
 import net.supersmashcraft.Commands.MainCommand;
@@ -46,6 +47,7 @@ public class SSCPlugin extends JavaPlugin {
       MainCommand.registerCommand(new CommandJoin());
       MainCommand.registerCommand(new CommandCreation());
       MainCommand.registerCommand(new CommandLeave());
+      MainCommand.registerCommand(new CommandDelete());
       
       ClassManager.registerClass(new ClassKirby());
       ClassManager.registerClass(new ClassBowser());

@@ -8,7 +8,6 @@ import net.supersmashcraft.Managers.PlayerManager.PlayerData;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class JoinUtils {
    
@@ -16,7 +15,7 @@ public class JoinUtils {
       if (ArenaManager.arenaRegistered(arena)) {
          if (!ArenaManager.isPlayerInArena(p)) {
             if (p.hasPermission("scb.arena.join." + arena)) {
-               if(!ArenaManager.getArena(arena).hasStarted()){
+               if (!ArenaManager.getArena(arena).hasStarted()) {
                   return true;
                } else {
                   Msg.warning(p, "That arena has already started!");
@@ -35,14 +34,8 @@ public class JoinUtils {
    
    public static void startPlayer(Player p, Arena a, SSCClass c) {
       a.getPlayerManager().addPlayer(p, c);
-      p.teleport(a.getRandomSpawn());
+      p.teleport(a.getLobbyLocation());
       p.setGameMode(GameMode.ADVENTURE);
-      p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 1), true);
-      if (c.name() == "Kirby") {
-         p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100000, 0), true);
-      } else {
-         p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100000, 1), true);
-      }
       c.setupPlayer(p);
    }
    

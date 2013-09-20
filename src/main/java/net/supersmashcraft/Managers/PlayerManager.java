@@ -32,9 +32,6 @@ public class PlayerManager {
    
    public void addPlayer(final Player p, final SSCClass c) {
       players.put(new PlayerData(p), c);
-      if(players.size() > 1){
-         a.start();
-      }
    }
    
    public void removePlayer(final Player p) {
