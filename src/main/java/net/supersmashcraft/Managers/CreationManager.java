@@ -40,8 +40,8 @@ public class CreationManager {
       Location[] spawnsArray = new Location[spawns.size()];
       spawns.toArray(spawnsArray);
       Reward reward = man.getReward(path + ".Reward");
-      return new Arena(c(path + ".Name", man), getFromPath(path + ".l1"), getFromPath(path + ".l2"),
-               getFromPath(path + ".EndPoint"), reward, spawnsArray);
+      return new Arena(c(path + ".Name", man), getFromPath(path + ".l1"), getFromPath(path + ".lobby"),
+               getFromPath(path + ".l2"), getFromPath(path + ".EndPoint"), reward, spawnsArray);
    }
    
    private static String c(String path, FileManager man) {
@@ -117,6 +117,7 @@ public class CreationManager {
       public String name = null;
       public Location l1 = null;
       public Location l2 = null;
+      public Location lobby = null;
       public List<Location> spawns = new ArrayList<Location>();
       public Location end = null;
       public Reward reward;
@@ -129,6 +130,7 @@ public class CreationManager {
          man.setReward("Arenas." + name + ".Reward", reward);
          lTC("Arenas." + name + ".l1", l1, c, true);
          lTC("Arenas." + name + ".l2", l2, c, true);
+         lTC("Arenas." + name + ".lobby", lobby, c, true);
          for (int i = 0; i < spawns.size(); i++) {
             lTC("Arenas." + name + ".Spawns." + i, spawns.get(i), c, false);
          }
@@ -149,6 +151,9 @@ public class CreationManager {
          }
          if (l2 == null) {
             return "You did not set the second position!";
+         }
+         if (lobby == null) {
+            return "You did not set the lobby war[!";
          }
          if (spawns.isEmpty()) {
             return "You did not add any spawns!";

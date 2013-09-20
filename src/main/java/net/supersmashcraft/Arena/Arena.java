@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import net.supersmashcraft.EcoManager;
 import net.supersmashcraft.SSCPlugin;
 import net.supersmashcraft.ClassUtils.JoinUtils;
 import net.supersmashcraft.ClassUtils.Msg;
@@ -30,20 +31,53 @@ public class Arena {
    private final String name;
    private final Location l1;
    private final Location l2;
+   private final Location lobby;
+   private final Location minLoc;
+   private final Location maxLoc;
    private final Location stop;
    private List<Location> spawns = new ArrayList<Location>();
    private ScoreboardManager manager = Bukkit.getScoreboardManager();
    private Reward reward;
    
-   public Arena(final String name, final Location l1, final Location l2, final Location stop, Reward reward,
-            final Location... spawns) {
+   public Arena(final String name, final Location l1, final Location l2, final Location lobby,
+            final Location stop, Reward reward, final Location... spawns) {
       this.name = name;
       this.l1 = l1;
       this.l2 = l2;
+      this.lobby = lobby;
       this.pMan = new PlayerManager(this);
       this.stop = stop;
       this.spawns = Arrays.asList(spawns);
       this.reward = reward;
+      int maxX = 0;
+      int maxY = 0;
+      int maxZ = 0;
+      int minX = 0;
+      int minY = 0;
+      int minZ = 0;
+      if (l1.getBlockX() < l2.getBlockX()) {
+         minX = l1.getBlockX();
+         maxX = l2.getBlockX();
+      } else {
+         minX = l2.getBlockX();
+         maxX = l1.getBlockX();
+      }
+      if (l1.getBlockY() < l2.getBlockY()) {
+         minY = l1.getBlockY();
+         maxY = l2.getBlockY();
+      } else {
+         minY = l2.getBlockY();
+         maxY = l1.getBlockY();
+      }
+      if (l1.getBlockZ() < l2.getBlockZ()) {
+         minX = l1.getBlockZ();
+         maxX = l2.getBlockZ();
+      } else {
+         minX = l2.getBlockZ();
+         maxX = l1.getBlockZ();
+      }
+      minLoc = new Location(l1.getWorld(), minX, minY, minZ);
+      maxLoc = new Location(l1.getWorld(), maxX, maxY, maxZ);
       BukkitRunnable s = new BukkitRunnable() {
          @Override
          public void run() {
@@ -73,17 +107,30 @@ public class Arena {
       return this.l2;
    }
    
+   public Location getMinLocation() {
+      return this.minLoc;
+   }
+   
+   public Location getMaxLocation() {
+      return this.maxLoc;
+   }
+   
+   public Location getLobbyLocation(){
+      return this.lobby;
+   }
+   
    public Location getStop() {
       return stop;
    }
    
    private boolean started = false;
    
-   public boolean hasStarted(){
+   public boolean hasStarted() {
       return started;
    }
-   public void start(){
-      if(!hasStarted()){
+   
+   public void start() {
+      if (!hasStarted()) {
          started = true;
       }
    }
@@ -105,6 +152,7 @@ public class Arena {
          JoinUtils.stopPlayer(p);
          if (reward.getType() == RewardType.Cash) {
             p.sendMessage("You got " + reward.getCash() + " cash!");
+            EcoManager.giveMoney(p, reward.getCash());
          } else {
             p.getInventory().addItem(reward.getReward());
          }

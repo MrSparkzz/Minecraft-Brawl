@@ -23,7 +23,7 @@ public class ArenaListener implements Listener {
          Player p = event.getPlayer();
          Vector v = p.getLocation().toVector();
          Arena a = ArenaManager.getPlayerArena(p);
-         if (v.isInAABB(a.getLocationOne().toVector(), a.getLocationOne().toVector())) {
+         if (v.isInAABB(a.getMinLocation().toVector(), a.getMinLocation().toVector())) {
             PlayerData data = a.getPlayerManager().getPlayerData(p);
             data.removeLifes(1);
          }

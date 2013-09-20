@@ -61,7 +61,16 @@ public class CommandCreation extends SSCCommand {
          } else {
             Msg.warning(p, "You need to define a position! Do 1 or 2!");
          }
-      } else if (args[0].equalsIgnoreCase("addspawn")) {
+      } else if (args[0].equalsIgnoreCase("setlobby")) {
+         if (CreationManager.playerStarted(p)) {
+            CreationManager.getHolder(p).lobby = p.getLocation();
+            Msg.msg(p, "You set the warp at your current location!");
+         } else {
+            Msg.warning(p, "You haven't started! Do /ssc creation start !");
+         }
+      }
+      
+      else if (args[0].equalsIgnoreCase("addspawn")) {
          if (CreationManager.playerStarted(p)) {
             CreationManager.getHolder(p).spawns.add(p.getLocation());
             Msg.msg(p, "You added a spawn at your current location!");
@@ -86,9 +95,11 @@ public class CommandCreation extends SSCCommand {
          if (CreationManager.playerStarted(p)) {
             if (args.length == 2) {
                CreationManager.getHolder(p).reward = new Reward(RewardType.Cash, Integer.parseInt(args[1]));
+               Msg.msg(p, "You set the reward to $" + args[1] + "!");
             } else {
                if (p.getItemInHand() != null) {
                   CreationManager.getHolder(p).reward = new Reward(RewardType.Item, p.getItemInHand());
+                  Msg.msg(p, "You set the reward to the item in your hand!");
                } else {
                   Msg.warning(p, "You can't set the item to nothing!");
                }
