@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class ClassFox extends SSCClass {
    
    public ClassFox() {
-      super("Fox");
+      super("Fox", "&7Fox fox fox.. flash!", Material.PORTAL);
       armor(Material.LEATHER_BOOTS, Color.fromRGB(247, 243, 10));
       armor(Material.LEATHER_LEGGINGS, Color.fromRGB(255, 255, 255));
       armor(Material.LEATHER_CHESTPLATE, Color.fromRGB(53, 191, 40));

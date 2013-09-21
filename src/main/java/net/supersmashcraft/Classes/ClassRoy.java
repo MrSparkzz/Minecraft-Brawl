@@ -9,7 +9,7 @@ import org.bukkit.potion.PotionEffectType;
 public class ClassRoy extends SSCClass {
    
    public ClassRoy() {
-      super("Roy");
+      super("Roy", "Roy!", Material.IRON_SWORD);
       armor(Material.LEATHER_LEGGINGS, Color.fromRGB(255, 255, 255));
       armor(Material.LEATHER_BOOTS, Color.fromRGB(65, 49, 245));
       armor(Material.LEATHER_CHESTPLATE, Color.fromRGB(65, 49, 245));
@@ -24,7 +24,7 @@ public class ClassRoy extends SSCClass {
    }
    
    @Override
-   public void onPlayerDespawn(Player p){
+   public void onPlayerDespawn(Player p) {
       p.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
    }
    

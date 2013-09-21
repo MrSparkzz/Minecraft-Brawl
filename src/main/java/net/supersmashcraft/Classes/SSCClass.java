@@ -14,6 +14,9 @@ public class SSCClass {
    
    private List<ItemStack> items = new ArrayList<ItemStack>();
    protected String name;
+   protected String desc;
+   protected Material icon;
+   protected int data;
    
    private final Material[] armor = new Material[] { Material.LEATHER_BOOTS, Material.LEATHER_LEGGINGS,
             Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET, Material.IRON_BOOTS, Material.IRON_LEGGINGS,
@@ -21,12 +24,27 @@ public class SSCClass {
             Material.GOLD_CHESTPLATE, Material.GOLD_HELMET, Material.DIAMOND_BOOTS, Material.DIAMOND_LEGGINGS,
             Material.DIAMOND_CHESTPLATE, Material.DIAMOND_HELMET };
    
-   public SSCClass(final String name) {
+   public SSCClass(final String name, final String desc, final Material icon) {
+      this(name, desc, icon, 0);
+   }
+   
+   public SSCClass(final String name, final String desc, final Material icon, int data) {
       this.name = name;
+      this.desc = desc;
+      this.icon = icon;
+      this.data = data;
    }
    
    public String name() {
       return name;
+   }
+   
+   public String desc(){
+      return desc;
+   }
+   
+   public Material icon(){
+      return icon;
    }
    
    public void onPlayerSpawn(Player p) {

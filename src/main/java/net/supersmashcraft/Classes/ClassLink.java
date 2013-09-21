@@ -6,7 +6,7 @@ import org.bukkit.Material;
 public class ClassLink extends SSCClass {
    
    public ClassLink() {
-      super("Link");
+      super("Link", "The tri-force..", Material.BOW);
       armor(Material.LEATHER_BOOTS, Color.fromRGB(255, 161, 161));
       armor(Material.LEATHER_LEGGINGS, Color.fromRGB(255, 161, 161));
       armor(Material.LEATHER_CHESTPLATE, Color.fromRGB(255, 161, 161));

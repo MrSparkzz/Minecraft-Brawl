@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import net.supersmashcraft.Arena.ArenaListener;
 import net.supersmashcraft.ClassUtils.DoubleJump;
+import net.supersmashcraft.ClassUtils.SignListener;
 import net.supersmashcraft.Classes.ClassBowser;
 import net.supersmashcraft.Classes.ClassFox;
 import net.supersmashcraft.Classes.ClassKirby;
@@ -15,6 +16,7 @@ import net.supersmashcraft.Commands.CommandCreation;
 import net.supersmashcraft.Commands.CommandDelete;
 import net.supersmashcraft.Commands.CommandJoin;
 import net.supersmashcraft.Commands.CommandLeave;
+import net.supersmashcraft.Commands.CommandModify;
 import net.supersmashcraft.Commands.MainCommand;
 import net.supersmashcraft.Managers.ArenaManager;
 import net.supersmashcraft.Managers.ClassManager;
@@ -48,6 +50,7 @@ public class SSCPlugin extends JavaPlugin {
       MainCommand.registerCommand(new CommandCreation());
       MainCommand.registerCommand(new CommandLeave());
       MainCommand.registerCommand(new CommandDelete());
+      MainCommand.registerCommand(new CommandModify());
       
       ClassManager.registerClass(new ClassKirby());
       ClassManager.registerClass(new ClassBowser());
@@ -59,6 +62,8 @@ public class SSCPlugin extends JavaPlugin {
       
       registerListener(new DoubleJump());
       registerListener(new ArenaListener());
+      registerListener(new SignListener());
+      
       FileManager man = new FileManager("Arenas");
       FileConfiguration arenaConfig = man.getConfig();
       if (arenaConfig.isSet("Arenas")) {

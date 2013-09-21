@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 public class ClassBowser extends SSCClass {
    
    public ClassBowser() {
-      super("Bowser");
+      super("Bowser", "&4Your favorite spiked friend!", Material.CACTUS);
       item(Material.CACTUS);
       ItemStack helm = colorArmor(Material.LEATHER_HELMET, Color.fromRGB(110, 80, 0));
       ItemStack chest = colorArmor(Material.LEATHER_CHESTPLATE, Color.fromRGB(48, 110, 0));

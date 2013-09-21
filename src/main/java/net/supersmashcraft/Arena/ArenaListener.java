@@ -23,9 +23,11 @@ public class ArenaListener implements Listener {
          Player p = event.getPlayer();
          Vector v = p.getLocation().toVector();
          Arena a = ArenaManager.getPlayerArena(p);
-         if (v.isInAABB(a.getMinLocation().toVector(), a.getMinLocation().toVector())) {
-            PlayerData data = a.getPlayerManager().getPlayerData(p);
-            data.removeLifes(1);
+         if (a.hasStarted()) {
+            if (!v.isInAABB(a.getMinLocation().toVector(), a.getMinLocation().toVector())) {
+               PlayerData data = a.getPlayerManager().getPlayerData(p);
+               data.removeLifes(1);
+            }
          }
       }
    }
@@ -47,7 +49,12 @@ public class ArenaListener implements Listener {
                return;
             }
             if (p.getHealth() - event.getDamage() < 1) {
-               ArenaManager.getPlayerArena(p).getPlayerManager().getPlayerData(p).removeLifes(1);
+               Arena a = ArenaManager.getPlayerArena(p);
+               if (a.hasStarted()) {
+                  a.getPlayerManager().getPlayerData(p).removeLifes(1);
+               } else {
+                  p.teleport(a.getLobbyLocation());
+               }
             }
          }
       }

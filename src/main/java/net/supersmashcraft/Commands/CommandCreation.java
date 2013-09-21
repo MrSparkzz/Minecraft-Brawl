@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class CommandCreation extends SSCCommand {
    
    public CommandCreation() {
-      super("creation", "ssc.arenacreation", -1);
+      super("creation", "ssc.arena.creation", -1);
    }
    
    @Override

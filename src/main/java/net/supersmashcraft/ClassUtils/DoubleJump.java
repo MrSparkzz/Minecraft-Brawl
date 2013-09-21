@@ -32,6 +32,9 @@ public class DoubleJump implements Listener {
                if (player == null) {
                   return;
                }
+               if (!ArenaManager.getPlayerArena(player).hasStarted()) {
+                  return;
+               }
                // Check if under them isn't air, if so allow them to jump
                Location l = player.getLocation().subtract(0, 1, 0);
                if (!l.getBlock().getType().equals(Material.AIR)) {
@@ -77,7 +80,7 @@ public class DoubleJump implements Listener {
          
          final Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)) / 1.5, -Math.sin(pitch) / 1.5,
                   Math.cos(pitch) * Math.cos(yaw) / 1.5);
-         if(ArenaManager.getPlayerClass(player).name() == "Kirby"){
+         if (ArenaManager.getPlayerClass(player).name() == "Kirby") {
             normal.setY(0.75 + Math.abs(normal.getY()) * 0.98);
          } else {
             normal.setY(0.75 + Math.abs(normal.getY()) * 0.65);

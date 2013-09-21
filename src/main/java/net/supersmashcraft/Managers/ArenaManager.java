@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.supersmashcraft.Arena.Arena;
+import net.supersmashcraft.ClassUtils.JoinUtils;
 import net.supersmashcraft.Classes.SSCClass;
 import net.supersmashcraft.Managers.PlayerManager.PlayerData;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
@@ -24,6 +26,14 @@ public class ArenaManager {
    
    public static void deleteArena(final Arena arena) {
       arenas.remove(arena);
+   }
+   
+   public static void reloadArena(Arena arena) {
+      for (PlayerData data : arena.getPlayerManager().getPlayers()) {
+         JoinUtils.stopPlayer(Bukkit.getPlayer(data.name));
+      }
+      arenas.remove(arena);
+      addArena(CreationManager.createArena(arena.getName()));
    }
    
    public static boolean arenaRegistered(final Arena arena) {

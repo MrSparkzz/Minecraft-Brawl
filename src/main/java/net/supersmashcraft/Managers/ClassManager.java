@@ -15,9 +15,17 @@ public class ClassManager {
    
    public static void registerClass(SSCClass c) {
       classes.add(c);
-      if(c instanceof Listener){
+      if (c instanceof Listener) {
          Bukkit.getPluginManager().registerEvents((Listener) c, SSCPlugin.instance);
       }
+   }
+   
+   public static int classAmount() {
+      return classes.size();
+   }
+   
+   public static List<SSCClass> getClasses(){
+      return classes;
    }
    
    public static boolean classExists(String name) {

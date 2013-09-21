@@ -5,6 +5,7 @@ import net.supersmashcraft.Classes.SSCClass;
 import net.supersmashcraft.Managers.ArenaManager;
 import net.supersmashcraft.Managers.PlayerManager.PlayerData;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -35,8 +36,9 @@ public class JoinUtils {
    public static void startPlayer(Player p, Arena a, SSCClass c) {
       a.getPlayerManager().addPlayer(p, c);
       p.teleport(a.getLobbyLocation());
+      Bukkit.broadcastMessage(a.getLobbyLocation().toString());
+      Bukkit.broadcastMessage(p.getLocation().toString());
       p.setGameMode(GameMode.ADVENTURE);
-      c.setupPlayer(p);
    }
    
    public static String stopPlayer(Player p) {
@@ -54,6 +56,9 @@ public class JoinUtils {
       }
       p.setFallDistance(0);
       p.teleport(a.getStop());
+      if (p.getGameMode().equals(GameMode.CREATIVE)) {
+         p.setAllowFlight(true);
+      }
       return name;
    }
    

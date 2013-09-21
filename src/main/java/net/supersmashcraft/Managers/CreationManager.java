@@ -40,15 +40,15 @@ public class CreationManager {
       Location[] spawnsArray = new Location[spawns.size()];
       spawns.toArray(spawnsArray);
       Reward reward = man.getReward(path + ".Reward");
-      return new Arena(c(path + ".Name", man), getFromPath(path + ".l1"), getFromPath(path + ".lobby"),
-               getFromPath(path + ".l2"), getFromPath(path + ".EndPoint"), reward, spawnsArray);
+      return new Arena(c(path + ".Name", man), getFromPath(path + ".l1"), getFromPath(path + ".l2"),
+               getFromPath(path + ".lobby"), getFromPath(path + ".EndPoint"), reward, spawnsArray);
    }
    
    private static String c(String path, FileManager man) {
       return man.getConfig().getString(path);
    }
    
-   private static String fromLocation(Location l, boolean block) {
+   public static String fromLocation(Location l, boolean block) {
       String world = l.getWorld().getName();
       double x = l.getX();
       double y = l.getY();
@@ -99,7 +99,7 @@ public class CreationManager {
       }
    }
    
-   private static Location toLocation(String s) {
+   public static Location toLocation(String s) {
       String[] fi = s.split(";");
       World w = Bukkit.getWorld(fi[0]);
       double x = Double.parseDouble(fi[1]);

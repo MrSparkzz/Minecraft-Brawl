@@ -3,21 +3,26 @@ package net.supersmashcraft.Arena;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 
-import net.supersmashcraft.EcoManager;
 import net.supersmashcraft.SSCPlugin;
 import net.supersmashcraft.ClassUtils.JoinUtils;
 import net.supersmashcraft.ClassUtils.Msg;
+import net.supersmashcraft.Managers.ArenaManager;
 import net.supersmashcraft.Managers.CreationManager.Reward;
 import net.supersmashcraft.Managers.CreationManager.Reward.RewardType;
-import net.supersmashcraft.Managers.ArenaManager;
+import net.supersmashcraft.Managers.EcoManager;
 import net.supersmashcraft.Managers.PlayerManager;
 import net.supersmashcraft.Managers.PlayerManager.PlayerData;
+import net.supersmashcraft.Managers.SignManager;
+import net.supersmashcraft.Managers.SignManager.SignType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -136,7 +141,7 @@ public class Arena {
       if (!hasStarted()) {
          started = true;
       }
-      for(PlayerData data : pMan.getPlayers()){
+      for (PlayerData data : pMan.getPlayers()) {
          Player p = Bukkit.getPlayer(data.name);
          p.teleport(getRandomSpawn());
          p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 1), true);
@@ -145,6 +150,7 @@ public class Arena {
          } else {
             p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100000, 1), true);
          }
+         ArenaManager.getPlayerClass(p).setupPlayer(p);
       }
    }
    
@@ -154,10 +160,35 @@ public class Arena {
    
    public void refreshScoreboard() {
       if (!hasStarted()) {
-         if(pMan.getPlayers().size() > 1){
+         if (pMan.getPlayers().size() > 1) {
             start();
+            for (Entry<Block, SignType> key : SignManager.getForArena(this).entrySet()) {
+               Sign sign = (Sign) key.getKey().getState();
+               Bukkit.broadcastMessage("Thing");
+               if (key.getValue().equals(SignType.STATUS)) {
+                  sign.setLine(2, ChatColor.RED + "[Started]");
+                  Bukkit.broadcastMessage("Thing");
+                  sign.update();
+               }
+            }
+            return;
+         } else if (pMan.getPlayers().size() == 1) {
+            for (Entry<Block, SignType> key : SignManager.getForArena(this).entrySet()) {
+               Sign sign = (Sign) key.getKey().getState();
+               if (key.getValue().equals(SignType.STATUS)) {
+                  sign.setLine(2, ChatColor.GOLD + "[Lobby]");
+                  sign.update();
+               }
+            }
+            return;
          }
-         return;
+         for (Entry<Block, SignType> key : SignManager.getForArena(this).entrySet()) {
+            Sign sign = (Sign) key.getKey().getState();
+            if (key.getValue().equals(SignType.STATUS)) {
+               sign.setLine(2, ChatColor.GREEN + "[Join]");
+               sign.update();
+            }
+         }
       }
       if (pMan.getPlayers().size() == 1) {
          String name = "Example Player";
@@ -167,11 +198,21 @@ public class Arena {
          for (Player p : Bukkit.getOnlinePlayers()) {
             Msg.msg(p, name + " just won on the arena " + this.name + "!");
          }
+         for (Entry<Block, SignType> key : SignManager.getForArena(this).entrySet()) {
+            Sign sign = (Sign) key.getKey().getState();
+            if (key.getValue().equals(SignType.STATUS)) {
+               sign.setLine(2, ChatColor.GREEN + "[Open]");
+            }
+         }
          Player p = Bukkit.getPlayer(name);
          JoinUtils.stopPlayer(p);
          if (reward.getType() == RewardType.Cash) {
             p.sendMessage("You got " + reward.getCash() + " cash!");
-            EcoManager.giveMoney(p, reward.getCash());
+            try {
+               EcoManager.giveMoney(p, reward.getCash());
+            } catch (ClassNotFoundException e) {
+               // Do nothing, as I already send the message
+            }
          } else {
             p.getInventory().addItem(reward.getReward());
          }
