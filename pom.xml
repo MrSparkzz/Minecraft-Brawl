@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Super-Smash-Bros</groupId>
 	<artifactId>Super-Smash-Bros</artifactId>
-	<version>0.0.2(dev)</version>
+	<version>0.0.4(dev)</version>
 	<name>Super Smash Bros</name>
 	<description>Super Smash Bros - Bukkit Plugin</description>
 	<build>

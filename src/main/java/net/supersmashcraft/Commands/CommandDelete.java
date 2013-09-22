@@ -1,7 +1,6 @@
 package net.supersmashcraft.Commands;
 
 import net.supersmashcraft.Arena.Arena;
-import net.supersmashcraft.ClassUtils.JoinUtils;
 import net.supersmashcraft.ClassUtils.Msg;
 import net.supersmashcraft.Managers.ArenaManager;
 import net.supersmashcraft.Managers.FileManager;
@@ -20,9 +19,9 @@ public class CommandDelete extends SSCCommand {
    public void onCommand(Player p, String[] args) {
       if (ArenaManager.arenaRegistered(args[0])) {
          Arena a = ArenaManager.getArena(args[0]);
-         for (PlayerData data : a.getPlayerManager().getPlayers()) {
+         for (PlayerData data : a.getManager().getPlayerManager().getArenaPlayers()) {
             Player player = Bukkit.getPlayer(data.name);
-            JoinUtils.stopPlayer(player);
+            a.getManager().getPlayerManager().stopPlayer(p);
             Msg.msg(player, "Your arena has been disabled!");
          }
          ArenaManager.deleteArena(a);

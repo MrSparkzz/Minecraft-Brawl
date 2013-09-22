@@ -88,9 +88,9 @@ public class IconMenu implements Listener {
       return this;
    }
    
-   public IconMenu addDynamicButton(ItemStack item, String name, String... lore){
-      for(int i = 0; i < items.length; i++){
-         if(items[i] == null){
+   public IconMenu addDynamicButton(ItemStack item, String name, String... lore) {
+      for (int i = 0; i < items.length; i++) {
+         if (items[i] == null) {
             items[i] = getItem(item, name, lore);
             break;
          }

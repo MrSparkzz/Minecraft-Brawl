@@ -47,7 +47,7 @@ public class FileManager {
    }
    
    public void setReward(String path, Reward reward) {
-      if(reward.getType() == RewardType.Cash){
+      if (reward.getType() == RewardType.Cash) {
          getConfig().set(path, "$" + reward.getCash());
       } else {
          getConfig().set(path, ItemHandler.toString(reward.getReward()));

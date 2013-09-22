@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-
 /**
  * The Class EcoManager which handles money in the plugin.
  */
@@ -17,14 +16,16 @@ public class EcoManager {
    
    /**
     * Give money to a player.
-    *
-    * @param p the player
-    * @param cash the cash to give
-    * @throws ClassNotFoundException 
+    * 
+    * @param p
+    *           the player
+    * @param cash
+    *           the cash to give
+    * @throws ClassNotFoundException
     */
-   public static void giveMoney(Player p, double cash) throws ClassNotFoundException{
-      if(econ == null){
-         if(!setupEconomy()){
+   public static void giveMoney(Player p, double cash) throws ClassNotFoundException {
+      if (econ == null) {
+         if (!setupEconomy()) {
             Bukkit.getLogger().info("Could not setup economy!");
             throw new ClassNotFoundException("Vault");
          }
@@ -34,15 +35,17 @@ public class EcoManager {
    
    /**
     * Checks if the player has the money.
-    *
-    * @param p the player
-    * @param cash the cash to check for
+    * 
+    * @param p
+    *           the player
+    * @param cash
+    *           the cash to check for
     * @return true, if successful
-    * @throws ClassNotFoundException 
+    * @throws ClassNotFoundException
     */
-   public static boolean hasMoney(Player p, double cash) throws ClassNotFoundException{
-      if(econ == null){
-         if(!setupEconomy()){
+   public static boolean hasMoney(Player p, double cash) throws ClassNotFoundException {
+      if (econ == null) {
+         if (!setupEconomy()) {
             Bukkit.getLogger().info("Could not setup economy!");
             throw new ClassNotFoundException("Vault");
          }
@@ -52,14 +55,16 @@ public class EcoManager {
    
    /**
     * Removes the money from the player.
-    *
-    * @param p the player
-    * @param cash the cash to remove
-    * @throws ClassNotFoundException 
+    * 
+    * @param p
+    *           the player
+    * @param cash
+    *           the cash to remove
+    * @throws ClassNotFoundException
     */
-   public static void removeMoney(Player p, double cash) throws ClassNotFoundException{
-      if(econ == null){
-         if(!setupEconomy()){
+   public static void removeMoney(Player p, double cash) throws ClassNotFoundException {
+      if (econ == null) {
+         if (!setupEconomy()) {
             Bukkit.getLogger().info("Could not setup economy!");
             throw new ClassNotFoundException("Vault");
          }
@@ -69,18 +74,19 @@ public class EcoManager {
    
    /**
     * Sets up the economy variable so we can hook into vault.
-    *
+    * 
     * @return true, if successful
     */
    private static boolean setupEconomy() {
       if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
-          return false;
+         return false;
       }
-      RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
+      RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager()
+               .getRegistration(Economy.class);
       if (rsp == null) {
-          return false;
+         return false;
       }
       econ = rsp.getProvider();
       return econ != null;
-  }
+   }
 }

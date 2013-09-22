@@ -1,10 +1,8 @@
 package net.supersmashcraft.Arena;
 
-import net.supersmashcraft.ClassUtils.JoinUtils;
-import net.supersmashcraft.Managers.ArenaManager;
+import net.supersmashcraft.Managers.PlayerManager;
 import net.supersmashcraft.Managers.PlayerManager.PlayerData;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,14 +17,14 @@ public class ArenaListener implements Listener {
    
    @EventHandler
    public void onPlayerMove(PlayerMoveEvent event) {
-      if (ArenaManager.isPlayerInArena(event.getPlayer())) {
+      if (PlayerManager.playerInArena(event.getPlayer())) {
          Player p = event.getPlayer();
          Vector v = p.getLocation().toVector();
-         Arena a = ArenaManager.getPlayerArena(p);
-         if (a.hasStarted()) {
-            if (!v.isInAABB(a.getMinLocation().toVector(), a.getMinLocation().toVector())) {
-               PlayerData data = a.getPlayerManager().getPlayerData(p);
-               data.removeLifes(1);
+         Arena a = PlayerManager.getPlayerArena(p);
+         if (a.getManager().hasStarted()) {
+            if (!v.isInAABB(a.getMinimumPoint().toVector(), a.getMaximumPoint().toVector())) {
+               PlayerData data = a.getManager().getPlayerManager().getPlayer(p);
+               data.removeLife();
             }
          }
       }
@@ -34,8 +32,8 @@ public class ArenaListener implements Listener {
    
    @EventHandler
    public void onPluginDisable(PluginDisableEvent event) {
-      for (String s : ArenaManager.getAllPlayers()) {
-         JoinUtils.stopPlayer(Bukkit.getPlayer(s));
+      for (PlayerData data : PlayerManager.getAllPlayers()) {
+         data.a.getManager().getPlayerManager().stopPlayer(data.getPlayer());
       }
    }
    
@@ -43,15 +41,15 @@ public class ArenaListener implements Listener {
    public void onEntityDBE(EntityDamageEvent event) {
       if (event.getEntity() instanceof Player) {
          Player p = (Player) event.getEntity();
-         if (ArenaManager.isPlayerInArena(p)) {
+         if (PlayerManager.playerInArena(p)) {
             if (event.getCause() == DamageCause.FALL) {
                event.setCancelled(true);
                return;
             }
             if (p.getHealth() - event.getDamage() < 1) {
-               Arena a = ArenaManager.getPlayerArena(p);
-               if (a.hasStarted()) {
-                  a.getPlayerManager().getPlayerData(p).removeLifes(1);
+               Arena a = PlayerManager.getPlayerArena(p);
+               if (a.getManager().hasStarted()) {
+                  a.getManager().getPlayerManager().getPlayer(p).removeLife();
                } else {
                   p.teleport(a.getLobbyLocation());
                }
@@ -62,8 +60,9 @@ public class ArenaListener implements Listener {
    
    @EventHandler
    public void onPlayerQuit(PlayerQuitEvent event) {
-      if (ArenaManager.isPlayerInArena(event.getPlayer())) {
-         JoinUtils.stopPlayer(event.getPlayer());
+      Player p = event.getPlayer();
+      if (PlayerManager.playerInArena(p)) {
+         PlayerManager.getPlayerArena(p).getManager().getPlayerManager().stopPlayer(p);
       }
    }
    

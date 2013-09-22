@@ -1,9 +1,9 @@
 package net.supersmashcraft.Commands;
 
 import net.supersmashcraft.Arena.Arena;
+import net.supersmashcraft.ClassUtils.LocationUtils;
 import net.supersmashcraft.ClassUtils.Msg;
 import net.supersmashcraft.Managers.ArenaManager;
-import net.supersmashcraft.Managers.CreationManager;
 import net.supersmashcraft.Managers.FileManager;
 
 import org.bukkit.entity.Player;
@@ -35,7 +35,7 @@ public class CommandModify extends SSCCommand {
                int size = man.getConfig().getConfigurationSection("Arenas." + a.getName() + ".Spawns")
                         .getKeys(false).size();
                man.getConfig().set("Arenas." + a.getName() + "." + size,
-                        CreationManager.fromLocation(p.getLocation(), true));
+                        LocationUtils.fromLocation(p.getLocation(), true));
                man.saveConfig();
             }
          } else {

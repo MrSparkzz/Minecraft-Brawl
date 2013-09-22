@@ -1,11 +1,9 @@
 package net.supersmashcraft.Managers;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.supersmashcraft.Arena.Arena;
-import net.supersmashcraft.ClassUtils.JoinUtils;
-import net.supersmashcraft.ClassUtils.Msg;
 import net.supersmashcraft.Classes.SSCClass;
 
 import org.bukkit.Bukkit;
@@ -14,142 +12,134 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Scoreboard;
 
-/**
- * 
- * @author Paul, Breezeyboy, Max_The_Link_Fan
- * 
- */
 public class PlayerManager {
    
-   private final HashMap<PlayerData, SSCClass> players = new HashMap<PlayerData, SSCClass>();
-   
-   Arena a;
-   public PlayerManager(Arena a){
-      this.a = a;
-   }
-   
-   // private List<String> players = new ArrayList<String>();
-   
-   public void addPlayer(final Player p, final SSCClass c) {
-      players.put(new PlayerData(p), c);
-   }
-   
-   public void removePlayer(final Player p) {
-      PlayerData d = new PlayerData(p);
-      for (PlayerData set : players.keySet()) {
-         if (set.name == p.getName()) {
-            d = set;
-            break;
-         }
-      }
-      players.remove(d);
-   }
-   
-   public void clearPlayers() {
-      players.clear();
-   }
-   
-   public boolean containsPlayer(final Player p) {
-      for (PlayerData set : players.keySet()) {
-         if (set.name == p.getName()) {
+   public static boolean playerInArena(Player p) {
+      for (Arena arena : ArenaManager.iterator()) {
+         if (arena.getManager().getPlayerManager().hasPlayer(p)) {
             return true;
          }
       }
       return false;
    }
    
-   public Set<PlayerData> getPlayers() {
-      return players.keySet();
-   }
-   
-   public SSCClass getPlayerClass(final Player p) {
-      PlayerData d = new PlayerData(p);
-      for (PlayerData set : players.keySet()) {
-         if (set.name == p.getName()) {
-            d = set;
-            break;
+   public static Arena getPlayerArena(Player p) {
+      for (Arena arena : ArenaManager.iterator()) {
+         if (arena.getManager().getPlayerManager().hasPlayer(p)) {
+            return arena;
          }
       }
-      return players.get(d);
+      return null;
    }
    
-   public PlayerData getPlayerData(Player p) {
-      PlayerData d = new PlayerData(p);
-      for (PlayerData set : players.keySet()) {
-         if (set.name == p.getName()) {
-            d = set;
-            break;
+   public static List<PlayerData> getAllPlayers() {
+      List<PlayerData> players = new ArrayList<PlayerData>();
+      for (Arena arena : ArenaManager.iterator()) {
+         players.addAll(arena.getManager().getPlayerManager().players);
+      }
+      return players;
+   }
+   
+   private List<PlayerData> players = new ArrayList<PlayerData>();
+   
+   public void startPlayer(Player p, Arena a, SSCClass c) {
+      players.add(new PlayerData(p, a, c));
+      p.getInventory().clear();
+      p.setGameMode(GameMode.ADVENTURE);
+      
+      p.teleport(a.getLobbyLocation());
+   }
+   
+   public void stopPlayer(Player p) {
+      getPlayer(p).resetData();
+      
+      p.setFallDistance(0);
+      p.teleport(getPlayerArena(p).getStop());
+      players.remove(getPlayer(p));
+   }
+   
+   public boolean hasPlayer(Player p) {
+      for (PlayerData data : players) {
+         if (data.name.equalsIgnoreCase(p.getName())) {
+            return true;
          }
       }
-      return d;
+      return false;
    }
    
-   public static class PlayerData {
+   public PlayerData getPlayer(Player p) {
+      for (PlayerData data : players) {
+         if (data.name.equalsIgnoreCase(p.getName())) {
+            return data;
+         }
+      }
+      return null;
+   }
+   
+   public List<PlayerData> getArenaPlayers() {
+      return players;
+   }
+   
+   public class PlayerData {
       public String name;
+      
       public ItemStack[] inventory;
       public ItemStack[] armor;
+      
       public float exp;
       public double health;
       public float exhaust;
       public double maxHealth;
+      
       public GameMode mode;
-      public int lives;
-      Arena a;
       private Scoreboard b = Bukkit.getScoreboardManager().getNewScoreboard();
       
-      public PlayerData(Player p) {
+      public Arena a;
+      public SSCClass c;
+      public int lives;
+      
+      public PlayerData(Player p, Arena a, SSCClass c) {
          name = p.getName();
+         
          inventory = p.getInventory().getContents();
          armor = p.getInventory().getArmorContents();
+         
          exp = p.getExp();
          health = p.getHealth();
          exhaust = p.getExhaustion();
          maxHealth = p.getMaxHealth();
+         
          mode = p.getGameMode();
-         lives = new FileManager("Config").getConfig().getInt("Default_Lives");
          if (p.getScoreboard() != null) {
             b = p.getScoreboard();
          }
-         a = ArenaManager.getPlayerArena(p);
+         
+         lives = 5;
+         this.a = a;
+         this.c = c;
       }
       
-      public void removeLifes(int amount) {
-         Player p = Bukkit.getPlayer(name);
-         p.setHealth(p.getMaxHealth());
-         if (a == null) {
-            Bukkit.getLogger().severe("Arena is null!");
-            a = ArenaManager.getPlayerArena(p);
-            removeLifes(0);
-         } else {
-            if (lives <= 1) {
-               JoinUtils.stopPlayer(p);
-               for (PlayerData d : a.getPlayerManager().getPlayers()) {
-                  Msg.msg(Bukkit.getPlayer(d.name), this.name + " has left the arena!");
-               }
-               return;
-            }
-            lives -= amount;
-            a.getPlayerManager().getPlayerClass(p).setupPlayer(p);
-            a.refreshScoreboard();
-            p.teleport(a.getRandomSpawn());
-            p.setHealth(p.getMaxHealth());
-            for (PlayerData d : a.getPlayerManager().getPlayers()) {
-               Msg.msg(Bukkit.getPlayer(d.name), this.name + " died!");
-            }
-         }
-      }
-      
-      public void reset() {
-         Player p = Bukkit.getPlayer(name);
-         p.getInventory().clear();
+      public void resetData() {
+         Player p = getPlayer();
+         
          p.getInventory().setContents(inventory);
          p.getInventory().setArmorContents(armor);
+         
          p.setExp(exp);
+         p.setHealth(0.1);
          p.setMaxHealth(maxHealth);
          p.setHealth(health);
-         p.setExhaustion(exhaust);
+         
          p.setGameMode(mode);
          p.setScoreboard(b);
+      }
+      
+      public void removeLife() {
+         
+      }
+      
+      public Player getPlayer() {
+         return Bukkit.getPlayer(name);
       }
    }
 }

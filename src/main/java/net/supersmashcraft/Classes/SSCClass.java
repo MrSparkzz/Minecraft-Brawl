@@ -39,11 +39,11 @@ public class SSCClass {
       return name;
    }
    
-   public String desc(){
+   public String desc() {
       return desc;
    }
    
-   public Material icon(){
+   public Material icon() {
       return icon;
    }
    

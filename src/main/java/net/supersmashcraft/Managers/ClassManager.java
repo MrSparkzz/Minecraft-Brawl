@@ -24,7 +24,7 @@ public class ClassManager {
       return classes.size();
    }
    
-   public static List<SSCClass> getClasses(){
+   public static List<SSCClass> getClasses() {
       return classes;
    }
    

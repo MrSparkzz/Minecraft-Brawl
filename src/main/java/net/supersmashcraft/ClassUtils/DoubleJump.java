@@ -3,9 +3,10 @@ package net.supersmashcraft.ClassUtils;
 import java.util.HashMap;
 
 import net.supersmashcraft.SSCPlugin;
-import net.supersmashcraft.Managers.ArenaManager;
+import net.supersmashcraft.Arena.Arena;
+import net.supersmashcraft.Managers.PlayerManager;
+import net.supersmashcraft.Managers.PlayerManager.PlayerData;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -27,19 +28,19 @@ public class DoubleJump implements Listener {
       new BukkitRunnable() {
          @Override
          public void run() {
-            for (final String pName : ArenaManager.getAllPlayers()) {
-               final Player player = Bukkit.getPlayerExact(pName);
+            for (final PlayerData data : PlayerManager.getAllPlayers()) {
+               final Player player = data.getPlayer();
                if (player == null) {
                   return;
                }
-               if (!ArenaManager.getPlayerArena(player).hasStarted()) {
+               if (!PlayerManager.getPlayerArena(player).getManager().hasStarted()) {
                   return;
                }
                // Check if under them isn't air, if so allow them to jump
                Location l = player.getLocation().subtract(0, 1, 0);
                if (!l.getBlock().getType().equals(Material.AIR)) {
                   player.setAllowFlight(true);
-                  if (ArenaManager.getPlayerClass(player).name() != "Kirby")
+                  if (data.c.name() != "Kirby")
                      return;
                   if (!kirby.containsKey(player.getName())) {
                      kirby.put(player.getName(), 0);
@@ -57,7 +58,7 @@ public class DoubleJump implements Listener {
    
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onPlayerToggleFlight(final PlayerToggleFlightEvent event) {
-      if (!ArenaManager.isPlayerInArena(event.getPlayer()))
+      if (!PlayerManager.playerInArena(event.getPlayer()))
          return;
       final Player player = event.getPlayer();
       if (event.isFlying()) {
@@ -75,12 +76,14 @@ public class DoubleJump implements Listener {
             }
          }
          
+         Arena a = PlayerManager.getPlayerArena(player);
+         
          final double pitch = Math.toRadians(player.getLocation().getPitch());
          final double yaw = Math.toRadians(player.getLocation().getYaw());
-         
          final Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)) / 1.5, -Math.sin(pitch) / 1.5,
                   Math.cos(pitch) * Math.cos(yaw) / 1.5);
-         if (ArenaManager.getPlayerClass(player).name() == "Kirby") {
+         
+         if (a.getManager().getPlayerManager().getPlayer(player).name == "Kirby") {
             normal.setY(0.75 + Math.abs(normal.getY()) * 0.98);
          } else {
             normal.setY(0.75 + Math.abs(normal.getY()) * 0.65);

@@ -4,7 +4,7 @@ import net.supersmashcraft.IconMenu;
 import net.supersmashcraft.IconMenu.Row;
 import net.supersmashcraft.IconMenu.onClick;
 import net.supersmashcraft.Arena.Arena;
-import net.supersmashcraft.ClassUtils.JoinUtils;
+import net.supersmashcraft.ClassUtils.Msg;
 import net.supersmashcraft.Classes.SSCClass;
 import net.supersmashcraft.Managers.ArenaManager;
 import net.supersmashcraft.Managers.ClassManager;
@@ -26,15 +26,14 @@ public class CommandJoin extends SSCCommand {
    
    @Override
    public void onCommand(final Player p, final String[] args) {
-      if (JoinUtils.basicArenaChecks(p, args[0])) {
+      if (basicArenaChecks(p, args[0])) {
          // Have him join arena
-         // JoinUtils.startPlayer(p, ArenaManager.getArena(args[0]),
-         // ClassManager.getRegisteredClass(args[1]));
          final Arena a = ArenaManager.getArena(args[0]);
          IconMenu menu = new IconMenu("Pick your class!", (ClassManager.classAmount() / 9) + 1, new onClick() {
             @Override
             public boolean click(Player clicker, IconMenu menu, Row row, int slot, ItemStack item) {
-               JoinUtils.startPlayer(p, a, ClassManager.getRegisteredClass(item.getItemMeta().getDisplayName()));
+               a.getManager().getPlayerManager()
+                        .startPlayer(p, a, ClassManager.getRegisteredClass(item.getItemMeta().getDisplayName()));
                return false;
             }
          });
@@ -45,4 +44,25 @@ public class CommandJoin extends SSCCommand {
       }
    }
    
+   private boolean basicArenaChecks(Player p, String arena) {
+      if (ArenaManager.arenaRegistered(arena)) {
+         Arena a = ArenaManager.getArena(arena);
+         if (!a.getManager().getPlayerManager().hasPlayer(p)) {
+            if (p.hasPermission("scb.arena.join." + arena)) {
+               if (!ArenaManager.getArena(arena).getManager().hasStarted()) {
+                  return true;
+               } else {
+                  Msg.warning(p, "That arena has already started!");
+               }
+            } else {
+               Msg.warning(p, "You do not have permission to join that arena!");
+            }
+         } else {
+            Msg.warning(p, "You are already in an arena!");
+         }
+      } else {
+         Msg.warning(p, "That arena does not exist!");
+      }
+      return false;
+   }
 }

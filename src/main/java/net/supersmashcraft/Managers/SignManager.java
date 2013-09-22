@@ -3,6 +3,7 @@ package net.supersmashcraft.Managers;
 import java.util.HashMap;
 
 import net.supersmashcraft.Arena.Arena;
+import net.supersmashcraft.ClassUtils.LocationUtils;
 
 import org.bukkit.block.Block;
 
@@ -16,7 +17,7 @@ public class SignManager {
       }
       man.getConfig().set("Arenas." + a.getName() + ".Signs." + size + ".Type", type.name());
       man.getConfig().set("Arenas." + a.getName() + ".Signs." + size + ".Loc",
-               CreationManager.fromLocation(b.getLocation(), true));
+               LocationUtils.fromLocation(b.getLocation(), true));
       man.saveConfig();
    }
    
@@ -26,7 +27,7 @@ public class SignManager {
       String path = "Arenas." + a.getName() + ".Signs";
       if (man.getConfig().isSet(path)) {
          for (String s : man.getConfig().getConfigurationSection(path).getKeys(false)) {
-            Block b = CreationManager.toLocation(man.getConfig().getString(path + "." + s + ".Loc")).getBlock();
+            Block b = LocationUtils.toLocation(man.getConfig().getString(path + "." + s + ".Loc")).getBlock();
             SignType type = SignType.valueOf(man.getConfig().getString(path + "." + s + ".Type"));
             map.put(b, type);
          }
