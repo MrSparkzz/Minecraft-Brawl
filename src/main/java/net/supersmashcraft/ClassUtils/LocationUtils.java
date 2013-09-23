@@ -6,19 +6,23 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 
 public class LocationUtils {
-   public static String fromLocation(Location l, boolean block) {
+   public static String fromLocation(Location l, boolean block, boolean by) {
       String world = l.getWorld().getName();
       double x = l.getX();
       double y = l.getY();
       double z = l.getZ();
+      double yaw = l.getYaw();
+      double pitch = l.getPitch();
       
       if (block) {
          x = l.getBlockX();
          y = l.getBlockY();
          z = l.getBlockZ();
       }
-      
       String f = world + ";" + x + ";" + y + ";" + z;
+      if (by) {
+         f += ";" + yaw + ";" + pitch;
+      }
       return f;
    }
    
@@ -49,5 +53,21 @@ public class LocationUtils {
       }
       
       return new Location(w, x, y, z);
+   }
+   
+   public static boolean inside(Location l, Location min, Location max) {
+      int x = l.getBlockX();
+      int y = l.getBlockY();
+      int z = l.getBlockZ();
+      
+      int minX = min.getBlockX();
+      int minY = min.getBlockY();
+      int minZ = min.getBlockZ();
+      
+      int maxX = max.getBlockX();
+      int maxY = max.getBlockY();
+      int maxZ = max.getBlockZ();
+      
+      return x > minX && x < maxX && y > minY && y < maxY && z > minZ && z < maxZ;
    }
 }

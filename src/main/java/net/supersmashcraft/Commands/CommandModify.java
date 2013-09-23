@@ -35,7 +35,7 @@ public class CommandModify extends SSCCommand {
                int size = man.getConfig().getConfigurationSection("Arenas." + a.getName() + ".Spawns")
                         .getKeys(false).size();
                man.getConfig().set("Arenas." + a.getName() + "." + size,
-                        LocationUtils.fromLocation(p.getLocation(), true));
+                        LocationUtils.fromLocation(p.getLocation(), true, true));
                man.saveConfig();
             }
          } else {

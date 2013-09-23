@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.Color;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public class ItemHandler {
    
@@ -33,6 +35,13 @@ public class ItemHandler {
          if (m.hasDisplayName()) {
             f.append("cName=" + m.getDisplayName() + ";");
          }
+         if (m instanceof LeatherArmorMeta) {
+            LeatherArmorMeta me = (LeatherArmorMeta) m;
+            int r = me.getColor().getRed();
+            int g = me.getColor().getGreen();
+            int b = me.getColor().getBlue();
+            f.append("rgb=" + r + "," + g + "," + b);
+         }
       }
       return f.toString();
    }
@@ -42,9 +51,10 @@ public class ItemHandler {
       ItemStack i;
       int type = 0;
       short dura = 0;
-      int amount = 0;
+      int amount = 1;
       Map<Enchantment, Integer> enchants = new HashMap<Enchantment, Integer>();
       String cName = null;
+      String[] rgb = null;
       for (String d : s.split(";")) {
          String[] id = d.split("=");
          if (id[0].equalsIgnoreCase("type")) {
@@ -60,6 +70,8 @@ public class ItemHandler {
             }
          } else if (id[0].equalsIgnoreCase("cName")) {
             cName = id[1];
+         } else if (id[0].equalsIgnoreCase("rgb")) {
+            rgb = id[1].split(",");
          }
       }
       i = new ItemStack(type, amount);
@@ -68,6 +80,10 @@ public class ItemHandler {
       }
       if (cName != null) {
          i.getItemMeta().setDisplayName(cName);
+      }
+      if (rgb != null) {
+         LeatherArmorMeta m = (LeatherArmorMeta) i.getItemMeta();
+         m.setColor(Color.fromRGB(Integer.parseInt(rgb[0]), Integer.parseInt(rgb[1]), Integer.parseInt(rgb[2])));
       }
       i.addUnsafeEnchantments(enchants);
       return i;

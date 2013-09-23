@@ -1,5 +1,6 @@
 package net.supersmashcraft.Arena;
 
+import net.supersmashcraft.Abilities.SSCAbility;
 import net.supersmashcraft.Managers.PlayerManager;
 import net.supersmashcraft.Managers.PlayerManager.PlayerData;
 
@@ -8,32 +9,36 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
-import org.bukkit.util.Vector;
 
 public class ArenaListener implements Listener {
    
-   @EventHandler
-   public void onPlayerMove(PlayerMoveEvent event) {
-      if (PlayerManager.playerInArena(event.getPlayer())) {
-         Player p = event.getPlayer();
-         Vector v = p.getLocation().toVector();
-         Arena a = PlayerManager.getPlayerArena(p);
-         if (a.getManager().hasStarted()) {
-            if (!v.isInAABB(a.getMinimumPoint().toVector(), a.getMaximumPoint().toVector())) {
-               PlayerData data = a.getManager().getPlayerManager().getPlayer(p);
-               data.removeLife();
-            }
-         }
-      }
-   }
+   /*
+    * @EventHandler public void onPlayerMove(PlayerMoveEvent event) { if
+    * (PlayerManager.playerInArena(event.getPlayer())) { Player p =
+    * event.getPlayer(); Arena a = PlayerManager.getPlayerArena(p); if
+    * (a.getManager().hasStarted()) { if(!LocationUtils.inside(p.getLocation(),
+    * a.getMinimumPoint(), a.getMaximumPoint())){ p.sendMessage("Outside!"); } }
+    * } }
+    */
    
    @EventHandler
    public void onPluginDisable(PluginDisableEvent event) {
       for (PlayerData data : PlayerManager.getAllPlayers()) {
-         data.a.getManager().getPlayerManager().stopPlayer(data.getPlayer());
+         data.a.getManager().getPlayerManager().stopPlayer(data);
+      }
+   }
+   
+   @EventHandler
+   public void onPlayerInteract(PlayerInteractEvent event) {
+      if (PlayerManager.playerInArena(event.getPlayer())) {
+         Arena a = PlayerManager.getPlayerArena(event.getPlayer());
+         PlayerData d = a.getManager().getPlayerManager().getPlayer(event.getPlayer());
+         for (SSCAbility ab : d.c.getAbilities()) {
+            ab.onClick(event.getPlayer(), event.getAction());
+         }
       }
    }
    
@@ -62,7 +67,8 @@ public class ArenaListener implements Listener {
    public void onPlayerQuit(PlayerQuitEvent event) {
       Player p = event.getPlayer();
       if (PlayerManager.playerInArena(p)) {
-         PlayerManager.getPlayerArena(p).getManager().getPlayerManager().stopPlayer(p);
+         PlayerManager man = PlayerManager.getPlayerArena(p).getPlayerManager();
+         man.stopPlayer(man.getPlayer(event.getPlayer()));
       }
    }
    

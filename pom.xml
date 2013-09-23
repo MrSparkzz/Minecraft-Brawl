@@ -17,6 +17,7 @@
 				<filtering>true</filtering>
 				<includes>
 					<include>*.yml</include>
+					<include>Classes/*.yml</include>
 				</includes>
 			</resource>
 		</resources>

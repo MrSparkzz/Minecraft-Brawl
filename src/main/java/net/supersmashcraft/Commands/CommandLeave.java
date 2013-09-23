@@ -17,7 +17,7 @@ public class CommandLeave extends SSCCommand {
       if (PlayerManager.playerInArena(p)) {
          Arena a = PlayerManager.getPlayerArena(p);
          Msg.msg(p, "You have left the arena " + a.getName() + "!");
-         a.getManager().getPlayerManager().stopPlayer(p);
+         a.getPlayerManager().stopPlayer(a.getPlayerManager().getPlayer(p));
       } else {
          Msg.warning(p, "You are not in an Arena!");
       }

@@ -17,7 +17,7 @@ public class SignManager {
       }
       man.getConfig().set("Arenas." + a.getName() + ".Signs." + size + ".Type", type.name());
       man.getConfig().set("Arenas." + a.getName() + ".Signs." + size + ".Loc",
-               LocationUtils.fromLocation(b.getLocation(), true));
+               LocationUtils.fromLocation(b.getLocation(), true, false));
       man.saveConfig();
    }
    

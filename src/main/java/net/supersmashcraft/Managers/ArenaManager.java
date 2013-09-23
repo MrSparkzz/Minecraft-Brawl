@@ -59,10 +59,15 @@ public class ArenaManager {
       return started;
    }
    
+   public void start(){
+      started = true;
+   }
+   
    public void stop() {
       for(PlayerData data : man.getArenaPlayers()){
-         man.stopPlayer(data.getPlayer());
+         man.stopPlayer(data);
       }
+      started = false;
    }
    
 }

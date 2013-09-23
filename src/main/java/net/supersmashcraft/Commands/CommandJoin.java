@@ -32,6 +32,7 @@ public class CommandJoin extends SSCCommand {
          IconMenu menu = new IconMenu("Pick your class!", (ClassManager.classAmount() / 9) + 1, new onClick() {
             @Override
             public boolean click(Player clicker, IconMenu menu, Row row, int slot, ItemStack item) {
+               p.sendMessage("You choose " + item.getItemMeta().getDisplayName());
                a.getManager().getPlayerManager()
                         .startPlayer(p, a, ClassManager.getRegisteredClass(item.getItemMeta().getDisplayName()));
                return false;

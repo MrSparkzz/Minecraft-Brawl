@@ -50,12 +50,12 @@ public class PlayerManager {
       p.teleport(a.getLobbyLocation());
    }
    
-   public void stopPlayer(Player p) {
-      getPlayer(p).resetData();
+   public void stopPlayer(PlayerData p) {
+      p.resetData();
       
-      p.setFallDistance(0);
-      p.teleport(getPlayerArena(p).getStop());
-      players.remove(getPlayer(p));
+      p.getPlayer().setFallDistance(0);
+      p.getPlayer().teleport(p.a.getStop());
+      players.remove(p);
    }
    
    public boolean hasPlayer(Player p) {
@@ -135,7 +135,10 @@ public class PlayerManager {
       }
       
       public void removeLife() {
-         
+         Player p = getPlayer();
+         lives--;
+         p.setHealth(p.getMaxHealth());
+         p.teleport(a.getRandomSpawn());
       }
       
       public Player getPlayer() {

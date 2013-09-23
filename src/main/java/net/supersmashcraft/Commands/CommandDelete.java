@@ -21,7 +21,7 @@ public class CommandDelete extends SSCCommand {
          Arena a = ArenaManager.getArena(args[0]);
          for (PlayerData data : a.getManager().getPlayerManager().getArenaPlayers()) {
             Player player = Bukkit.getPlayer(data.name);
-            a.getManager().getPlayerManager().stopPlayer(p);
+            a.getManager().getPlayerManager().stopPlayer(data);
             Msg.msg(player, "Your arena has been disabled!");
          }
          ArenaManager.deleteArena(a);

@@ -3,6 +3,8 @@ package net.supersmashcraft.Classes;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.supersmashcraft.Abilities.SSCAbility;
+
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -53,6 +55,34 @@ public class SSCClass {
    
    public void onPlayerDespawn(Player p) {
       
+   }
+   
+   private List<SSCAbility> abilities = new ArrayList<SSCAbility>();
+   
+   public void addAbility(SSCAbility a) {
+      abilities.add(a);
+   }
+   
+   public List<SSCAbility> getAbilities() {
+      return abilities;
+   }
+   
+   public boolean hasAbility(String name){
+      for(SSCAbility a : abilities){
+         if(a.name().equalsIgnoreCase(name)){
+            return true;
+         }
+      }
+      return false;
+   }
+   
+   public SSCAbility getAbility(String name){
+      for(SSCAbility a : abilities){
+         if(a.name().equalsIgnoreCase(name)){
+            return a;
+         }
+      }
+      return null;
    }
    
    public void setupPlayer(final Player p) {

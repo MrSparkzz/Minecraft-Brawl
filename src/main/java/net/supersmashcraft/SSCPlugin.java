@@ -10,7 +10,6 @@ import net.supersmashcraft.Classes.ClassFox;
 import net.supersmashcraft.Classes.ClassKirby;
 import net.supersmashcraft.Classes.ClassLink;
 import net.supersmashcraft.Classes.ClassLuigi;
-import net.supersmashcraft.Classes.ClassMario;
 import net.supersmashcraft.Classes.ClassRoy;
 import net.supersmashcraft.Commands.CommandCreation;
 import net.supersmashcraft.Commands.CommandDelete;
@@ -55,7 +54,6 @@ public class SSCPlugin extends JavaPlugin {
       ClassManager.registerClass(new ClassKirby());
       ClassManager.registerClass(new ClassBowser());
       ClassManager.registerClass(new ClassRoy());
-      ClassManager.registerClass(new ClassMario());
       ClassManager.registerClass(new ClassFox());
       ClassManager.registerClass(new ClassLink());
       ClassManager.registerClass(new ClassLuigi());
@@ -76,7 +74,15 @@ public class SSCPlugin extends JavaPlugin {
       cMan.addDefault("Default_Lives", 5);
       cMan.saveConfig();
       
+      loadClass("Mario");
+      
+      ClassManager.loadClasses();
+      
       log.info("[SuperSmashCraft] v" + this.getDescription().getVersion() + " enabled.");
+   }
+   
+   private void loadClass(String name) {
+      saveResource("Classes/" + name + ".yml", false);
    }
    
    @Override

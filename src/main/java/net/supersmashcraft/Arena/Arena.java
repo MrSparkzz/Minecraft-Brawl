@@ -3,8 +3,10 @@ package net.supersmashcraft.Arena;
 import java.util.Random;
 
 import net.supersmashcraft.SSCPlugin;
+import net.supersmashcraft.Classes.SSCClass;
 import net.supersmashcraft.Managers.ArenaManager;
 import net.supersmashcraft.Managers.CreationManager.Reward;
+import net.supersmashcraft.Managers.PlayerManager;
 import net.supersmashcraft.Managers.PlayerManager.PlayerData;
 
 import org.bukkit.Bukkit;
@@ -69,7 +71,7 @@ public class Arena {
       maxLoc = new Location(l1.getWorld(), maxX, maxY, maxZ);
       
       checker = new ArenaChecker();
-      checker.runTaskTimer(SSCPlugin.instance, 0, 5);
+      checker.runTaskTimer(SSCPlugin.instance, 0, 25);
    }
    
    public String getName() {
@@ -112,27 +114,34 @@ public class Arena {
       return man;
    }
    
+   public PlayerManager getPlayerManager(){
+      return man.getPlayerManager();
+   }
+   
    private class ArenaChecker extends BukkitRunnable {
       
       @Override
       public void run() {
          if (!man.hasStarted()) {
-            if (man.getPlayerManager().getArenaPlayers().size() > 1) {
+            if (man.getPlayerManager().getArenaPlayers().size() > 0) {
                // Start
                for (PlayerData data : man.getPlayerManager().getArenaPlayers()) {
                   Player p = data.getPlayer();
-                  data.c.setupPlayer(p);
+                  SSCClass c = data.c;
+                  c.setupPlayer(p);
                   p.teleport(getRandomSpawn());
-                  p.sendMessage("Starting!");
                }
+               man.start();
             }
             return;
          }
-         if (man.getPlayerManager().getArenaPlayers().size() == 1) {
+         if (man.getPlayerManager().getArenaPlayers().size() <= 1) {
             // Finished
-            Player p = man.getPlayerManager().getArenaPlayers().get(0).getPlayer();
-            man.getPlayerManager().stopPlayer(p);
-            p.sendMessage("You won!");
+            if(getPlayerManager().getArenaPlayers().size() == 1){
+               Player p = man.getPlayerManager().getArenaPlayers().get(0).getPlayer();
+               p.sendMessage("You won!");
+            }
+            man.stop();
          }
          Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
          Objective objective = board.registerNewObjective("test", "dummy");

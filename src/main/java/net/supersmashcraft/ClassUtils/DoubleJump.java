@@ -3,6 +3,7 @@ package net.supersmashcraft.ClassUtils;
 import java.util.HashMap;
 
 import net.supersmashcraft.SSCPlugin;
+import net.supersmashcraft.Abilities.AbilityFloat;
 import net.supersmashcraft.Arena.Arena;
 import net.supersmashcraft.Managers.PlayerManager;
 import net.supersmashcraft.Managers.PlayerManager.PlayerData;
@@ -40,7 +41,7 @@ public class DoubleJump implements Listener {
                Location l = player.getLocation().subtract(0, 1, 0);
                if (!l.getBlock().getType().equals(Material.AIR)) {
                   player.setAllowFlight(true);
-                  if (data.c.name() != "Kirby")
+                  if (data.c.hasAbility("Float"))
                      return;
                   if (!kirby.containsKey(player.getName())) {
                      kirby.put(player.getName(), 0);
@@ -64,19 +65,18 @@ public class DoubleJump implements Listener {
       if (event.isFlying()) {
          player.setAllowFlight(false);
          event.setCancelled(true);
+         Arena a = PlayerManager.getPlayerArena(player);
          if (kirby.containsKey(player.getName())) {
-            int jump = kirby.get(player.getName());
-            if (jump < 3) {
+            int j = kirby.get(player.getName());
+            if (j < ((AbilityFloat) a.getPlayerManager().getPlayer(player).c.getAbility("Float")).getFloatTimes()) {
                kirby.remove(player.getName());
-               kirby.put(player.getName(), jump + 1);
+               kirby.put(player.getName(), j + 1);
                player.setAllowFlight(true);
             } else {
                kirby.remove(player.getName());
                return;
             }
          }
-         
-         Arena a = PlayerManager.getPlayerArena(player);
          
          final double pitch = Math.toRadians(player.getLocation().getPitch());
          final double yaw = Math.toRadians(player.getLocation().getYaw());

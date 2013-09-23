@@ -5,10 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.supersmashcraft.Arena.Arena;
+import net.supersmashcraft.ClassUtils.LocationUtils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -48,26 +47,6 @@ public class CreationManager {
       return man.getConfig().getString(path);
    }
    
-   public static String fromLocation(Location l, boolean block) {
-      String world = l.getWorld().getName();
-      double x = l.getX();
-      double y = l.getY();
-      double z = l.getZ();
-      
-      if (block) {
-         x = l.getBlockX();
-         y = l.getBlockY();
-         z = l.getBlockZ();
-      } else {
-         x = l.getX();
-         y = l.getY();
-         z = l.getZ();
-      }
-      
-      String f = world + ";" + x + ";" + y + ";" + z;
-      return f;
-   }
-   
    public static class Reward {
       private RewardType type;
       private ItemStack reward;
@@ -99,18 +78,8 @@ public class CreationManager {
       }
    }
    
-   public static Location toLocation(String s) {
-      String[] fi = s.split(";");
-      World w = Bukkit.getWorld(fi[0]);
-      double x = Double.parseDouble(fi[1]);
-      double y = Double.parseDouble(fi[2]);
-      double z = Double.parseDouble(fi[3]);
-      
-      return new Location(w, x, y, z);
-   }
-   
    private static Location getFromPath(String path) {
-      return toLocation(c(path, new FileManager("Arenas")));
+      return LocationUtils.toLocation(c(path, new FileManager("Arenas")));
    }
    
    public static class DataHolder {
@@ -128,18 +97,18 @@ public class CreationManager {
          c.set("Arenas." + name + ".Name", name);
          c.set("Arenas." + name + ".Name", name);
          man.setReward("Arenas." + name + ".Reward", reward);
-         lTC("Arenas." + name + ".l1", l1, c, true);
-         lTC("Arenas." + name + ".l2", l2, c, true);
-         lTC("Arenas." + name + ".lobby", lobby, c, true);
+         lTC("Arenas." + name + ".l1", l1, c, true, false);
+         lTC("Arenas." + name + ".l2", l2, c, true, true);
+         lTC("Arenas." + name + ".lobby", lobby, c, true, true);
          for (int i = 0; i < spawns.size(); i++) {
-            lTC("Arenas." + name + ".Spawns." + i, spawns.get(i), c, false);
+            lTC("Arenas." + name + ".Spawns." + i, spawns.get(i), c, false, true);
          }
-         lTC("Arenas." + name + ".EndPoint", end, c, false);
+         lTC("Arenas." + name + ".EndPoint", end, c, false, true);
          man.saveConfig();
       }
       
-      private void lTC(String path, Location l, FileConfiguration c, boolean block) {
-         c.set(path, CreationManager.fromLocation(l, block));
+      private void lTC(String path, Location l, FileConfiguration c, boolean block, boolean by) {
+         c.set(path, LocationUtils.fromLocation(l, block, by));
       }
       
       public String check() {
