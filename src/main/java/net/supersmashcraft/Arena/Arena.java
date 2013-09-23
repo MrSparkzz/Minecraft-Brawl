@@ -123,7 +123,7 @@ public class Arena {
       @Override
       public void run() {
          if (!man.hasStarted()) {
-            if (man.getPlayerManager().getArenaPlayers().size() > 0) {
+            if (man.getPlayerManager().getArenaPlayers().size() > 1) {
                // Start
                for (PlayerData data : man.getPlayerManager().getArenaPlayers()) {
                   Player p = data.getPlayer();
