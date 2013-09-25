@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>Super-Smash-Bros</groupId>
-	<artifactId>Super-Smash-Bros</artifactId>
+	<groupId>Minecraft-Brawl</groupId>
+	<artifactId>Minecraft-Brawl</artifactId>
 	<version>0.0.4(dev)</version>
-	<name>Super Smash Bros</name>
-	<description>Super Smash Bros - Bukkit Plugin</description>
+	<name>Minecraft-Brawl</name>
+	<description>Minecraft Brawl - Bukkit Plugin</description>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<finalName>SuperSmashCraft-${project.version}-b${BUILD_NUMBER}</finalName>
