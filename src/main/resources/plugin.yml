@@ -1,11 +1,11 @@
-name: Super Smash Bros
-main: net.supersmashcraft.SSCPlugin
+name: Minecraft Brawl
+main: org.infernogames.mb.MBPlugin
 description: Super Smash Plugin
 author: Ultimate
 version: ${project.version}-b${BUILD_NUMBER}
-website: http://supersmashcraft.net
+website: http://mb.infernogames.org
 
 commands:
-   ssc:
-      description: The main Super Smash Craft command
+   mb:
+      description: The main Minecraft Brawl command
       usage: /<command> [args]

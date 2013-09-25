@@ -9,7 +9,7 @@
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<finalName>SuperSmashCraft-${project.version}-b${BUILD_NUMBER}</finalName>
-		<defaultGoal>clean install</defaultGoal>
+		<defaultGoal>install</defaultGoal>
 		<resources>
 			<resource>
 				<targetPath>.</targetPath>
