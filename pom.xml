@@ -8,7 +8,7 @@
 	<description>Minecraft Brawl - Bukkit Plugin</description>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
-		<finalName>SuperSmashCraft-${project.version}-b${BUILD_NUMBER}</finalName>
+		<finalName>Minecraft_Brawl-${project.version}-b${BUILD_NUMBER}</finalName>
 		<defaultGoal>install</defaultGoal>
 		<resources>
 			<resource>
