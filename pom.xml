@@ -8,7 +8,7 @@
 	<description>Minecraft Brawl - Bukkit Plugin</description>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
-		<finalName>Minecraft_Brawl-${project.version}-b${BUILD_NUMBER}</finalName>
+		<finalName>MinecraftBrawl-${project.version}-b${BUILD_NUMBER}</finalName>
 		<defaultGoal>clean install</defaultGoal>
 		<resources>
 			<resource>
