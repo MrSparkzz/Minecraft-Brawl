@@ -68,7 +68,7 @@ public class MBClass {
    
    public boolean hasAbility(String name){
       for(MBAbility a : abilities){
-         if(a.name().equalsIgnoreCase(name)){
+         if(a != null && a.name().equalsIgnoreCase(name)){
             return true;
          }
       }

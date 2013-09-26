@@ -1,5 +1,7 @@
 package org.infernogames.mb.Arena;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -8,8 +10,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
-import org.infernogames.mb.MBPlugin;
 import org.infernogames.mb.MBClass;
+import org.infernogames.mb.MBPlugin;
 import org.infernogames.mb.Arena.ArenaRegion.WarpType;
 import org.infernogames.mb.Managers.ArenaManager;
 import org.infernogames.mb.Managers.CreationManager.Reward;
@@ -25,6 +27,8 @@ public class Arena {
    private ArenaManager man;
    private ArenaChecker checker;
    private ArenaRegion region;
+   
+   private int arenaPlayers = 0;
    
    private Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
    private Objective ob = board.registerNewObjective("test", "dummy");
@@ -65,11 +69,11 @@ public class Arena {
    }
    
    private class ArenaChecker extends BukkitRunnable {
-      
       @Override
       public void run() {
+         arenaPlayers = getPlayerManager().getArenaPlayers().size();
          if (!man.hasStarted()) {
-            if (man.getPlayerManager().getArenaPlayers().size() >= 1) {
+            if (arenaPlayers >= 1) {
                // Start
                for (PlayerData data : man.getPlayerManager().getArenaPlayers()) {
                   Player p = data.getPlayer();
@@ -82,9 +86,9 @@ public class Arena {
             }
             return;
          }
-         if (man.getPlayerManager().getArenaPlayers().size() <= 0) {
+         if (arenaPlayers <= 0) {
             // Finished
-            if (getPlayerManager().getArenaPlayers().size() == 1) {
+            if (arenaPlayers == 1) {
                Player p = man.getPlayerManager().getArenaPlayers().get(0).getPlayer();
                switch (reward.getType()) {
                case Cash:
@@ -105,18 +109,20 @@ public class Arena {
             }
             man.stop();
          }
-         for (PlayerData data : man.getPlayerManager().getArenaPlayers()) {
+         List<PlayerData> players = getPlayerManager().getArenaPlayers();
+         while (players.iterator().hasNext()) {
+            PlayerData data = players.iterator().next();
             Player p = Bukkit.getPlayer(data.name);
             if (p.getScoreboard() != board) {
                p.setScoreboard(board);
             }
             if (data.lives < 1) {
                board.resetScores(p);
+               getPlayerManager().stopPlayer(data);
+               man.stop();
             } else {
                // Player is dead
                ob.getScore(p).setScore(data.lives);
-               getPlayerManager().stopPlayer(data);
-               man.stop();
             }
          }
       }

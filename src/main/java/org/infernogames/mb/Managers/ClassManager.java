@@ -40,8 +40,8 @@ public class ClassManager {
             FileConfiguration c = YamlConfiguration.loadConfiguration(fi);
             Bukkit.getLogger().info("Loaded class: " + c.getString("Name", "Class"));
             @SuppressWarnings("deprecation")
-            MBClass cl = new MBClass(c.getString("Name", "Class"),
-                     c.getString("Description", "Some Description"), Material.getMaterial(c.getInt("Icon", 1)));
+            MBClass cl = new MBClass(c.getString("Name", "Class"), c.getString("Description", "Some Description"),
+                     Material.getMaterial(c.getInt("Icon", 1)));
             cl.addItem(ItemHandler.fromString(c.getString("Armor.Helmet", "type=0")));
             cl.addItem(ItemHandler.fromString(c.getString("Armor.Chestplate", "type=0")));
             cl.addItem(ItemHandler.fromString(c.getString("Armor.Leggings", "type=0")));
@@ -52,7 +52,7 @@ public class ClassManager {
                cl.addItem(i);
             }
             if (c.isSet("Abilities")) {
-               for (String s : c.getConfigurationSection("Abilities").getKeys(false)) {
+               for (Object s : c.getList("Abilities")) {
                   String path = "Abilities." + s;
                   try {
                      cl.addAbility(AbilityManager.getAbility(c.getString(path)));

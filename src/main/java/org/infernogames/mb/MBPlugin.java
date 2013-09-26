@@ -36,22 +36,19 @@ public class MBPlugin extends JavaPlugin {
    public Logger log;
    
    @Override
-   public void onLoad(){
+   public void onEnable() {
       FileManager.dataFolder = getDataFolder();
       instance = this;
       log = Bukkit.getServer().getLogger();
-   }
-   
-   @Override
-   public void onEnable() {      
-      getCommand("ssc").setExecutor(new MainCommand());
+      
+      getCommand("mb").setExecutor(new MainCommand());
       
       MainCommand.registerCommand(new CommandJoin());
       MainCommand.registerCommand(new CommandCreation());
       MainCommand.registerCommand(new CommandLeave());
       MainCommand.registerCommand(new CommandDelete());
       MainCommand.registerCommand(new CommandModify());
-
+      
       AbilityManager.registerAbility(new AbilityFireball());
       AbilityManager.registerAbility(new AbilityFlash());
       AbilityManager.registerAbility(new AbilityFloat());

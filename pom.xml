@@ -9,7 +9,7 @@
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<finalName>Minecraft_Brawl-${project.version}-b${BUILD_NUMBER}</finalName>
-		<defaultGoal>install</defaultGoal>
+		<defaultGoal>clean install</defaultGoal>
 		<resources>
 			<resource>
 				<targetPath>.</targetPath>
