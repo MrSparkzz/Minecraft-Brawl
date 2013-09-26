@@ -1,4 +1,4 @@
-Super Smash Bros
+Minecraft Brawl
 ================
 
-Super Smash Bros plugin for Bukkit
+Brawling plugin for Bukkit
