@@ -9,13 +9,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.infernogames.mb.MBPlugin;
 
-public class AbilityFireball extends SSCAbility {
+public class AbilityFireball extends MBAbility {
    
-   private long ticks;
+   private long ticks = 15;
    
-   public AbilityFireball(long ticks) {
+   public AbilityFireball() {
       super("Fireball");
-      this.ticks = ticks;
    }
    
    List<String> cooldown = new ArrayList<String>();

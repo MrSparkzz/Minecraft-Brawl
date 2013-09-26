@@ -40,7 +40,7 @@ public class ArenaRegion {
       }
    }
    
-   public boolean contains(Location l){
+   public boolean contains(Location l) {
       return l.toVector().isInAABB(l2.toVector(), l1.toVector());
    }
    
@@ -58,8 +58,8 @@ public class ArenaRegion {
       return l2;
    }
    
-   public Location getWarp(WarpType type ){
-      switch(type){
+   public Location getWarp(WarpType type) {
+      switch (type) {
       case LOBBY:
          return lobby;
       case SPAWN:
@@ -68,9 +68,10 @@ public class ArenaRegion {
          return stop;
       default:
          return null;
-      
+         
       }
    }
+   
    public enum WarpType {
       LOBBY, STOP, SPAWN
    }

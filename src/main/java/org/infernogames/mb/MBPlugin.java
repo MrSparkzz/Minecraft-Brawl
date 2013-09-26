@@ -7,19 +7,17 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.infernogames.mb.Abilities.AbilityFireball;
+import org.infernogames.mb.Abilities.AbilityFlash;
+import org.infernogames.mb.Abilities.AbilityFloat;
 import org.infernogames.mb.Arena.ArenaListener;
-import org.infernogames.mb.Classes.ClassBowser;
-import org.infernogames.mb.Classes.ClassFox;
-import org.infernogames.mb.Classes.ClassKirby;
-import org.infernogames.mb.Classes.ClassLink;
-import org.infernogames.mb.Classes.ClassLuigi;
-import org.infernogames.mb.Classes.ClassRoy;
 import org.infernogames.mb.Commands.CommandCreation;
 import org.infernogames.mb.Commands.CommandDelete;
 import org.infernogames.mb.Commands.CommandJoin;
 import org.infernogames.mb.Commands.CommandLeave;
 import org.infernogames.mb.Commands.CommandModify;
 import org.infernogames.mb.Commands.MainCommand;
+import org.infernogames.mb.Managers.AbilityManager;
 import org.infernogames.mb.Managers.ArenaManager;
 import org.infernogames.mb.Managers.ClassManager;
 import org.infernogames.mb.Managers.CreationManager;
@@ -38,24 +36,25 @@ public class MBPlugin extends JavaPlugin {
    public Logger log;
    
    @Override
-   public void onEnable() {
+   public void onLoad(){
       FileManager.dataFolder = getDataFolder();
       instance = this;
       log = Bukkit.getServer().getLogger();
-      
+   }
+   
+   @Override
+   public void onEnable() {      
       getCommand("ssc").setExecutor(new MainCommand());
+      
       MainCommand.registerCommand(new CommandJoin());
       MainCommand.registerCommand(new CommandCreation());
       MainCommand.registerCommand(new CommandLeave());
       MainCommand.registerCommand(new CommandDelete());
       MainCommand.registerCommand(new CommandModify());
-      
-      ClassManager.registerClass(new ClassKirby());
-      ClassManager.registerClass(new ClassBowser());
-      ClassManager.registerClass(new ClassRoy());
-      ClassManager.registerClass(new ClassFox());
-      ClassManager.registerClass(new ClassLink());
-      ClassManager.registerClass(new ClassLuigi());
+
+      AbilityManager.registerAbility(new AbilityFireball());
+      AbilityManager.registerAbility(new AbilityFlash());
+      AbilityManager.registerAbility(new AbilityFloat());
       
       registerListener(new DoubleJump());
       registerListener(new ArenaListener());

@@ -9,7 +9,7 @@ import org.infernogames.mb.Managers.FileManager;
 import org.infernogames.mb.Managers.PlayerManager.PlayerData;
 import org.infernogames.mb.Utils.Msg;
 
-public class CommandDelete extends SSCCommand {
+public class CommandDelete extends MBCommand {
    
    public CommandDelete() {
       super("delete", "ssc.arena.delete", 1);

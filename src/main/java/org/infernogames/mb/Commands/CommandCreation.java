@@ -8,7 +8,7 @@ import org.infernogames.mb.Managers.CreationManager.Reward;
 import org.infernogames.mb.Managers.CreationManager.Reward.RewardType;
 import org.infernogames.mb.Utils.Msg;
 
-public class CommandCreation extends SSCCommand {
+public class CommandCreation extends MBCommand {
    
    public CommandCreation() {
       super("creation", "ssc.arena.creation", -1);

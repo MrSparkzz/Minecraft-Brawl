@@ -1,4 +1,4 @@
-package org.infernogames.mb;
+package org.infernogames.mb.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +15,7 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.infernogames.mb.MBPlugin;
 
 public class IconMenu implements Listener {
    

@@ -4,13 +4,13 @@ package org.infernogames.mb.Commands;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.infernogames.mb.IconMenu;
-import org.infernogames.mb.IconMenu.Row;
-import org.infernogames.mb.IconMenu.onClick;
+import org.infernogames.mb.MBClass;
 import org.infernogames.mb.Arena.Arena;
-import org.infernogames.mb.Classes.SSCClass;
 import org.infernogames.mb.Managers.ArenaManager;
 import org.infernogames.mb.Managers.ClassManager;
+import org.infernogames.mb.Utils.IconMenu;
+import org.infernogames.mb.Utils.IconMenu.Row;
+import org.infernogames.mb.Utils.IconMenu.onClick;
 import org.infernogames.mb.Utils.Msg;
 
 /**
@@ -18,7 +18,7 @@ import org.infernogames.mb.Utils.Msg;
  * @author Paul, Breezeyboy, Max_The_Link_Fan
  * 
  */
-public class CommandJoin extends SSCCommand {
+public class CommandJoin extends MBCommand {
    
    public CommandJoin() {
       super("join", "scb.arena.join", 1);
@@ -38,7 +38,7 @@ public class CommandJoin extends SSCCommand {
                return false;
             }
          });
-         for (SSCClass c : ClassManager.getClasses()) {
+         for (MBClass c : ClassManager.getClasses()) {
             menu.addDynamicButton(new ItemStack(c.icon()), ChatColor.GREEN + c.name(), c.desc());
          }
          menu.open(p);

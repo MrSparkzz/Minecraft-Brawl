@@ -1,4 +1,4 @@
-package org.infernogames.mb.Classes;
+package org.infernogames.mb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.infernogames.mb.Abilities.SSCAbility;
+import org.infernogames.mb.Abilities.MBAbility;
 
-public class SSCClass {
+public class MBClass {
    
    private List<ItemStack> items = new ArrayList<ItemStack>();
    protected String name;
@@ -25,11 +25,11 @@ public class SSCClass {
             Material.GOLD_CHESTPLATE, Material.GOLD_HELMET, Material.DIAMOND_BOOTS, Material.DIAMOND_LEGGINGS,
             Material.DIAMOND_CHESTPLATE, Material.DIAMOND_HELMET };
    
-   public SSCClass(final String name, final String desc, final Material icon) {
+   public MBClass(final String name, final String desc, final Material icon) {
       this(name, desc, icon, 0);
    }
    
-   public SSCClass(final String name, final String desc, final Material icon, int data) {
+   public MBClass(final String name, final String desc, final Material icon, int data) {
       this.name = name;
       this.desc = desc;
       this.icon = icon;
@@ -56,18 +56,18 @@ public class SSCClass {
       
    }
    
-   private List<SSCAbility> abilities = new ArrayList<SSCAbility>();
+   private List<MBAbility> abilities = new ArrayList<MBAbility>();
    
-   public void addAbility(SSCAbility a) {
+   public void addAbility(MBAbility a) {
       abilities.add(a);
    }
    
-   public List<SSCAbility> getAbilities() {
+   public List<MBAbility> getAbilities() {
       return abilities;
    }
    
    public boolean hasAbility(String name){
-      for(SSCAbility a : abilities){
+      for(MBAbility a : abilities){
          if(a.name().equalsIgnoreCase(name)){
             return true;
          }
@@ -75,8 +75,8 @@ public class SSCClass {
       return false;
    }
    
-   public SSCAbility getAbility(String name){
-      for(SSCAbility a : abilities){
+   public MBAbility getAbility(String name){
+      for(MBAbility a : abilities){
          if(a.name().equalsIgnoreCase(name)){
             return a;
          }

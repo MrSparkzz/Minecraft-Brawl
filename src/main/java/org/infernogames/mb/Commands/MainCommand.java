@@ -11,7 +11,7 @@ import org.infernogames.mb.Utils.Msg;
 
 public class MainCommand implements CommandExecutor {
    
-   private static List<SSCCommand> commands = new ArrayList<SSCCommand>();
+   private static List<MBCommand> commands = new ArrayList<MBCommand>();
    
    @Override
    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -23,9 +23,9 @@ public class MainCommand implements CommandExecutor {
             sender.sendMessage("Sorry! These commands are player only for now.");
             return true;
          }
-         SSCCommand cmd = null;
+         MBCommand cmd = null;
          Player p = (Player) sender;
-         for (SSCCommand c : commands) {
+         for (MBCommand c : commands) {
             if (c.getCommand().equalsIgnoreCase(args[0])) {
                if (c.getArgumentLength() == -1 || c.getArgumentLength() == args.length - 1) {
                   if (p.hasPermission(c.getPermission())) {
@@ -54,7 +54,7 @@ public class MainCommand implements CommandExecutor {
       return true;
    }
    
-   public static void registerCommand(SSCCommand cmd) {
+   public static void registerCommand(MBCommand cmd) {
       commands.add(cmd);
    }
    

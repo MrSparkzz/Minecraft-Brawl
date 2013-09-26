@@ -3,11 +3,11 @@ package org.infernogames.mb.Abilities;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 
-public class SSCAbility {
+public class MBAbility {
    
    private String name;
    
-   public SSCAbility(String name) {
+   public MBAbility(String name) {
       this.name = name;
    }
    

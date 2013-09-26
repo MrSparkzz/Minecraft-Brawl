@@ -8,9 +8,9 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Scoreboard;
+import org.infernogames.mb.MBClass;
 import org.infernogames.mb.Arena.Arena;
 import org.infernogames.mb.Arena.ArenaRegion.WarpType;
-import org.infernogames.mb.Classes.SSCClass;
 import org.infernogames.mb.Managers.DeathManager.DeathCause;
 import org.infernogames.mb.Utils.Msg;
 
@@ -44,7 +44,7 @@ public class PlayerManager {
    
    private List<PlayerData> players = new ArrayList<PlayerData>();
    
-   public void startPlayer(Player p, Arena a, SSCClass c) {
+   public void startPlayer(Player p, Arena a, MBClass c) {
       players.add(new PlayerData(p, a, c));
       p.getInventory().clear();
       p.setGameMode(GameMode.ADVENTURE);
@@ -103,10 +103,10 @@ public class PlayerManager {
       private Scoreboard b = Bukkit.getScoreboardManager().getNewScoreboard();
       
       public Arena a;
-      public SSCClass c;
+      public MBClass c;
       public int lives;
       
-      public PlayerData(Player p, Arena a, SSCClass c) {
+      public PlayerData(Player p, Arena a, MBClass c) {
          name = p.getName();
          
          inventory = p.getInventory().getContents();

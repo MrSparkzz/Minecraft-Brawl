@@ -8,7 +8,7 @@ import org.infernogames.mb.Managers.FileManager;
 import org.infernogames.mb.Utils.LocationUtils;
 import org.infernogames.mb.Utils.Msg;
 
-public class CommandModify extends SSCCommand {
+public class CommandModify extends MBCommand {
    
    public CommandModify() {
       super("modify", "ssc.arena.modify", -1);

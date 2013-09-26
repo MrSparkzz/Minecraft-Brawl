@@ -12,13 +12,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.infernogames.mb.ItemHandler;
-import org.infernogames.mb.Classes.SSCClass;
+import org.infernogames.mb.MBClass;
 
 public class ClassManager {
    
-   private static List<SSCClass> classes = new ArrayList<SSCClass>();
+   private static List<MBClass> classes = new ArrayList<MBClass>();
    
-   public static void registerClass(SSCClass c) {
+   public static void registerClass(MBClass c) {
       classes.add(c);
    }
    
@@ -26,7 +26,7 @@ public class ClassManager {
       return classes.size();
    }
    
-   public static List<SSCClass> getClasses() {
+   public static List<MBClass> getClasses() {
       return classes;
    }
    
@@ -38,9 +38,9 @@ public class ClassManager {
       for (File fi : file.listFiles()) {
          if (fi.getName().toLowerCase().contains(".yml")) {
             FileConfiguration c = YamlConfiguration.loadConfiguration(fi);
-            Bukkit.getLogger().info("Loaded class: " + c.getString("Name"));
+            Bukkit.getLogger().info("Loaded class: " + c.getString("Name", "Class"));
             @SuppressWarnings("deprecation")
-            SSCClass cl = new SSCClass(c.getString("Name", "Class"),
+            MBClass cl = new MBClass(c.getString("Name", "Class"),
                      c.getString("Description", "Some Description"), Material.getMaterial(c.getInt("Icon", 1)));
             cl.addItem(ItemHandler.fromString(c.getString("Armor.Helmet", "type=0")));
             cl.addItem(ItemHandler.fromString(c.getString("Armor.Chestplate", "type=0")));
@@ -51,13 +51,24 @@ public class ClassManager {
                i.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
                cl.addItem(i);
             }
+            if (c.isSet("Abilities")) {
+               for (String s : c.getConfigurationSection("Abilities").getKeys(false)) {
+                  String path = "Abilities." + s;
+                  try {
+                     cl.addAbility(AbilityManager.getAbility(c.getString(path)));
+                  } catch (NullPointerException e) {
+                     Bukkit.getLogger().severe(
+                              "Invalid ability " + c.getString(path) + " for " + c.getString("Name", "Class"));
+                  }
+               }
+            }
             registerClass(cl);
          }
       }
    }
    
    public static boolean classExists(String name) {
-      for (SSCClass c : classes) {
+      for (MBClass c : classes) {
          if (c.name().equalsIgnoreCase(name)) {
             return true;
          }
@@ -65,8 +76,8 @@ public class ClassManager {
       return false;
    }
    
-   public static SSCClass getRegisteredClass(String name) {
-      for (SSCClass c : classes) {
+   public static MBClass getRegisteredClass(String name) {
+      for (MBClass c : classes) {
          if (c.name().equalsIgnoreCase(ChatColor.stripColor(name))) {
             return c;
          }

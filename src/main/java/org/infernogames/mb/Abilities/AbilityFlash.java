@@ -10,17 +10,14 @@ import org.bukkit.event.block.Action;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.infernogames.mb.MBPlugin;
 
-public class AbilityFlash extends SSCAbility {
+public class AbilityFlash extends MBAbility {
    
-   Material m;
-   long cooldown;
-   int distance;
+   Material m = Material.PORTAL;
+   long cooldown = 40;
+   int distance = 6;
    
-   public AbilityFlash(Material m, long cooldown, int distance) {
+   public AbilityFlash() {
       super("Flash");
-      this.m = m;
-      this.cooldown = cooldown;
-      this.distance = distance;
    }
    
    List<String> cooldowns = new ArrayList<String>();

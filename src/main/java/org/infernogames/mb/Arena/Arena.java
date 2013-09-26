@@ -9,8 +9,8 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.infernogames.mb.MBPlugin;
+import org.infernogames.mb.MBClass;
 import org.infernogames.mb.Arena.ArenaRegion.WarpType;
-import org.infernogames.mb.Classes.SSCClass;
 import org.infernogames.mb.Managers.ArenaManager;
 import org.infernogames.mb.Managers.CreationManager.Reward;
 import org.infernogames.mb.Managers.EcoManager;
@@ -73,7 +73,7 @@ public class Arena {
                // Start
                for (PlayerData data : man.getPlayerManager().getArenaPlayers()) {
                   Player p = data.getPlayer();
-                  SSCClass c = data.c;
+                  MBClass c = data.c;
                   c.setupPlayer(p);
                   p.teleport(region.getWarp(WarpType.SPAWN));
                   p.sendMessage("Starting!");

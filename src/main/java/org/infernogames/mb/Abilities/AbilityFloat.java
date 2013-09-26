@@ -1,11 +1,10 @@
 package org.infernogames.mb.Abilities;
 
-public class AbilityFloat extends SSCAbility {
-   private int floatTimes;
+public class AbilityFloat extends MBAbility {
+   private int floatTimes = 4;
    
-   public AbilityFloat(int floatTimes) {
+   public AbilityFloat() {
       super("Float");
-      this.floatTimes = floatTimes;
    }
    
    public int getFloatTimes() {
