@@ -7,7 +7,7 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.infernogames.mb.Reward;
 import org.infernogames.mb.Arena.Arena;
 import org.infernogames.mb.Utils.LocationUtils;
 
@@ -46,37 +46,6 @@ public class CreationManager {
       return man.getConfig().getString(path);
    }
    
-   public static class Reward {
-      private RewardType type;
-      private ItemStack reward;
-      private int cash;
-      
-      public Reward(RewardType type, Object reward) {
-         this.type = type;
-         if (reward instanceof ItemStack) {
-            this.reward = (ItemStack) reward;
-         } else {
-            cash = Integer.parseInt(reward.toString());
-         }
-      }
-      
-      public RewardType getType() {
-         return this.type;
-      }
-      
-      public ItemStack getReward() {
-         return this.reward;
-      }
-      
-      public int getCash() {
-         return this.cash;
-      }
-      
-      public enum RewardType {
-         Cash, Item
-      }
-   }
-   
    private static Location getFromPath(String path) {
       return LocationUtils.toLocation(c(path, new FileManager("Arenas")));
    }
@@ -106,8 +75,8 @@ public class CreationManager {
          man.saveConfig();
       }
       
-      private void lTC(String path, Location l, FileConfiguration c, boolean block, boolean by) {
-         c.set(path, LocationUtils.fromLocation(l, block, by));
+      private void lTC(String path, Location l, FileConfiguration c, boolean block, boolean py) {
+         c.set(path, LocationUtils.fromLocation(l, block, py));
       }
       
       public String check() {

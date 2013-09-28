@@ -1,7 +1,7 @@
 package org.infernogames.mb.Commands;
 
-
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.infernogames.mb.MBClass;
@@ -32,9 +32,11 @@ public class CommandJoin extends MBCommand {
          IconMenu menu = new IconMenu("Pick your class!", (ClassManager.classAmount() / 9) + 1, new onClick() {
             @Override
             public boolean click(Player clicker, IconMenu menu, Row row, int slot, ItemStack item) {
-               p.sendMessage("You choose " + item.getItemMeta().getDisplayName());
-               a.getManager().getPlayerManager()
-                        .startPlayer(p, a, ClassManager.getRegisteredClass(item.getItemMeta().getDisplayName()));
+               if (item == null || item.getType() == Material.AIR) {
+                  return true;
+               }
+               a.getPlayerManager().startPlayer(p, a,
+                        ClassManager.getRegisteredClass(item.getItemMeta().getDisplayName()));
                return false;
             }
          });
@@ -45,7 +47,7 @@ public class CommandJoin extends MBCommand {
       }
    }
    
-   private boolean basicArenaChecks(Player p, String arena) {
+   public static boolean basicArenaChecks(Player p, String arena) {
       if (ArenaManager.arenaRegistered(arena)) {
          Arena a = ArenaManager.getArena(arena);
          if (!a.getManager().getPlayerManager().hasPlayer(p)) {

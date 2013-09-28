@@ -2,10 +2,10 @@ package org.infernogames.mb.Commands;
 
 
 import org.bukkit.entity.Player;
+import org.infernogames.mb.Reward;
+import org.infernogames.mb.Reward.RewardType;
 import org.infernogames.mb.Managers.ArenaManager;
 import org.infernogames.mb.Managers.CreationManager;
-import org.infernogames.mb.Managers.CreationManager.Reward;
-import org.infernogames.mb.Managers.CreationManager.Reward.RewardType;
 import org.infernogames.mb.Utils.Msg;
 
 public class CommandCreation extends MBCommand {

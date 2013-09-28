@@ -6,7 +6,6 @@ import java.util.List;
 import org.infernogames.mb.Arena.Arena;
 import org.infernogames.mb.Managers.PlayerManager.PlayerData;
 
-
 public class ArenaManager {
    
    private static List<Arena> arenas = new ArrayList<Arena>();
@@ -56,16 +55,17 @@ public class ArenaManager {
    }
    
    private boolean started = false;
-   public boolean hasStarted(){
+   
+   public boolean hasStarted() {
       return started;
    }
    
-   public void start(){
+   public void start() {
       started = true;
    }
    
    public void stop() {
-      for(PlayerData data : man.getArenaPlayers()){
+      for (PlayerData data : man.getArenaPlayers()) {
          man.stopPlayer(data);
       }
       started = false;

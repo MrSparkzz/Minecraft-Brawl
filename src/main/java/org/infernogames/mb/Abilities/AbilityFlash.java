@@ -24,7 +24,7 @@ public class AbilityFlash extends MBAbility {
    
    @SuppressWarnings("deprecation")
    @Override
-   public void onClick(final Player p, Action a) {
+   public void onClick(final Player p, Action a, String[] args) {
       if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK && p.getItemInHand().getType() == m
                && !cooldowns.contains(p.getName())) {
          Block b = p.getTargetBlock(null, distance);

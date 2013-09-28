@@ -42,10 +42,10 @@ public class ClassManager {
             @SuppressWarnings("deprecation")
             MBClass cl = new MBClass(c.getString("Name", "Class"), c.getString("Description", "Some Description"),
                      Material.getMaterial(c.getInt("Icon", 1)));
+            cl.addItem(ItemHandler.fromString(c.getString("Armor.Boots", "type=0")));
             cl.addItem(ItemHandler.fromString(c.getString("Armor.Helmet", "type=0")));
             cl.addItem(ItemHandler.fromString(c.getString("Armor.Chestplate", "type=0")));
             cl.addItem(ItemHandler.fromString(c.getString("Armor.Leggings", "type=0")));
-            cl.addItem(ItemHandler.fromString(c.getString("Armor.Boots", "type=0")));
             for (Object o : c.getList("Items")) {
                ItemStack i = new ItemStack(Material.getMaterial(o.toString()), 1);
                i.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
@@ -53,12 +53,20 @@ public class ClassManager {
             }
             if (c.isSet("Abilities")) {
                for (Object s : c.getList("Abilities")) {
-                  String path = "Abilities." + s;
                   try {
-                     cl.addAbility(AbilityManager.getAbility(c.getString(path)));
-                  } catch (NullPointerException e) {
-                     Bukkit.getLogger().severe(
-                              "Invalid ability " + c.getString(path) + " for " + c.getString("Name", "Class"));
+                     if (s.toString().contains(";")) {
+                        String[] args = s.toString().split(";");
+                        String[] newArgs = new String[args.length - 1];
+                        String name = args[0];
+                        for (int i = 1; i < args.length; i++) {
+                           newArgs[i - 1] = args[i];
+                        }
+                        cl.addAbility(AbilityManager.getAbility(name), newArgs);
+                     } else {
+                        cl.addAbility(AbilityManager.getAbility(s.toString()), new String[0]);
+                     }
+                  } catch (Exception e) {
+                     Bukkit.getLogger().severe("Invalid ability " + s + " for " + c.getString("Name", "Class"));
                   }
                }
             }

@@ -1,8 +1,10 @@
 package org.infernogames.mb;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -56,18 +58,19 @@ public class MBClass {
       
    }
    
-   private List<MBAbility> abilities = new ArrayList<MBAbility>();
+   private HashMap<MBAbility, String[]>abilities = new HashMap<MBAbility, String[]>();
    
-   public void addAbility(MBAbility a) {
-      abilities.add(a);
+   public void addAbility(MBAbility a, String[] args) {
+      abilities.put(a, args);
+      Bukkit.getLogger().info("Loaded ability " + a.name() + " for class " + name);
    }
    
-   public List<MBAbility> getAbilities() {
+   public HashMap<MBAbility, String[]> getAbilities() {
       return abilities;
    }
    
    public boolean hasAbility(String name){
-      for(MBAbility a : abilities){
+      for(MBAbility a : abilities.keySet()){
          if(a != null && a.name().equalsIgnoreCase(name)){
             return true;
          }
@@ -76,7 +79,7 @@ public class MBClass {
    }
    
    public MBAbility getAbility(String name){
-      for(MBAbility a : abilities){
+      for(MBAbility a : abilities.keySet()){
          if(a.name().equalsIgnoreCase(name)){
             return a;
          }

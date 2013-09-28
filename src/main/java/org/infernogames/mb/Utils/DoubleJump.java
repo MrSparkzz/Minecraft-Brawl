@@ -20,7 +20,7 @@ import org.infernogames.mb.Managers.PlayerManager.PlayerData;
 
 /**
  * 
- * @author Paul, Breezeyboy, Max_The_Link_Fan, doubleboss00
+ * @author Paul, Breezeyboy
  * 
  */
 public class DoubleJump implements Listener {
@@ -40,8 +40,9 @@ public class DoubleJump implements Listener {
                Location l = player.getLocation().subtract(0, 1, 0);
                if (!l.getBlock().getType().equals(Material.AIR)) {
                   player.setAllowFlight(true);
-                  if (data.c.hasAbility("Float"))
+                  if (data.c.hasAbility("Float")) {
                      return;
+                  }
                   if (!kirby.containsKey(player.getName())) {
                      kirby.put(player.getName(), 0);
                   } else if (kirby.get(player.getName()) != 0) {

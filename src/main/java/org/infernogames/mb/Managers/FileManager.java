@@ -6,8 +6,8 @@ import java.io.IOException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.infernogames.mb.ItemHandler;
-import org.infernogames.mb.Managers.CreationManager.Reward;
-import org.infernogames.mb.Managers.CreationManager.Reward.RewardType;
+import org.infernogames.mb.Reward;
+import org.infernogames.mb.Reward.RewardType;
 
 public class FileManager {
    

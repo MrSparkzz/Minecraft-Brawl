@@ -84,6 +84,7 @@ public class ItemHandler {
       if (rgb != null) {
          LeatherArmorMeta m = (LeatherArmorMeta) i.getItemMeta();
          m.setColor(Color.fromRGB(Integer.parseInt(rgb[0]), Integer.parseInt(rgb[1]), Integer.parseInt(rgb[2])));
+         i.setItemMeta(m);
       }
       i.addUnsafeEnchantments(enchants);
       return i;

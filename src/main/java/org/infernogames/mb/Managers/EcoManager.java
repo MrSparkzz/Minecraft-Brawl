@@ -23,7 +23,7 @@ public class EcoManager {
     *           the cash to give
     * @throws ClassNotFoundException
     */
-   public static void giveMoney(Player p, double cash) throws ClassNotFoundException  {
+   public static void giveMoney(Player p, double cash) throws ClassNotFoundException {
       if (econ == null) {
          if (!setupEconomy()) {
             Bukkit.getLogger().info("Could not setup economy!");
@@ -89,4 +89,5 @@ public class EcoManager {
       econ = rsp.getProvider();
       return econ != null;
    }
+   
 }

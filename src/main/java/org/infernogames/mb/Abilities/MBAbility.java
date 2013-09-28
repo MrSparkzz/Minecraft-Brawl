@@ -11,7 +11,7 @@ public class MBAbility {
       this.name = name;
    }
    
-   public void onClick(Player p, Action a) {
+   public void onClick(Player p, Action a, String[] args) {
       
    }
    

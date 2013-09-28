@@ -1,3 +1,4 @@
+
 package org.infernogames.mb;
 
 import java.util.logging.Logger;
@@ -10,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.infernogames.mb.Abilities.AbilityFireball;
 import org.infernogames.mb.Abilities.AbilityFlash;
 import org.infernogames.mb.Abilities.AbilityFloat;
+import org.infernogames.mb.Abilities.MBListener;
 import org.infernogames.mb.Arena.ArenaListener;
 import org.infernogames.mb.Commands.CommandCreation;
 import org.infernogames.mb.Commands.CommandDelete;
@@ -27,7 +29,7 @@ import org.infernogames.mb.Utils.SignListener;
 
 /**
  * 
- * @author Paul, Breezeyboy, Max_The_Link_Fan, chasechocolate
+ * @author Paul, Breezeyboy
  * 
  */
 public class MBPlugin extends JavaPlugin {
@@ -48,7 +50,7 @@ public class MBPlugin extends JavaPlugin {
       MainCommand.registerCommand(new CommandLeave());
       MainCommand.registerCommand(new CommandDelete());
       MainCommand.registerCommand(new CommandModify());
-      
+
       AbilityManager.registerAbility(new AbilityFireball());
       AbilityManager.registerAbility(new AbilityFlash());
       AbilityManager.registerAbility(new AbilityFloat());
@@ -56,6 +58,7 @@ public class MBPlugin extends JavaPlugin {
       registerListener(new DoubleJump());
       registerListener(new ArenaListener());
       registerListener(new SignListener());
+      registerListener(new MBListener());
       
       FileManager man = new FileManager("Arenas");
       FileConfiguration arenaConfig = man.getConfig();
@@ -68,8 +71,9 @@ public class MBPlugin extends JavaPlugin {
       FileManager cMan = new FileManager("Config");
       cMan.addDefault("Default_Lives", 5);
       cMan.saveConfig();
-      
+
       loadClass("Mario");
+      loadClass("Kirby");
       
       ClassManager.loadClasses();
       

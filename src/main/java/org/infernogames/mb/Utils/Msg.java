@@ -13,8 +13,8 @@ public class Msg {
    
    private static String prefix = "&8[&aMB&8]&e ";
    
-   public static void msg(final Player player, final String msg) {
-      player.sendMessage(c(msg));
+   public static void msg(final Player p, final String msg) {
+      p.sendMessage(c(msg));
    }
    
    public static void warning(final Player player, final String msg) {
