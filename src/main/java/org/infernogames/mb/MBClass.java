@@ -13,6 +13,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.infernogames.mb.Abilities.MBAbility;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class MBClass {
    
    private List<ItemStack> items = new ArrayList<ItemStack>();

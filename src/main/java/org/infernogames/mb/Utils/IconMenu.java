@@ -17,6 +17,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.infernogames.mb.MBPlugin;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class IconMenu implements Listener {
    
    private String name;

@@ -8,10 +8,15 @@ import org.infernogames.mb.Managers.ArenaManager;
 import org.infernogames.mb.Managers.CreationManager;
 import org.infernogames.mb.Utils.Msg;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class CommandCreation extends MBCommand {
    
    public CommandCreation() {
-      super("creation", "ssc.arena.creation", -1);
+      super("creation", "ssc.arena.creation", -1, "Create an arena");
    }
    
    @Override

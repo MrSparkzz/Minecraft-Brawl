@@ -9,6 +9,11 @@ import org.infernogames.mb.ItemHandler;
 import org.infernogames.mb.Reward;
 import org.infernogames.mb.Reward.RewardType;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class FileManager {
    
    public static File dataFolder;

@@ -27,6 +27,11 @@ import org.infernogames.mb.Managers.PlayerManager.PlayerData;
 import org.infernogames.mb.Utils.LocationUtils;
 import org.infernogames.mb.Utils.Msg;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class Arena {
    private String name;
    private List<Reward> rewards = new ArrayList<Reward>();

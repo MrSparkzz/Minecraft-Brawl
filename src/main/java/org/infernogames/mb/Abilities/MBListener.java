@@ -9,6 +9,11 @@ import org.infernogames.mb.Arena.Arena;
 import org.infernogames.mb.Managers.PlayerManager;
 import org.infernogames.mb.Managers.PlayerManager.PlayerData;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class MBListener implements Listener {
    
    @EventHandler

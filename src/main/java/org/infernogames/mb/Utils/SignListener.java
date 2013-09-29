@@ -15,6 +15,11 @@ import org.infernogames.mb.Managers.ArenaManager;
 import org.infernogames.mb.Managers.FileManager;
 import org.infernogames.mb.Managers.PlayerManager;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class SignListener implements Listener {
    @EventHandler
    public void onSignChange(SignChangeEvent event) {
@@ -33,6 +38,7 @@ public class SignListener implements Listener {
                if (event.getLine(2).equalsIgnoreCase("join")) {
                   event.setLine(3, ChatColor.GREEN + arena.getName());
                   event.setLine(1, ChatColor.AQUA + "Click to Join");
+                  //man... Lol
                   man.getConfig().set(
                            "Arenas." + arena.getName() + ".Signs." + world + ";" + x + ";" + y + ";" + z, "join");
                   man.saveConfig();
@@ -60,7 +66,7 @@ public class SignListener implements Listener {
    }
    
    @EventHandler
-   public void onBlockBreak(BlockBreakEvent event) {
+   public void onBlockBreak(BlockBreakEvent event) {//Shouldn't we be checking if they have permission to remove it?
       if (event.getBlock().getState() instanceof Sign) {
          Sign sign = (Sign) event.getBlock().getState();
          if (sign.getLine(0) == "Minecraft Brawl") {

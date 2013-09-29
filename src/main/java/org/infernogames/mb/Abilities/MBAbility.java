@@ -3,6 +3,11 @@ package org.infernogames.mb.Abilities;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class MBAbility {
    
    private String name;

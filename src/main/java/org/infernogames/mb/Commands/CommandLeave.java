@@ -6,10 +6,15 @@ import org.infernogames.mb.Arena.Arena;
 import org.infernogames.mb.Managers.PlayerManager;
 import org.infernogames.mb.Utils.Msg;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class CommandLeave extends MBCommand {
    
    public CommandLeave() {
-      super("leave", "ssc.arena.leave", -1);
+      super("leave", "ssc.arena.leave", -1, "Leaves a game");
    }
    
    @Override

@@ -5,6 +5,11 @@ import org.infernogames.mb.MBPlugin;
 import org.infernogames.mb.Arena.Arena;
 import org.infernogames.mb.Managers.PlayerManager.PlayerData;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class DeathManager {
    
    private Arena arena;

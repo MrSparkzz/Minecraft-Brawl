@@ -7,6 +7,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 /**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
+
+/**
  * The Class EcoManager which handles money in the plugin.
  */
 public class EcoManager {

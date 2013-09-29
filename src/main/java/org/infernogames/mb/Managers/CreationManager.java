@@ -11,6 +11,11 @@ import org.infernogames.mb.Reward;
 import org.infernogames.mb.Arena.Arena;
 import org.infernogames.mb.Utils.LocationUtils;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class CreationManager {
    
    private static HashMap<String, DataHolder> creators = new HashMap<String, DataHolder>();

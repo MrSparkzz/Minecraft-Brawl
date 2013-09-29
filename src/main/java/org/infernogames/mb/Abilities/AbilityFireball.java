@@ -10,6 +10,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.infernogames.mb.MBPlugin;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class AbilityFireball extends MBAbility {
    
    private long ticks = 20;

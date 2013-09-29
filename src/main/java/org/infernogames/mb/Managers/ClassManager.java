@@ -14,6 +14,11 @@ import org.bukkit.inventory.ItemStack;
 import org.infernogames.mb.ItemHandler;
 import org.infernogames.mb.MBClass;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class ClassManager {
    
    private static List<MBClass> classes = new ArrayList<MBClass>();

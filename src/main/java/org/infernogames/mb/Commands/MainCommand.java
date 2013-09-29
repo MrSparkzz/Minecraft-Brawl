@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.infernogames.mb.MBPlugin;
 import org.infernogames.mb.Utils.Msg;
 
 public class MainCommand implements CommandExecutor {
@@ -15,14 +16,14 @@ public class MainCommand implements CommandExecutor {
    
    @Override
    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+      if(!(sender instanceof Player)){
+      sender.sendMessage("Sorry! These commands are player only for now.");
+      }
+      if(sender instanceof Player){
       if (args.length == 0) {
-         // Show help
-         sender.sendMessage("Help Message");
+         Msg.msg((Player) sender, "Minecraft Brawl v&8" + MBPlugin.instance.getDescription().getVersion() + " &e by &8Ultimate-N00b &eand &8breezeyboy&e.");
+         Msg.msg((Player) sender, "Type &8/mb help&e for help.");
       } else {
-         if (!(sender instanceof Player)) {
-            sender.sendMessage("Sorry! These commands are player only for now.");
-            return true;
-         }
          MBCommand cmd = null;
          Player p = (Player) sender;
          for (MBCommand c : commands) {
@@ -51,6 +52,7 @@ public class MainCommand implements CommandExecutor {
             return true;
          }
       }
+      }
       return true;
    }
    
@@ -58,4 +60,9 @@ public class MainCommand implements CommandExecutor {
       commands.add(cmd);
    }
    
+   @SuppressWarnings("rawtypes")
+   public static List getCommands(){
+      return commands;
+     
+   }
 }

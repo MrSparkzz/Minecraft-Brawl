@@ -2,6 +2,11 @@ package org.infernogames.mb;
 
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class Reward {
    private RewardType type;
    private ItemStack reward;

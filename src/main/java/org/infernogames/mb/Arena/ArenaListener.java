@@ -12,6 +12,11 @@ import org.infernogames.mb.Managers.DeathManager.DeathCause;
 import org.infernogames.mb.Managers.PlayerManager;
 import org.infernogames.mb.Managers.PlayerManager.PlayerData;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class ArenaListener implements Listener {
    
    @EventHandler

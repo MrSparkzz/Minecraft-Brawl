@@ -6,6 +6,11 @@ import java.util.List;
 import org.infernogames.mb.Arena.Arena;
 import org.infernogames.mb.Managers.PlayerManager.PlayerData;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class ArenaManager {
    
    private static List<Arena> arenas = new ArrayList<Arena>();

@@ -4,6 +4,11 @@ import java.util.Random;
 
 import org.bukkit.Location;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class ArenaRegion {
    
    private Arena arena;

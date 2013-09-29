@@ -21,6 +21,11 @@ import org.infernogames.mb.Utils.Msg;
 import org.infernogames.mb.Utils.IconMenu.Row;
 import org.infernogames.mb.Utils.IconMenu.onClick;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class PlayerManager {
    
    public static boolean playerInArena(Player p) {

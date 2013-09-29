@@ -8,10 +8,15 @@ import org.infernogames.mb.Managers.FileManager;
 import org.infernogames.mb.Utils.LocationUtils;
 import org.infernogames.mb.Utils.Msg;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class CommandModify extends MBCommand {
    
    public CommandModify() {
-      super("modify", "ssc.arena.modify", -1);
+      super("modify", "ssc.arena.modify", -1, "Modifys an existing arena");
    }
    
    @Override

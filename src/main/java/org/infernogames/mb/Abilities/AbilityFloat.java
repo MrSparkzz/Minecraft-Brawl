@@ -7,6 +7,11 @@ public class AbilityFloat extends MBAbility {
       super("Float");
    }
    
+   /**
+    * 
+    * @author Paul, Breezeyboy
+    * 
+    */
    public int getFloatTimes() {
       return floatTimes;
    }

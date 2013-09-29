@@ -9,10 +9,15 @@ import org.infernogames.mb.Managers.FileManager;
 import org.infernogames.mb.Managers.PlayerManager.PlayerData;
 import org.infernogames.mb.Utils.Msg;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class CommandDelete extends MBCommand {
    
    public CommandDelete() {
-      super("delete", "ssc.arena.delete", 1);
+      super("delete", "ssc.arena.delete", 1, "Deletes an arenna");
    }
    
    @Override

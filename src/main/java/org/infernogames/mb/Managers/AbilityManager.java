@@ -6,6 +6,11 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.infernogames.mb.Abilities.MBAbility;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class AbilityManager {
    private static List<MBAbility> abilities = new ArrayList<MBAbility>();
    

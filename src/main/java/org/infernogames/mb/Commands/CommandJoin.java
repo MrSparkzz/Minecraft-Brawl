@@ -15,13 +15,13 @@ import org.infernogames.mb.Utils.Msg;
 
 /**
  * 
- * @author Paul, Breezeyboy, Max_The_Link_Fan
+ * @author Paul, Breezeyboy
  * 
  */
 public class CommandJoin extends MBCommand {
    
    public CommandJoin() {
-      super("join", "scb.arena.join", 1);
+      super("join", "scb.arena.join", 1, "Joins a game");
    }
    
    @Override

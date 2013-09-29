@@ -5,6 +5,11 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class LocationUtils {
    public static String fromLocation(Location l, boolean block, boolean py) {
       String world = l.getWorld().getName();

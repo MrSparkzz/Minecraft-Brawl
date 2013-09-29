@@ -6,7 +6,13 @@ import org.bukkit.block.Block;
 import org.infernogames.mb.Arena.Arena;
 import org.infernogames.mb.Utils.LocationUtils;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ */
 public class SignManager {
+   
    
    public static void addSign(Arena a, Block b, SignType type) {
       FileManager man = new FileManager("Arenas");

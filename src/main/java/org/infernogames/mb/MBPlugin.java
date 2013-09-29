@@ -77,7 +77,7 @@ public class MBPlugin extends JavaPlugin {
       
       ClassManager.loadClasses();
       
-      log.info("[SuperSmashCraft] v" + this.getDescription().getVersion() + " enabled.");
+      log.info("[MinecraftBrawl] v" + this.getDescription().getVersion() + " enabled.");
    }
    
    private void loadClass(String name) {
@@ -86,7 +86,7 @@ public class MBPlugin extends JavaPlugin {
    
    @Override
    public void onDisable() {
-      log.info("[SuperSmashCraft] v" + this.getDescription().getVersion() + " disabled.");
+      log.info("[MinecraftBrawl] v" + this.getDescription().getVersion() + " disabled.");
    }
    
    private void registerListener(final Listener listener) {
