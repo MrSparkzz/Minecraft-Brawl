@@ -16,16 +16,17 @@ public class MainCommand implements CommandExecutor {
    
    @Override
    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-      if(!(sender instanceof Player)){
-      sender.sendMessage("Sorry! These commands are player only for now.");
+      if (!(sender instanceof Player)) {
+         sender.sendMessage("Sorry! These commands are player only for now.");
+         return true;
       }
-      if(sender instanceof Player){
+      Player p = (Player)sender;
       if (args.length == 0) {
-         Msg.msg((Player) sender, "Minecraft Brawl v&8" + MBPlugin.instance.getDescription().getVersion() + " &e by &8Ultimate-N00b &eand &8breezeyboy&e.");
-         Msg.msg((Player) sender, "Type &8/mb help&e for help.");
+         Msg.msg(p, "Minecraft Brawl v&8" + MBPlugin.instance.getDescription().getVersion()
+                  + " &e by &8PaulBGD &eand &8breezeyboy&e.");
+         Msg.msg(p, "Type &8/mb help&e for help.");
       } else {
          MBCommand cmd = null;
-         Player p = (Player) sender;
          for (MBCommand c : commands) {
             if (c.getCommand().equalsIgnoreCase(args[0])) {
                if (c.getArgumentLength() == -1 || c.getArgumentLength() == args.length - 1) {
@@ -52,7 +53,6 @@ public class MainCommand implements CommandExecutor {
             return true;
          }
       }
-      }
       return true;
    }
    
@@ -60,9 +60,8 @@ public class MainCommand implements CommandExecutor {
       commands.add(cmd);
    }
    
-   @SuppressWarnings("rawtypes")
-   public static List getCommands(){
+   public static List<MBCommand> getCommands() {
       return commands;
-     
+      
    }
 }

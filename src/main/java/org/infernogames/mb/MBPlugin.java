@@ -14,6 +14,7 @@ import org.infernogames.mb.Abilities.MBListener;
 import org.infernogames.mb.Arena.ArenaListener;
 import org.infernogames.mb.Commands.CommandCreation;
 import org.infernogames.mb.Commands.CommandDelete;
+import org.infernogames.mb.Commands.CommandHelp;
 import org.infernogames.mb.Commands.CommandJoin;
 import org.infernogames.mb.Commands.CommandLeave;
 import org.infernogames.mb.Commands.CommandModify;
@@ -49,6 +50,7 @@ public class MBPlugin extends JavaPlugin {
       MainCommand.registerCommand(new CommandLeave());
       MainCommand.registerCommand(new CommandDelete());
       MainCommand.registerCommand(new CommandModify());
+      MainCommand.registerCommand(new CommandHelp());
 
       AbilityManager.registerAbility(new AbilityFireball());
       AbilityManager.registerAbility(new AbilityFlash());
