@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.infernogames.mb.ItemHandler;
 import org.infernogames.mb.Reward;
 import org.infernogames.mb.Reward.RewardType;
+import org.infernogames.mb.Arena.Arena;
 
 /**
  * 
@@ -21,6 +22,16 @@ public class FileManager {
    private File file;
    private FileConfiguration config;
    
+   private String name;
+   
+   public static FileManager getFromArena(Arena arena){
+      return getFromArenaName(arena.getName());
+   }
+   
+   public static FileManager getFromArenaName(String name){
+      return new FileManager("Arenas" + File.separator + name);
+   }
+   
    public FileManager(String name) {
       file = new File(dataFolder + File.separator + name + ".yml");
       if (!file.exists()) {
@@ -31,6 +42,7 @@ public class FileManager {
          }
       }
       config = YamlConfiguration.loadConfiguration(file);
+      this.name = name;
    }
    
    public void addDefault(String path, Object thing) {
@@ -72,6 +84,10 @@ public class FileManager {
    
    public void reloadConfig() {
       config = YamlConfiguration.loadConfiguration(file);
+   }
+   
+   public String getName(){
+      return name;
    }
    
 }

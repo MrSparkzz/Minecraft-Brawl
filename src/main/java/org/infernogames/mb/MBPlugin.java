@@ -1,4 +1,3 @@
-
 package org.infernogames.mb;
 
 import java.util.logging.Logger;

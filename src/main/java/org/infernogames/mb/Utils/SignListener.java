@@ -34,7 +34,6 @@ public class SignListener implements Listener {
                int x = event.getBlock().getX();
                int y = event.getBlock().getY();
                int z = event.getBlock().getZ();
-               event.setLine(2, "");
                if (event.getLine(2).equalsIgnoreCase("join")) {
                   event.setLine(3, ChatColor.GREEN + arena.getName());
                   event.setLine(1, ChatColor.AQUA + "Click to Join");
@@ -50,10 +49,11 @@ public class SignListener implements Listener {
                                     "status");
                   man.saveConfig();
                } else {
-                  Msg.warning(p, "That type of sign doesn't exist!");
+                  Msg.warning(p, "The type '" + event.getLine(2) + "' doesn't exist!");
                   event.setCancelled(true);
                   return;
                }
+               event.setLine(2, "");
             } else {
                Msg.warning(p, "The arena doesn't exist!");
                event.setCancelled(true);
