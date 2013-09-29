@@ -16,17 +16,17 @@ public class CommandHelp extends MBCommand {
    
    @Override
    public void onCommand(Player p, String[] args) {
-      Msg.msg(p, "&8-- &aMinecraft Brawl Help &8--");
+      Msg.msg(p, "&8-=-=- &aMinecraft Brawl Help &8-=-=-", false);
       if (args.length != 1) {
          for (MBCommand c : MainCommand.getCommands()) {
             if (p.hasPermission(c.getPermission())) {
-               Msg.msg(p, "&8/&a" + c.getCommand() + " &8- &e" + c.getUsage());
+               Msg.msg(p, "&8/mb &a" + c.getCommand() + " &8- &e" + c.getUsage(), false);
             }
          }
       } else {
          for (MBCommand c : MainCommand.getCommands()) {
             if (c.getCommand().equalsIgnoreCase(args[0]) && p.hasPermission(c.getPermission())) {
-               Msg.msg(p, "&8/&a" + c.getCommand() + " &8- &e" + c.getUsage());
+               Msg.msg(p, "&8/mb &a" + c.getCommand() + " &8- &e" + c.getUsage(), false);
                return;
             }
          }
