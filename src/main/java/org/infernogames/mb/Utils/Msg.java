@@ -41,7 +41,7 @@ public class Msg {
       if(prefix){
          return ChatColor.translateAlternateColorCodes('&', Msg.prefix + msg);
       } else {
-         return ChatColor.translateAlternateColorCodes('&', msg);
+         return ChatColor.translateAlternateColorCodes('&', "&e" + msg);
       }
    }
 }
