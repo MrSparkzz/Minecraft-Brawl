@@ -1,6 +1,7 @@
 package org.infernogames.mb.Utils;
 
 import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,16 +35,12 @@ public class SignListener implements Listener {
                   event.setLine(3, ChatColor.GREEN + arena.getName());
                   event.setLine(1, ChatColor.AQUA + "Click to Join");
                   // man... Lol
-                  man.getConfig().set(
-                           "Arenas." + arena.getName() + ".Signs." + LocationUtils.fromLocation(event.getBlock()),
-                           "join");
+                  man.getConfig().set(get(arena, event.getBlock()), "join");
                   man.saveConfig();
                } else if (event.getLine(2).equalsIgnoreCase("status")) {
                   event.setLine(3, ChatColor.GREEN + arena.getName());
                   event.setLine(1, ChatColor.AQUA + "Blank Status");
-                  man.getConfig().set(
-                           "Arenas." + arena.getName() + ".Signs." + LocationUtils.fromLocation(event.getBlock()),
-                           "status");
+                  man.getConfig().set(get(arena, event.getBlock()), "status");
                   man.saveConfig();
                } else {
                   Msg.warning(p, "The type '" + event.getLine(2) + "' doesn't exist!");
@@ -63,20 +60,15 @@ public class SignListener implements Listener {
    }
    
    @EventHandler
-   public void onBlockBreak(BlockBreakEvent event) {// Shouldn't we be checking
-                                                    // if they have permission
-                                                    // to remove it?
+   public void onBlockBreak(BlockBreakEvent event) {
       if (event.getBlock().getState() instanceof Sign) {
          Sign sign = (Sign) event.getBlock().getState();
          if (sign.getLine(0) == "Minecraft Brawl") {
             if (MBPlugin.arenaManager.arenaRegistered(ChatColor.stripColor(sign.getLine(3)))) {
                FileManager man = new FileManager("Arenas");
                Arena a = MBPlugin.arenaManager.getArena(ChatColor.stripColor(sign.getLine(3)));
-               if (man.getConfig().isSet(
-                        "Arenas." + a.getName() + ".Signs." + LocationUtils.fromLocation(event.getBlock()))) {
-                  man.getConfig().set(
-                           "Arenas." + a.getName() + ".Signs." + LocationUtils.fromLocation(event.getBlock()),
-                           null);
+               if (man.getConfig().isSet(get(a, event.getBlock()))) {
+                  man.getConfig().set(get(a, event.getBlock()), null);
                   man.saveConfig();
                } else {
                   Msg.warning(event.getPlayer(), "This sign doesn't exist!");
@@ -94,11 +86,8 @@ public class SignListener implements Listener {
             if (MBPlugin.arenaManager.arenaRegistered(ChatColor.stripColor(sign.getLine(3)))) {
                FileManager man = new FileManager("Arenas");
                Arena a = MBPlugin.arenaManager.getArena(ChatColor.stripColor(sign.getLine(3)));
-               if (man.getConfig().isSet(
-                        "Arenas." + a.getName() + ".Signs." + LocationUtils.fromLocation(event.getClickedBlock()))) {
-                  String type = man.getConfig().getString(
-                           "Arenas." + a.getName() + ".Signs."
-                                    + LocationUtils.fromLocation(event.getClickedBlock()));
+               if (man.getConfig().isSet(get(a, event.getClickedBlock()))) {
+                  String type = man.getConfig().getString(get(a, event.getClickedBlock()));
                   if (type.equals("join")) {
                      if (CommandJoin.basicArenaChecks(event.getPlayer(), a.getName())) {
                         PlayerManager.openMenu(event.getPlayer(), a);
@@ -116,5 +105,9 @@ public class SignListener implements Listener {
             }
          }
       }
+   }
+   
+   private String get(Arena a, Block b) {
+      return "Arenas." + a.getName() + ".Signs." + LocationUtils.fromLocation(b);
    }
 }
