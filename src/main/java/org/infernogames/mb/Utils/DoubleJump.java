@@ -33,7 +33,7 @@ public class DoubleJump implements Listener {
                if (player == null) {
                   return;
                }
-               if (!PlayerManager.getPlayerArena(player).getManager().hasStarted()) {
+               if (!PlayerManager.getPlayerArena(player).hasStarted()) {
                   return;
                }
                // Check if under them isn't air, if so allow them to jump

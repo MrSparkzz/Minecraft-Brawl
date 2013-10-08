@@ -18,7 +18,7 @@ public class Msg {
    }
    
    public static void msg(Player p, String msg){
-      msg(p, msg, false);
+      msg(p, msg, true);
    }
    
    public static void warning(final Player player, final String msg) {

@@ -8,6 +8,7 @@ import org.bukkit.Location;
  * 
  * @author Paul, Breezeyboy
  * 
+ *         Used to define the arena region, and the arena's warps.
  */
 public class ArenaRegion {
    

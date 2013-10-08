@@ -13,6 +13,7 @@ import org.infernogames.mb.Managers.PlayerManager.PlayerData;
  * 
  * @author Paul, Breezeyboy
  * 
+ *         Listens and calls the ability events when activated
  */
 public class MBListener implements Listener {
    
@@ -20,7 +21,7 @@ public class MBListener implements Listener {
    public void onPlayerInteract(PlayerInteractEvent event) {
       if (PlayerManager.playerInArena(event.getPlayer())) {
          Arena a = PlayerManager.getPlayerArena(event.getPlayer());
-         PlayerData d = a.getManager().getPlayerManager().getPlayer(event.getPlayer());
+         PlayerData d = a.getPlayerManager().getPlayer(event.getPlayer());
          for (Entry<MBAbility, String[]> ab : d.c.getAbilities().entrySet()) {
             ab.getKey().onClick(event.getPlayer(), event.getAction(), ab.getValue());
          }

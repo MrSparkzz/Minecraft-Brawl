@@ -13,6 +13,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.infernogames.mb.MBClass;
+import org.infernogames.mb.MBPlugin;
 import org.infernogames.mb.Arena.Arena;
 import org.infernogames.mb.Arena.ArenaRegion.WarpType;
 import org.infernogames.mb.Managers.DeathManager.DeathCause;
@@ -29,8 +30,8 @@ import org.infernogames.mb.Utils.IconMenu.onClick;
 public class PlayerManager {
    
    public static boolean playerInArena(Player p) {
-      for (Arena arena : ArenaManager.iterator()) {
-         if (arena.getManager().getPlayerManager().hasPlayer(p)) {
+      for (Arena arena : MBPlugin.arenaManager.iterator()) {
+         if (arena.getPlayerManager().hasPlayer(p)) {
             return true;
          }
       }
@@ -38,8 +39,8 @@ public class PlayerManager {
    }
    
    public static Arena getPlayerArena(Player p) {
-      for (Arena arena : ArenaManager.iterator()) {
-         if (arena.getManager().getPlayerManager().hasPlayer(p)) {
+      for (Arena arena : MBPlugin.arenaManager.iterator()) {
+         if (arena.getPlayerManager().hasPlayer(p)) {
             return arena;
          }
       }
@@ -67,8 +68,8 @@ public class PlayerManager {
    
    public static List<PlayerData> getAllPlayers() {
       List<PlayerData> players = new ArrayList<PlayerData>();
-      for (Arena arena : ArenaManager.iterator()) {
-         players.addAll(arena.getManager().getPlayerManager().players);
+      for (Arena arena : MBPlugin.arenaManager.iterator()) {
+         players.addAll(arena.getPlayerManager().players);
       }
       return players;
    }
@@ -86,6 +87,7 @@ public class PlayerManager {
 
       p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 99999, 0));
       p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 99999, 0));
+      p.setCanPickupItems(false);
       
       p.teleport(a.getRegion().getWarp(WarpType.LOBBY));
    }
@@ -140,6 +142,7 @@ public class PlayerManager {
       public double maxHealth;
       
       public GameMode mode;
+      boolean pickup;
       private Scoreboard b = Bukkit.getScoreboardManager().getNewScoreboard();
       
       public Arena a;
@@ -158,6 +161,7 @@ public class PlayerManager {
          maxHealth = p.getMaxHealth();
          
          mode = p.getGameMode();
+         pickup = p.getCanPickupItems();
          if (p.getScoreboard() != null) {
             b = p.getScoreboard();
          }
@@ -179,6 +183,7 @@ public class PlayerManager {
          p.setHealth(health);
          
          p.setGameMode(mode);
+         p.setCanPickupItems(pickup);
          p.setScoreboard(b);
       }
       

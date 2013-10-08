@@ -1,5 +1,11 @@
 package org.infernogames.mb;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -19,11 +25,12 @@ import org.infernogames.mb.Commands.CommandJoin;
 import org.infernogames.mb.Commands.CommandLeave;
 import org.infernogames.mb.Commands.CommandModify;
 import org.infernogames.mb.Commands.MainCommand;
+import org.infernogames.mb.Interfaces.ArenaManager;
 import org.infernogames.mb.Managers.AbilityManager;
-import org.infernogames.mb.Managers.ArenaManager;
 import org.infernogames.mb.Managers.ClassManager;
 import org.infernogames.mb.Managers.CreationManager;
 import org.infernogames.mb.Managers.FileManager;
+import org.infernogames.mb.Managers.MBArenaManager;
 import org.infernogames.mb.Utils.DoubleJump;
 import org.infernogames.mb.Utils.SignListener;
 
@@ -31,9 +38,11 @@ import org.infernogames.mb.Utils.SignListener;
  * 
  * @author Paul, Breezeyboy
  * 
+ *         The main class used by bukkit. Also starts the plugin.
  */
 public class MBPlugin extends JavaPlugin {
    public static MBPlugin instance;
+   public static ArenaManager arenaManager;
    public PluginManager pm = Bukkit.getServer().getPluginManager();
    public Logger log;
    
@@ -41,7 +50,8 @@ public class MBPlugin extends JavaPlugin {
    public void onEnable() {
       FileManager.dataFolder = getDataFolder();
       instance = this;
-      log = Bukkit.getServer().getLogger();
+      arenaManager = new MBArenaManager();
+      log = getLogger();
       
       getCommand("mb").setExecutor(new MainCommand());
       
@@ -51,7 +61,7 @@ public class MBPlugin extends JavaPlugin {
       MainCommand.registerCommand(new CommandDelete());
       MainCommand.registerCommand(new CommandModify());
       MainCommand.registerCommand(new CommandHelp());
-
+      
       AbilityManager.registerAbility(new AbilityFireball());
       AbilityManager.registerAbility(new AbilityFlash());
       AbilityManager.registerAbility(new AbilityFloat());
@@ -66,23 +76,60 @@ public class MBPlugin extends JavaPlugin {
       if (arenaConfig.isSet("Arenas")) {
          for (String s : arenaConfig.getConfigurationSection("Arenas").getKeys(false)) {
             log.info("Loaded Arena: " + s);
-            ArenaManager.addArena(CreationManager.createArena(s));
+            arenaManager.addArena(CreationManager.createArena(s));
          }
       }
       FileManager cMan = new FileManager("Config");
       cMan.addDefault("Default_Lives", 5);
       cMan.saveConfig();
-
+      
       loadClass("Mario");
       loadClass("Kirby");
       
       ClassManager.loadClasses();
       
-      log.info("[MinecraftBrawl] v" + this.getDescription().getVersion() + " enabled.");
+      log.info("[MinecraftBrawl] v" + getDescription().getVersion() + " enabled.");
    }
    
    private void loadClass(String name) {
       saveResource("Classes/" + name + ".yml", false);
+   }
+   
+   @Override
+   public void saveResource(String resourcePath, boolean replace) {
+      if (resourcePath == null || resourcePath.equals("")) {
+         throw new IllegalArgumentException("ResourcePath cannot be null or empty");
+      }
+      
+      resourcePath = resourcePath.replace('\\', '/');
+      InputStream in = getResource(resourcePath);
+      if (in == null) {
+         throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found in "
+                  + getFile());
+      }
+      
+      File outFile = new File(FileManager.dataFolder, resourcePath);
+      int lastIndex = resourcePath.lastIndexOf('/');
+      File outDir = new File(FileManager.dataFolder, resourcePath.substring(0, lastIndex >= 0 ? lastIndex : 0));
+      
+      if (!outDir.exists()) {
+         outDir.mkdirs();
+      }
+      
+      try {
+         if (!outFile.exists() || replace) {
+            OutputStream out = new FileOutputStream(outFile);
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+               out.write(buf, 0, len);
+            }
+            out.close();
+            in.close();
+         }
+      } catch (IOException ex) {
+         log.log(Level.SEVERE, "Could not save " + outFile.getName() + " to " + outFile, ex);
+      }
    }
    
    @Override

@@ -14,6 +14,7 @@ import org.infernogames.mb.MBPlugin;
  * 
  * @author Paul, Breezeyboy
  * 
+ *         Ability to shoot a fire arrow which disappears over time
  */
 public class AbilityFireball extends MBAbility {
    

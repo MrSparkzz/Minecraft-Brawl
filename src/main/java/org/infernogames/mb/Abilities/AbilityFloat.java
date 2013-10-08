@@ -1,5 +1,11 @@
 package org.infernogames.mb.Abilities;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ *         Used to decide how many times a player can float
+ */
 public class AbilityFloat extends MBAbility {
    private int floatTimes = 4;
    
@@ -7,11 +13,6 @@ public class AbilityFloat extends MBAbility {
       super("Float");
    }
    
-   /**
-    * 
-    * @author Paul, Breezeyboy
-    * 
-    */
    public int getFloatTimes() {
       return floatTimes;
    }

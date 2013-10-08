@@ -1,8 +1,10 @@
 package org.infernogames.mb.Arena;
 
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -16,13 +18,27 @@ import org.infernogames.mb.Managers.PlayerManager.PlayerData;
  * 
  * @author Paul, Breezeyboy
  * 
+ *         Used to listen for certain events happening inside the arena.
+ *         Excludes ability listeners.
  */
 public class ArenaListener implements Listener {
    
    @EventHandler
    public void onPluginDisable(PluginDisableEvent event) {
       for (PlayerData data : PlayerManager.getAllPlayers()) {
-         data.a.getManager().getPlayerManager().stopPlayer(data);
+         data.a.getPlayerManager().stopPlayer(data);
+      }
+   }
+   
+   @EventHandler
+   public void onEntityDBE(EntityDamageByEntityEvent event) {
+      if (event.getDamager() instanceof Player && PlayerManager.playerInArena((Player) event.getDamager())) {
+         event.setCancelled(true);
+      }
+      if (event.getDamager() instanceof Projectile
+               && ((Projectile) event.getDamager()).getShooter() instanceof Player
+               && PlayerManager.playerInArena(((Player) ((Projectile) event.getDamager()).getShooter()))) {
+         event.setCancelled(true);
       }
    }
    
@@ -39,8 +55,8 @@ public class ArenaListener implements Listener {
          }
          if (p.getHealth() - event.getDamage() < 1) {
             Arena a = PlayerManager.getPlayerArena(p);
-            if (a.getManager().hasStarted()) {
-               a.getManager().getPlayerManager().getPlayer(p).removeLife(DeathCause.PLAYER);
+            if (a.hasStarted()) {
+               a.getPlayerManager().getPlayer(p).removeLife(DeathCause.PLAYER);
             } else {
                p.teleport(a.getRegion().getWarp(WarpType.LOBBY));
             }

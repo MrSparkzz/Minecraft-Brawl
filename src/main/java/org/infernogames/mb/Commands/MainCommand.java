@@ -10,6 +10,14 @@ import org.bukkit.entity.Player;
 import org.infernogames.mb.MBPlugin;
 import org.infernogames.mb.Utils.Msg;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ *         Main command to handle all subcommands. Registration for subcommands
+ *         also happens here
+ * 
+ */
 public class MainCommand implements CommandExecutor {
    
    private static List<MBCommand> commands = new ArrayList<MBCommand>();
@@ -20,7 +28,9 @@ public class MainCommand implements CommandExecutor {
          sender.sendMessage("Sorry! These commands are player only for now.");
          return true;
       }
-      Player p = (Player)sender;
+      
+      Player p = (Player) sender;
+      
       if (args.length == 0) {
          Msg.msg(p, "Minecraft Brawl v&a" + MBPlugin.instance.getDescription().getVersion()
                   + " &e by &aPaulBGD &eand &abreezeyboy&e.", false);
@@ -53,6 +63,7 @@ public class MainCommand implements CommandExecutor {
             return true;
          }
       }
+      
       return true;
    }
    

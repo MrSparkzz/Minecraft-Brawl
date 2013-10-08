@@ -2,6 +2,8 @@ package org.infernogames.mb.Managers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,10 +21,9 @@ public class FileManager {
    
    public static File dataFolder;
    
-   private File file;
-   private FileConfiguration config;
-   
    private String name;
+   
+   private static HashMap<String, FileStorage>loadedConfig = new HashMap<String, FileStorage>();
    
    public static FileManager getFromArena(Arena arena){
       return getFromArenaName(arena.getName());
@@ -33,7 +34,13 @@ public class FileManager {
    }
    
    public FileManager(String name) {
-      file = new File(dataFolder + File.separator + name + ".yml");
+      this.name = name;
+      for(String s : loadedConfig.keySet()){
+         if(s.equals(name)){
+            return;
+         }
+      }
+      File file = new File(dataFolder + File.separator + name + ".yml");
       if (!file.exists()) {
          try {
             file.createNewFile();
@@ -41,8 +48,7 @@ public class FileManager {
             e.printStackTrace();
          }
       }
-      config = YamlConfiguration.loadConfiguration(file);
-      this.name = name;
+      loadedConfig.put(name, new FileStorage(file));
    }
    
    public void addDefault(String path, Object thing) {
@@ -71,23 +77,61 @@ public class FileManager {
    }
    
    public FileConfiguration getConfig() {
-      return config;
+      for(Entry<String, FileStorage> s : loadedConfig.entrySet()){
+         if(s.getKey().equals(getName())){
+            return s.getValue().getConfig();
+         }
+      }
+      return new YamlConfiguration();
+   }
+   
+   private FileStorage getStorage(){
+      for(Entry<String, FileStorage> s : loadedConfig.entrySet()){
+         if(s.getKey().equals(getName())){
+            return s.getValue();
+         }
+      }
+      return null;
    }
    
    public void saveConfig() {
       try {
-         config.save(file);
+         getStorage().save();
       } catch (IOException e) {
          e.printStackTrace();
       }
    }
    
    public void reloadConfig() {
-      config = YamlConfiguration.loadConfiguration(file);
+      getStorage().reload();
    }
    
    public String getName(){
       return name;
+   }
+   
+   public class FileStorage{
+      
+      private FileConfiguration config;
+      private File file;
+      
+      public FileStorage(File file){
+         this.file = file;
+         reload();
+      }
+      
+      public void save() throws IOException{
+         config.save(file);
+      }
+      
+      public void reload(){
+         config = YamlConfiguration.loadConfiguration(file);
+      }
+      
+      public FileConfiguration getConfig(){
+         return config;
+      }
+      
    }
    
 }

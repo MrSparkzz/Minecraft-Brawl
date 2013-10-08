@@ -14,6 +14,8 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
  * 
  * @author Paul, Breezeyboy
  * 
+ *         This class is used to make items into strings, then back into items.
+ *         It makes use of java's .split() method.
  */
 public class ItemHandler {
    

@@ -17,6 +17,8 @@ import org.infernogames.mb.Abilities.MBAbility;
  * 
  * @author Paul, Breezeyboy
  * 
+ *         This is the main class for.. well classes. By using this class as a
+ *         template, I can load classes through file and code.
  */
 public class MBClass {
    
@@ -63,7 +65,7 @@ public class MBClass {
       
    }
    
-   private HashMap<MBAbility, String[]>abilities = new HashMap<MBAbility, String[]>();
+   private HashMap<MBAbility, String[]> abilities = new HashMap<MBAbility, String[]>();
    
    public void addAbility(MBAbility a, String[] args) {
       abilities.put(a, args);
@@ -74,18 +76,18 @@ public class MBClass {
       return abilities;
    }
    
-   public boolean hasAbility(String name){
-      for(MBAbility a : abilities.keySet()){
-         if(a != null && a.name().equalsIgnoreCase(name)){
+   public boolean hasAbility(String name) {
+      for (MBAbility a : abilities.keySet()) {
+         if (a != null && a.name().equalsIgnoreCase(name)) {
             return true;
          }
       }
       return false;
    }
    
-   public MBAbility getAbility(String name){
-      for(MBAbility a : abilities.keySet()){
-         if(a.name().equalsIgnoreCase(name)){
+   public MBAbility getAbility(String name) {
+      for (MBAbility a : abilities.keySet()) {
+         if (a.name().equalsIgnoreCase(name)) {
             return a;
          }
       }

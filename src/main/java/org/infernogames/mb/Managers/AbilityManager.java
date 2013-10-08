@@ -10,29 +10,31 @@ import org.infernogames.mb.Abilities.MBAbility;
  * 
  * @author Paul, Breezeyboy
  * 
+ *         This handles all registered abilities. Possibly will be removed in
+ *         the future.
  */
 public class AbilityManager {
    private static List<MBAbility> abilities = new ArrayList<MBAbility>();
    
-   public static MBAbility getAbility(String name){
-      for(MBAbility ab : abilities){
-         if(ab.name().equalsIgnoreCase(name)){
+   public static MBAbility getAbility(String name) {
+      for (MBAbility ab : abilities) {
+         if (ab.name().equalsIgnoreCase(name)) {
             return ab;
          }
       }
       return null;
    }
    
-   public static boolean abilityRegistered(String name){
-      for(MBAbility ab : abilities){
-         if(ab.name().equalsIgnoreCase(name)){
+   public static boolean abilityRegistered(String name) {
+      for (MBAbility ab : abilities) {
+         if (ab.name().equalsIgnoreCase(name)) {
             return true;
          }
       }
       return false;
    }
    
-   public static void registerAbility(MBAbility ab){
+   public static void registerAbility(MBAbility ab) {
       abilities.add(ab);
       Bukkit.getLogger().info("Registerd Ability: " + ab.name());
    }

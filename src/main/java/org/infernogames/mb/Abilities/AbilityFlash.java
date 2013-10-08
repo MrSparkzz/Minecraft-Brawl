@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.infernogames.mb.MBPlugin;
+import org.infernogames.mb.Utils.LocationUtils;
 
 /**
  * 
@@ -27,12 +28,11 @@ public class AbilityFlash extends MBAbility {
    
    List<String> cooldowns = new ArrayList<String>();
    
-   @SuppressWarnings("deprecation")
    @Override
    public void onClick(final Player p, Action a, String[] args) {
       if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK && p.getItemInHand().getType() == m
                && !cooldowns.contains(p.getName())) {
-         Block b = p.getTargetBlock(null, distance);
+         Block b = LocationUtils.getTargetBlock(p, distance);
          if (!(b.getType() == Material.AIR || b == null)) {
             p.teleport(b.getLocation());
             cooldowns.add(p.getName());

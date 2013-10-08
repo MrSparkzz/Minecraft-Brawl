@@ -1,24 +1,24 @@
 package org.infernogames.mb.Commands;
 
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 /**
  * 
  * @author Paul, Breezeyboy,
  * 
+ *         Basic class that all subcommands extend.
  */
 public abstract class MBCommand {
    
    private String command;
-   private String permission;
-   private String usage;
+   private Permission permission;
    private int args;
    
-   public MBCommand(final String command, final String permission, int args, final String usage){
+   public MBCommand(final String command, int args, final Permission permission) {
       this.command = command;
       this.permission = permission;
       this.args = args;
-      this.usage = usage;
    }
    
    public abstract void onCommand(Player p, String[] args);
@@ -26,12 +26,17 @@ public abstract class MBCommand {
    public String getCommand() {
       return this.command;
    }
-   public String getUsage(){
-   return usage;
+   
+   public String getUsage() {
+      return permission.getDescription();
    }
    
-   public String getPermission() {
-      return this.permission;
+   public String getPermissionString() {
+      return permission.getName();
+   }
+   
+   public Permission getPermission() {
+      return permission;
    }
    
    public int getArgumentLength() {

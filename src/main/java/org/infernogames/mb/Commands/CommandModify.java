@@ -1,9 +1,10 @@
 package org.infernogames.mb.Commands;
 
-
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
+import org.infernogames.mb.MBPlugin;
 import org.infernogames.mb.Arena.Arena;
-import org.infernogames.mb.Managers.ArenaManager;
 import org.infernogames.mb.Managers.FileManager;
 import org.infernogames.mb.Utils.LocationUtils;
 import org.infernogames.mb.Utils.Msg;
@@ -12,18 +13,19 @@ import org.infernogames.mb.Utils.Msg;
  * 
  * @author Paul, Breezeyboy
  * 
+ *         This class allows you to modify the arena
  */
 public class CommandModify extends MBCommand {
    
    public CommandModify() {
-      super("modify", "ssc.arena.modify", -1, "Modifys an existing arena");
+      super("modify", -1, new Permission("mb.arena.modify", "Modifies an arena", PermissionDefault.OP));
    }
    
    @Override
    public void onCommand(Player p, String[] args) {
       if (args.length > 1) {
-         if (ArenaManager.arenaRegistered(args[0])) {
-            Arena a = ArenaManager.getArena(args[0]);
+         if (MBPlugin.arenaManager.arenaRegistered(args[0])) {
+            Arena a = MBPlugin.arenaManager.getArena(args[0]);
             if (args[1].equalsIgnoreCase("name")) {
                if (args.length == 3) {
                   FileManager man = new FileManager("Arenas");

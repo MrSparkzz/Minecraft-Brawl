@@ -2,6 +2,13 @@ package org.infernogames.mb.Arena;
 
 import org.infernogames.mb.Managers.FileManager;
 
+/**
+ * 
+ * @author Paul, Breezeyboy
+ * 
+ *         Class used to store data about the arena. Stored in a integer, or a
+ *         boolean.
+ */
 public class ArenaSettings {
    
    private FileManager man;
@@ -33,7 +40,7 @@ public class ArenaSettings {
    }
    
    public enum ArenaSetting {
-      MIN_PLAYERS(2), MAX_PLAYERS(4), STARTING_PLAYERS(3), EXIT_ARENA(false);
+      MIN_PLAYERS(2), MAX_PLAYERS(4), EXIT_ARENA(false), AUTO_START_TIMER(5), DISABLE_AUTO_START(false);
       
       private int i;
       private boolean b;

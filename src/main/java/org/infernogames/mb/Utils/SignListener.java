@@ -9,9 +9,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.infernogames.mb.MBPlugin;
 import org.infernogames.mb.Arena.Arena;
 import org.infernogames.mb.Commands.CommandJoin;
-import org.infernogames.mb.Managers.ArenaManager;
 import org.infernogames.mb.Managers.FileManager;
 import org.infernogames.mb.Managers.PlayerManager;
 
@@ -26,27 +26,24 @@ public class SignListener implements Listener {
       if (event.getLine(0).equalsIgnoreCase("Minecraft Brawl")) {
          Player p = event.getPlayer();
          if (p.hasPermission("mb.signs")) {
-            if (ArenaManager.arenaRegistered(event.getLine(1))) {
+            if (MBPlugin.arenaManager.arenaRegistered(event.getLine(1))) {
                event.setLine(0, "Minecraft Brawl");
-               Arena arena = ArenaManager.getArena(event.getLine(1));
+               Arena arena = MBPlugin.arenaManager.getArena(event.getLine(1));
                FileManager man = new FileManager("Arenas");
-               String world = event.getBlock().getWorld().getName();
-               int x = event.getBlock().getX();
-               int y = event.getBlock().getY();
-               int z = event.getBlock().getZ();
                if (event.getLine(2).equalsIgnoreCase("join")) {
                   event.setLine(3, ChatColor.GREEN + arena.getName());
                   event.setLine(1, ChatColor.AQUA + "Click to Join");
-                  //man... Lol
+                  // man... Lol
                   man.getConfig().set(
-                           "Arenas." + arena.getName() + ".Signs." + world + ";" + x + ";" + y + ";" + z, "join");
+                           "Arenas." + arena.getName() + ".Signs." + LocationUtils.fromLocation(event.getBlock()),
+                           "join");
                   man.saveConfig();
                } else if (event.getLine(2).equalsIgnoreCase("status")) {
                   event.setLine(3, ChatColor.GREEN + arena.getName());
                   event.setLine(1, ChatColor.AQUA + "Blank Status");
-                  man.getConfig()
-                           .set("Arenas." + arena.getName() + ".Signs." + world + ";" + x + ";" + y + ";" + z,
-                                    "status");
+                  man.getConfig().set(
+                           "Arenas." + arena.getName() + ".Signs." + LocationUtils.fromLocation(event.getBlock()),
+                           "status");
                   man.saveConfig();
                } else {
                   Msg.warning(p, "The type '" + event.getLine(2) + "' doesn't exist!");
@@ -66,20 +63,19 @@ public class SignListener implements Listener {
    }
    
    @EventHandler
-   public void onBlockBreak(BlockBreakEvent event) {//Shouldn't we be checking if they have permission to remove it?
+   public void onBlockBreak(BlockBreakEvent event) {// Shouldn't we be checking
+                                                    // if they have permission
+                                                    // to remove it?
       if (event.getBlock().getState() instanceof Sign) {
          Sign sign = (Sign) event.getBlock().getState();
          if (sign.getLine(0) == "Minecraft Brawl") {
-            if (ArenaManager.arenaRegistered(ChatColor.stripColor(sign.getLine(3)))) {
+            if (MBPlugin.arenaManager.arenaRegistered(ChatColor.stripColor(sign.getLine(3)))) {
                FileManager man = new FileManager("Arenas");
-               Arena a = ArenaManager.getArena(ChatColor.stripColor(sign.getLine(3)));
-               String world = event.getBlock().getWorld().getName();
-               int x = event.getBlock().getX();
-               int y = event.getBlock().getY();
-               int z = event.getBlock().getZ();
-               if (man.getConfig()
-                        .isSet("Arenas." + a.getName() + ".Signs." + world + ";" + x + ";" + y + ";" + z)) {
-                  man.getConfig().set("Arenas." + a.getName() + ".Signs." + world + ";" + x + ";" + y + ";" + z,
+               Arena a = MBPlugin.arenaManager.getArena(ChatColor.stripColor(sign.getLine(3)));
+               if (man.getConfig().isSet(
+                        "Arenas." + a.getName() + ".Signs." + LocationUtils.fromLocation(event.getBlock()))) {
+                  man.getConfig().set(
+                           "Arenas." + a.getName() + ".Signs." + LocationUtils.fromLocation(event.getBlock()),
                            null);
                   man.saveConfig();
                } else {
@@ -95,17 +91,14 @@ public class SignListener implements Listener {
       if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getState() instanceof Sign) {
          Sign sign = (Sign) event.getClickedBlock().getState();
          if (sign.getLine(0).equals("Minecraft Brawl")) {
-            if (ArenaManager.arenaRegistered(ChatColor.stripColor(sign.getLine(3)))) {
+            if (MBPlugin.arenaManager.arenaRegistered(ChatColor.stripColor(sign.getLine(3)))) {
                FileManager man = new FileManager("Arenas");
-               Arena a = ArenaManager.getArena(ChatColor.stripColor(sign.getLine(3)));
-               String world = event.getClickedBlock().getWorld().getName();
-               int x = event.getClickedBlock().getX();
-               int y = event.getClickedBlock().getY();
-               int z = event.getClickedBlock().getZ();
-               if (man.getConfig()
-                        .isSet("Arenas." + a.getName() + ".Signs." + world + ";" + x + ";" + y + ";" + z)) {
+               Arena a = MBPlugin.arenaManager.getArena(ChatColor.stripColor(sign.getLine(3)));
+               if (man.getConfig().isSet(
+                        "Arenas." + a.getName() + ".Signs." + LocationUtils.fromLocation(event.getClickedBlock()))) {
                   String type = man.getConfig().getString(
-                           "Arenas." + a.getName() + ".Signs." + world + ";" + x + ";" + y + ";" + z);
+                           "Arenas." + a.getName() + ".Signs."
+                                    + LocationUtils.fromLocation(event.getClickedBlock()));
                   if (type.equals("join")) {
                      if (CommandJoin.basicArenaChecks(event.getPlayer(), a.getName())) {
                         PlayerManager.openMenu(event.getPlayer(), a);
