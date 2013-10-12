@@ -36,12 +36,12 @@ public class AbilityFlash extends MBAbility {
          if (!(b.getType() == Material.AIR || b == null)) {
             p.teleport(b.getLocation());
             cooldowns.add(p.getName());
-            new BukkitRunnable() {
+            MBPlugin.registerRunnable(new BukkitRunnable() {
                @Override
                public void run() {
                   cooldowns.remove(p.getName());
                }
-            }.runTaskLater(MBPlugin.instance, cooldown);
+            }, cooldown);
          }
       }
    }

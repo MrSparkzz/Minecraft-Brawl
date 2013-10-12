@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Minecraft-Brawl</groupId>
 	<artifactId>Minecraft-Brawl</artifactId>
-	<version>0.0.5(dev)</version>
+	<version>0.0.5.1(dev)</version>
 	<name>Minecraft-Brawl</name>
 	<description>Minecraft Brawl - Bukkit Plugin</description>
 	<build>

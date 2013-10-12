@@ -1,15 +1,19 @@
 package org.infernogames.mb.Arena;
 
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.infernogames.mb.Arena.ArenaRegion.WarpType;
+import org.infernogames.mb.Arena.ArenaSettings.ArenaSetting;
 import org.infernogames.mb.Managers.DeathManager.DeathCause;
 import org.infernogames.mb.Managers.PlayerManager;
 import org.infernogames.mb.Managers.PlayerManager.PlayerData;
@@ -24,23 +28,76 @@ import org.infernogames.mb.Managers.PlayerManager.PlayerData;
 public class ArenaListener implements Listener {
    
    @EventHandler
+   public void onInventoryMove(InventoryClickEvent event) {
+      if (event.getWhoClicked() instanceof Player) {
+         Player p = (Player) event.getWhoClicked();
+         if (PlayerManager.playerInArena(p)) {
+            Arena a = PlayerManager.getPlayerArena(p);
+            if (!a.getSettings().getBoolSetting(ArenaSetting.INVENTORY_MOVE)) {
+               event.setCancelled(true);
+            }
+         }
+      }
+   }
+   
+   @EventHandler
+   public void onBlockBreak(BlockBreakEvent event) {
+      if (PlayerManager.playerInArena(event.getPlayer())) {
+         Arena a = PlayerManager.getPlayerArena(event.getPlayer());
+         if (!a.getSettings().getBoolSetting(ArenaSetting.BLOCK_BREAK)) {
+            event.setCancelled(true);
+         }
+      }
+   }
+   
+   @EventHandler
+   public void onBlockBreak(BlockPlaceEvent event) {
+      if (PlayerManager.playerInArena(event.getPlayer())) {
+         Arena a = PlayerManager.getPlayerArena(event.getPlayer());
+         if (!a.getSettings().getBoolSetting(ArenaSetting.BLOCK_PLACE)) {
+            event.setCancelled(true);
+         }
+      }
+   }
+   
+   @EventHandler
+   public void onPlayerDrop(PlayerDropItemEvent event) {
+      if (PlayerManager.playerInArena(event.getPlayer())) {
+         Arena a = PlayerManager.getPlayerArena(event.getPlayer());
+         if (!a.getSettings().getBoolSetting(ArenaSetting.BLOCK_PLACE)) {
+            event.setCancelled(true);
+         }
+      }
+   }
+   
+   @EventHandler
+   public void onPlayerPickupItem(PlayerPickupItemEvent event) {
+      if (PlayerManager.playerInArena(event.getPlayer())) {
+         Arena a = PlayerManager.getPlayerArena(event.getPlayer());
+         if (!a.getSettings().getBoolSetting(ArenaSetting.BLOCK_PLACE)) {
+            event.setCancelled(true);
+         }
+      }
+   }
+   
+   @EventHandler
    public void onPluginDisable(PluginDisableEvent event) {
       for (PlayerData data : PlayerManager.getAllPlayers()) {
          data.a.getPlayerManager().stopPlayer(data);
       }
    }
    
-   @EventHandler
-   public void onEntityDBE(EntityDamageByEntityEvent event) {
-      if (event.getDamager() instanceof Player && PlayerManager.playerInArena((Player) event.getDamager())) {
-         event.setCancelled(true);
-      }
-      if (event.getDamager() instanceof Projectile
-               && ((Projectile) event.getDamager()).getShooter() instanceof Player
-               && PlayerManager.playerInArena(((Player) ((Projectile) event.getDamager()).getShooter()))) {
-         event.setCancelled(true);
-      }
-   }
+   /*
+    * Broken for now D:
+    * 
+    * @EventHandler public void onEntityDBE(EntityDamageByEntityEvent event) {
+    * if (event.getDamager() instanceof Player &&
+    * !PlayerManager.playerInArena((Player) event.getDamager())) {
+    * event.setCancelled(true); } if (event.getDamager() instanceof Projectile
+    * && ((Projectile) event.getDamager()).getShooter() instanceof Player &&
+    * !PlayerManager.playerInArena(((Player) ((Projectile)
+    * event.getDamager()).getShooter()))) { event.setCancelled(true); } }
+    */
    
    @EventHandler
    public void onEntityDBE(EntityDamageEvent event) {

@@ -23,7 +23,7 @@ public class MBArenaManager implements ArenaManager {
    @Override
    public void deleteArena(Arena arena) {
       if (arenaRegistered(arena)) {
-         arena.stop();
+         arena.stop(false);
       }
    }
    

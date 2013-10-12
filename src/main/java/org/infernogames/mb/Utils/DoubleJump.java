@@ -25,7 +25,7 @@ import org.infernogames.mb.Managers.PlayerManager.PlayerData;
  */
 public class DoubleJump implements Listener {
    public DoubleJump() {
-      new BukkitRunnable() {
+      MBPlugin.registerRepeatedRunnable(new BukkitRunnable() {
          @Override
          public void run() {
             for (final PlayerData data : PlayerManager.getAllPlayers()) {
@@ -52,7 +52,7 @@ public class DoubleJump implements Listener {
                }
             }
          }
-      }.runTaskTimer(MBPlugin.instance, 0, 3);
+      }, 0, 3);
    }
    
    public static HashMap<String, Integer> kirby = new HashMap<String, Integer>();

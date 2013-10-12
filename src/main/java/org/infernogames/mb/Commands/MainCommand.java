@@ -32,8 +32,8 @@ public class MainCommand implements CommandExecutor {
       Player p = (Player) sender;
       
       if (args.length == 0) {
-         Msg.msg(p, "Minecraft Brawl v&a" + MBPlugin.instance.getDescription().getVersion()
-                  + " &e by &aPaulBGD &eand &abreezeyboy&e.", false);
+         Msg.msg(p, "Minecraft Brawl v&a" + MBPlugin.getVersion() + " &e by &aPaulBGD &eand &abreezeyboy&e.",
+                  false);
          Msg.msg(p, "Type &a/mb help&e for help.");
       } else {
          MBCommand cmd = null;

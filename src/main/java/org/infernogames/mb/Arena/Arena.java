@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.infernogames.mb.Reward;
+import org.infernogames.mb.Managers.DeathManager;
 import org.infernogames.mb.Managers.PlayerManager;
 import org.infernogames.mb.Managers.PlayerManager.PlayerData;
+import org.infernogames.mb.Utils.Msg;
 
 /**
  * 
@@ -22,6 +24,7 @@ public class Arena {
    private PlayerManager man;
    private ArenaRegion region;
    private ArenaSettings settings;
+   private ArenaChecker checker;
    
    public Arena(String name, Location l1, Location l2, Location l, Location s, Reward r, Location... sp) {
       this.name = name;
@@ -31,7 +34,8 @@ public class Arena {
       
       man = new PlayerManager();
       settings = new ArenaSettings(this);
-      new ArenaChecker(this);
+      checker = new ArenaChecker(this);
+      new DeathManager(this);
    }
    
    public String getName() {
@@ -58,6 +62,12 @@ public class Arena {
       return settings;
    }
    
+   public void broadcast(String msg) {
+      for (PlayerData d : man.getArenaPlayers()) {
+         Msg.msg(d.getPlayer(), msg);
+      }
+   }
+   
    private boolean started = false;
    
    public boolean hasStarted() {
@@ -68,11 +78,14 @@ public class Arena {
       started = true;
    }
    
-   public void stop() {
+   public void stop(boolean rolledBack) {
       for (PlayerData data : man.getArenaPlayers()) {
          man.stopPlayer(data);
       }
       started = false;
+      if (!rolledBack) {
+         checker.rollback();
+      }
    }
    
 }

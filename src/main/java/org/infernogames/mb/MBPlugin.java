@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.infernogames.mb.Abilities.AbilityFireball;
 import org.infernogames.mb.Abilities.AbilityFlash;
 import org.infernogames.mb.Abilities.AbilityFloat;
@@ -41,16 +42,16 @@ import org.infernogames.mb.Utils.SignListener;
  *         The main class used by bukkit. Also starts the plugin.
  */
 public class MBPlugin extends JavaPlugin {
-   public static MBPlugin instance;
    public static ArenaManager arenaManager;
-   public PluginManager pm = Bukkit.getServer().getPluginManager();
+   private static PluginManager pm = Bukkit.getServer().getPluginManager();
+   private static MBPlugin instance;
    public Logger log;
    
    @Override
    public void onEnable() {
       FileManager.dataFolder = getDataFolder();
-      instance = this;
       arenaManager = new MBArenaManager();
+      instance = this;
       log = getLogger();
       
       getCommand("mb").setExecutor(new MainCommand());
@@ -137,7 +138,23 @@ public class MBPlugin extends JavaPlugin {
       log.info("[MinecraftBrawl] v" + this.getDescription().getVersion() + " disabled.");
    }
    
-   private void registerListener(final Listener listener) {
-      pm.registerEvents(listener, this);
+   public static void registerRunnable(BukkitRunnable r, long delay) {
+      r.runTaskLater(instance, delay);
+   }
+   
+   public static void registerRepeatedRunnable(BukkitRunnable r, long delay, long period) {
+      r.runTaskTimer(instance, delay, period);
+   }
+   
+   public static void registerAsyncTask(BukkitRunnable r) {
+      r.runTaskAsynchronously(instance);
+   }
+   
+   public static void registerListener(final Listener listener) {
+      pm.registerEvents(listener, instance);
+   }
+   
+   public static String getVersion() {
+      return instance.getDescription().getVersion();
    }
 }

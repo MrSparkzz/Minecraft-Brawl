@@ -18,6 +18,7 @@ import org.infernogames.mb.MBClass;
  * 
  * @author Paul, Breezeyboy
  * 
+ *         This class handles all the classes, including loading them from file.
  */
 public class ClassManager {
    
@@ -43,14 +44,12 @@ public class ClassManager {
       for (File fi : file.listFiles()) {
          if (fi.getName().toLowerCase().contains(".yml")) {
             FileConfiguration c = YamlConfiguration.loadConfiguration(fi);
-            Bukkit.getLogger().info("Loaded class: " + c.getString("Name", "Class"));
-            @SuppressWarnings("deprecation")
             MBClass cl = new MBClass(c.getString("Name", "Class"), c.getString("Description", "Some Description"),
-                     Material.getMaterial(c.getInt("Icon", 1)));
-            cl.addItem(ItemHandler.fromString(c.getString("Armor.Boots", "type=0")));
-            cl.addItem(ItemHandler.fromString(c.getString("Armor.Helmet", "type=0")));
-            cl.addItem(ItemHandler.fromString(c.getString("Armor.Chestplate", "type=0")));
-            cl.addItem(ItemHandler.fromString(c.getString("Armor.Leggings", "type=0")));
+                     Material.getMaterial(c.getString("Icon", "STONE")));
+            cl.addItem(ItemHandler.fromString(c.getString("Armor.Boots", "type=STONE")));
+            cl.addItem(ItemHandler.fromString(c.getString("Armor.Helmet", "type=STONE")));
+            cl.addItem(ItemHandler.fromString(c.getString("Armor.Chestplate", "type=STONE")));
+            cl.addItem(ItemHandler.fromString(c.getString("Armor.Leggings", "type=STONE")));
             for (Object o : c.getList("Items")) {
                ItemStack i = new ItemStack(Material.getMaterial(o.toString()), 1);
                i.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
@@ -76,6 +75,7 @@ public class ClassManager {
                }
             }
             registerClass(cl);
+            Bukkit.getLogger().info("Loaded class: " + c.getString("Name", "Class"));
          }
       }
    }

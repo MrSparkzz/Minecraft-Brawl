@@ -36,7 +36,7 @@ public class IconMenu implements Listener {
       this.size = size * 9;
       items = new ItemStack[this.size];
       this.click = click;
-      Bukkit.getPluginManager().registerEvents(this, MBPlugin.instance);
+      MBPlugin.registerListener(this);
    }
    
    @EventHandler
@@ -100,7 +100,7 @@ public class IconMenu implements Listener {
             items[i] = getItem(item, name, lore);
             break;
          }
-      }
+   }
       return this;
    }
    

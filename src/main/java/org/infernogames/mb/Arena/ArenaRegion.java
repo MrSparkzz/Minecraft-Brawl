@@ -1,8 +1,11 @@
 package org.infernogames.mb.Arena;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Location;
+import org.bukkit.block.BlockState;
 
 /**
  * 
@@ -48,6 +51,15 @@ public class ArenaRegion {
    
    public boolean contains(Location l) {
       return l.toVector().isInAABB(l2.toVector(), l1.toVector());
+   }
+   
+   public List<BlockState> getBlockStates() {
+      List<BlockState> blocks = new ArrayList<BlockState>();
+      for (int x = l2.getBlockX(); x <= l1.getBlockX(); x++)
+         for (int z = l2.getBlockZ(); z <= l1.getBlockZ(); z++)
+            for (int y = l2.getBlockY(); y <= l1.getBlockZ(); y++)
+               blocks.add(l1.getWorld().getBlockAt(x, y, z).getState());
+      return blocks;
    }
    
    // GETTERS

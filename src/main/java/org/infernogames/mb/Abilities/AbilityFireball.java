@@ -39,13 +39,14 @@ public class AbilityFireball extends MBAbility {
          final Arrow arrow = p.launchProjectile(Arrow.class);
          arrow.setFireTicks((int) ticks);
          cooldown.add(p.getName());
-         new BukkitRunnable() {
+         
+         MBPlugin.registerRunnable(new BukkitRunnable() {
             @Override
             public void run() {
                cooldown.remove(p.getName());
                arrow.remove();
             }
-         }.runTaskLater(MBPlugin.instance, ticks);
+         }, ticks);
       }
    }
    

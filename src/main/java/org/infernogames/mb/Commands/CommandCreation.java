@@ -36,8 +36,9 @@ public class CommandCreation extends MBCommand {
          } else {
             Msg.warning(p, "You are in the process of making an arena! Do /mb creation scrap to scrap the arena.");
          }
+         return;
       }
-      if (CreationManager.playerStarted(p)) {
+      if (CreationManager.playerStarted(p)) {   
          if (args[0].equalsIgnoreCase("name")) {
             if (args.length == 2) {
                if (CreationManager.playerStarted(p)) {
@@ -70,9 +71,7 @@ public class CommandCreation extends MBCommand {
                CreationManager.getHolder(p).lobby = p.getLocation();
                Msg.msg(p, "You set the warp at your current location!");
             }
-         }
-         
-         else if (args[0].equalsIgnoreCase("addspawn")) {
+         } else if (args[0].equalsIgnoreCase("addspawn")) {
             if (CreationManager.playerStarted(p)) {
                CreationManager.getHolder(p).spawns.add(p.getLocation());
                Msg.msg(p, "You added a spawn at your current location!");

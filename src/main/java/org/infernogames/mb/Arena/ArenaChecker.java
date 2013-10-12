@@ -1,10 +1,13 @@
 package org.infernogames.mb.Arena;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -17,11 +20,11 @@ import org.infernogames.mb.MBPlugin;
 import org.infernogames.mb.Reward;
 import org.infernogames.mb.Arena.ArenaRegion.WarpType;
 import org.infernogames.mb.Arena.ArenaSettings.ArenaSetting;
-import org.infernogames.mb.Managers.DeathManager.DeathCause;
 import org.infernogames.mb.Managers.FileManager;
 import org.infernogames.mb.Managers.PlayerManager.PlayerData;
 import org.infernogames.mb.Utils.LocationUtils;
 import org.infernogames.mb.Utils.Msg;
+import org.infernogames.mb.Utils.StaggeredRunnable;
 
 /**
  * 
@@ -39,14 +42,17 @@ public class ArenaChecker {
    private Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
    private Objective ob = board.registerNewObjective("test", "dummy");
    
+   private List<BlockState> blocks = new ArrayList<BlockState>();
+   
    public ArenaChecker(Arena arena) {
       this.arena = arena;
       timer = arena.getSettings().getIntSetting(ArenaSetting.AUTO_START_TIMER) * 20;
       
-      new ArenaRunnable().runTaskTimer(MBPlugin.instance, 0, 25);
+      MBPlugin.registerRepeatedRunnable(new ArenaRunnable(), 0, 25);
       
       ob.setDisplayName(ChatColor.GREEN + "Players   " + ChatColor.RED + "   Lives");
       ob.setDisplaySlot(DisplaySlot.SIDEBAR);
+      blocks = arena.getRegion().getBlockStates();
    }
    
    public class ArenaRunnable extends BukkitRunnable {
@@ -57,9 +63,7 @@ public class ArenaChecker {
          updateSigns();
          if (arena.hasStarted()) {
             updateStarted();
-            if (arenaPlayers > 0) {
-               updatePlayers();
-            }
+            updatePlayers();
          } else {
             updateStopped();
          }
@@ -97,7 +101,7 @@ public class ArenaChecker {
    }
    
    private void updateStarted() {
-      if (arenaPlayers <= 0) {
+      if (arenaPlayers <= 1) {
          // Finished
          if (arenaPlayers == 1) {
             Player p = arena.getPlayerManager().getArenaPlayers().get(0).getPlayer();
@@ -106,7 +110,14 @@ public class ArenaChecker {
             }
             Msg.broadcast(p.getName() + " has won on the arena " + arena.getName() + "!");
          }
-         arena.stop();
+         arena.stop(true);
+         rollback();
+      }
+   }
+   
+   public void rollback() {
+      if (arena.getSettings().getBoolSetting(ArenaSetting.RESTORE_ARENA_ONFINISH)) {
+         MBPlugin.registerAsyncTask(new StaggeredRunnable(blocks));
       }
    }
    
@@ -117,7 +128,7 @@ public class ArenaChecker {
                return;
             }
             autoRunning = true;
-            new BukkitRunnable() {
+            MBPlugin.registerRunnable(new BukkitRunnable() {
                @Override
                public void run() {
                   if (arenaPlayers >= arena.getSettings().getIntSetting(ArenaSetting.MIN_PLAYERS)) {
@@ -127,7 +138,7 @@ public class ArenaChecker {
                      return;
                   }
                }
-            }.runTaskLater(MBPlugin.instance, timer);
+            }, timer);
          } else {
             start();
          }
@@ -149,16 +160,12 @@ public class ArenaChecker {
       while (i.hasNext()) {
          PlayerData data = i.next();
          Player p = data.getPlayer();
-         if (!arena.getRegion().contains(p.getLocation())) {
-            data.removeLife(DeathCause.FALL_OUT);
-         }
          if (p.getScoreboard() != board) {
             p.setScoreboard(board);
          }
          if (data.lives < 1) {
             board.resetScores(p);
             arena.getPlayerManager().stopPlayer(data);
-            arena.stop();
          } else {
             // Player is dead
             ob.getScore(p).setScore(data.lives);

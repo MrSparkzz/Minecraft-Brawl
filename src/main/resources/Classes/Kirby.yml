@@ -1,12 +1,13 @@
 Name: Kirby
 Description: Pink & Floaty!
-Icon: 370
+Icon: GHAST_TEAR
+
 Items:
   - GHAST_TEAR
 Armor:
-  Helmet: type=298;rgb=255,133,196
-  Chestplate: type=299;rgb=255,133,196
-  Leggings: type=300;rgb=255,133,196
-  Boots: type=301;rgb=255,133,196
+  Helmet: type=LEATHER_HELMET;rgb=255,133,196
+  Chestplate: type=LEATHER_CHESTPLATE;rgb=255,133,196
+  Leggings: type=LEATHER_LEGGINGS;rgb=255,133,196
+  Boots: type=LEATHER_BOOTS;rgb=255,133,196
 Abilities:
   - Float

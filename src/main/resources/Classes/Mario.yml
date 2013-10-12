@@ -1,12 +1,12 @@
 Name: Mario
 Description: Bro!
-Icon: 385
+Icon: FIREBALL
 Items:
   - BLAZE_ROD
 Armor:
-  Helmet: type=298;rgb=255,31,31
-  Chestplate: type=299;rgb=255,31,31
-  Leggings: type=300;rgb=255,31,31
-  Boots: type=301;rgb=255,31,31
+  Helmet: type=LEATHER_HELMET;rgb=255,31,31
+  Chestplate: type=LEATHER_CHESTPLATE;rgb=255,31,31
+  Leggings: type=LEATHER_LEGGINGS;rgb=255,31,31
+  Boots: type=LEATHER_BOOTS;rgb=255,31,31
 Abilities:
   - Fireball;25;369

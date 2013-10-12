@@ -30,12 +30,7 @@ import org.infernogames.mb.Utils.IconMenu.onClick;
 public class PlayerManager {
    
    public static boolean playerInArena(Player p) {
-      for (Arena arena : MBPlugin.arenaManager.iterator()) {
-         if (arena.getPlayerManager().hasPlayer(p)) {
-            return true;
-         }
-      }
-      return false;
+      return getPlayerArena(p) != null;
    }
    
    public static Arena getPlayerArena(Player p) {
@@ -47,19 +42,18 @@ public class PlayerManager {
       return null;
    }
    
-   public static void openMenu(final Player p, final Arena arena){
-      IconMenu menu = new IconMenu("Pick your class!", (ClassManager.classAmount() / 9) + 1,
-               new onClick() {
-                  @Override
-                  public boolean click(Player clicker, IconMenu menu, Row row, int slot, ItemStack item) {
-                     if (item == null || item.getType() == Material.AIR) {
-                        return true;
-                     }
-                     arena.getPlayerManager().startPlayer(p, arena,
-                              ClassManager.getRegisteredClass(item.getItemMeta().getDisplayName()));
-                     return false;
-                  }
-               });
+   public static void openMenu(final Player p, final Arena arena) {
+      IconMenu menu = new IconMenu("Pick your class!", (ClassManager.classAmount() / 9) + 1, new onClick() {
+         @Override
+         public boolean click(Player clicker, IconMenu menu, Row row, int slot, ItemStack item) {
+            if (item == null || item.getType() == Material.AIR) {
+               return true;
+            }
+            arena.getPlayerManager().startPlayer(p, arena,
+                     ClassManager.getRegisteredClass(item.getItemMeta().getDisplayName()));
+            return false;
+         }
+      });
       for (MBClass c : ClassManager.getClasses()) {
          menu.addDynamicButton(new ItemStack(c.icon()), ChatColor.GREEN + c.name(), c.desc());
       }
@@ -79,12 +73,12 @@ public class PlayerManager {
    public void startPlayer(Player p, Arena a, MBClass c) {
       players.add(new PlayerData(p, a, c));
       p.getInventory().clear();
-      for(PotionEffect e : p.getPlayer().getActivePotionEffects()){
+      for (PotionEffect e : p.getPlayer().getActivePotionEffects()) {
          p.getPlayer().removePotionEffect(e.getType());
       }
       p.getInventory().setArmorContents(null);
       p.setGameMode(GameMode.ADVENTURE);
-
+      
       p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 99999, 0));
       p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 99999, 0));
       p.setCanPickupItems(false);
@@ -94,7 +88,7 @@ public class PlayerManager {
    
    public void stopPlayer(PlayerData p) {
       p.resetData();
-      for(PotionEffect e : p.getPlayer().getActivePotionEffects()){
+      for (PotionEffect e : p.getPlayer().getActivePotionEffects()) {
          p.getPlayer().removePotionEffect(e.getType());
       }
       p.getPlayer().setFallDistance(0);
@@ -120,8 +114,8 @@ public class PlayerManager {
       return null;
    }
    
-   public void broadcast(String msg){
-      for(PlayerData data : players){
+   public void broadcast(String msg) {
+      for (PlayerData data : players) {
          Msg.msg(data.getPlayer(), msg);
       }
    }
@@ -196,6 +190,11 @@ public class PlayerManager {
       
       public Player getPlayer() {
          return Bukkit.getPlayer(name);
+      }
+      
+      @Override
+      public String toString() {
+         return name;
       }
    }
 }

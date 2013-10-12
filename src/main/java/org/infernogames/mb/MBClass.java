@@ -118,7 +118,7 @@ public class MBClass {
    
    public void item(final Material ma) {
       final ItemStack i = new ItemStack(ma, 1);
-      i.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
+      i.addUnsafeEnchantment(Enchantment.KNOCKBACK, 3);
       items.add(i);
    }
    

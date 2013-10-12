@@ -15,6 +15,7 @@ import org.infernogames.mb.Utils.LocationUtils;
  * 
  * @author Paul, Breezeyboy
  * 
+ *         Used to handle creation, mostly used by the creation command.
  */
 public class CreationManager {
    
