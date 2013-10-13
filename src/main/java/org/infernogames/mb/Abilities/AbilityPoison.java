@@ -4,14 +4,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.infernogames.mb.Utils.Damager;
 
-public class AbilityExplode extends MBAbility {
+public class AbilityPoison extends MBAbility {
    
-   int radius = 3;
-   double playerDamage = 3.5;
-   double enemyDamage = 5.8;
+   private int radius = 5;
+   private int time = 40;
    
-   public AbilityExplode() {
-      super("Explode");
+   public AbilityPoison() {
+      super("Poison");
    }
    
    @Override
@@ -20,13 +19,11 @@ public class AbilityExplode extends MBAbility {
          if (args.length >= 1) {
             radius = Integer.parseInt(args[0]);
             if (args.length >= 2) {
-               playerDamage = Double.parseDouble(args[1]);
-               if (args.length >= 3) {
-                  enemyDamage = Double.parseDouble(args[2]);
-               }
+               time = Integer.parseInt(args[1]);
             }
          }
-         new Damager(p).explode(radius, playerDamage, enemyDamage);
+         new Damager(p).poison(radius, time);
       }
    }
+   
 }

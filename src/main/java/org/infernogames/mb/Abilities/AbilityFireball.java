@@ -14,7 +14,7 @@ import org.infernogames.mb.MBPlugin;
  * 
  *         Ability to shoot a fire arrow which disappears over time
  */
-public class AbilityFireball extends ATypeCooldown implements Listener {
+public class AbilityFireball extends MBAbility implements Listener {
    
    private long ticks = 20;
    

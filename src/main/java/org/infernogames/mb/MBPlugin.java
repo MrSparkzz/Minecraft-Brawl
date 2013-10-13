@@ -54,6 +54,7 @@ public class MBPlugin extends JavaPlugin {
       AbilityManager.registerAbility(new AbilityFloat());
       AbilityManager.registerAbility(new AbilityEnderpearlTeleport());
       AbilityManager.registerAbility(new AbilityExplode());
+      AbilityManager.registerAbility(new AbilityPoison());
       
       registerListener(new DoubleJump());
       registerListener(new ArenaListener());

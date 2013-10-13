@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.infernogames.mb.Managers.PlayerManager;
 
-public class AbilityEnderpearlTeleport extends ATypeCooldown implements Listener {
+public class AbilityEnderpearlTeleport extends MBAbility implements Listener {
    
    private int ticks = 30;
    

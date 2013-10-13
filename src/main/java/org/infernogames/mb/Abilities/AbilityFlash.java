@@ -11,7 +11,7 @@ import org.infernogames.mb.Utils.LocationUtils;
  * @author Paul, Breezeyboy
  * 
  */
-public class AbilityFlash extends ATypeCooldown {
+public class AbilityFlash extends MBAbility {
    
    Material m = Material.PORTAL;
    long cooldown = 40;
