@@ -42,7 +42,7 @@ public class ArenaSettings {
    public enum ArenaSetting {
       MIN_PLAYERS(2), MAX_PLAYERS(4), EXIT_ARENA(false), AUTO_START_TIMER(5), DISABLE_AUTO_START(false), RESTORE_ARENA_ONFINISH(
                true), BLOCK_BREAK(false), BLOCK_PLACE(false), ITEM_DROP(false), INVENTORY_MOVE(false), PICKUP_ITEMS(
-               false);
+               false), STARTING_LIVES(8);
       
       private int i;
       private boolean b;

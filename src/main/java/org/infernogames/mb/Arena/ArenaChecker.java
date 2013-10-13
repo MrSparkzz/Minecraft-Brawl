@@ -1,7 +1,7 @@
 package org.infernogames.mb.Arena;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -35,7 +35,6 @@ import org.infernogames.mb.Utils.StaggeredRunnable;
 public class ArenaChecker {
    
    private Arena arena;
-   private int arenaPlayers;
    private long timer;
    private boolean autoRunning = false;
    
@@ -43,6 +42,8 @@ public class ArenaChecker {
    private Objective ob = board.registerNewObjective("test", "dummy");
    
    private List<BlockState> blocks = new ArrayList<BlockState>();
+   
+   String lastPlayer = null;
    
    public ArenaChecker(Arena arena) {
       this.arena = arena;
@@ -59,23 +60,22 @@ public class ArenaChecker {
       
       @Override
       public void run() {
-         update(); // Will possibly contain more stuff in future
          updateSigns();
          if (arena.hasStarted()) {
             updateStarted();
-            updatePlayers();
+            try {
+               updatePlayers();
+            } catch (ConcurrentModificationException e) {
+               Bukkit.getLogger().severe("Concurrent exception!");
+            }
          } else {
             updateStopped();
          }
       }
-      
-   }
-   
-   private void update() {
-      arenaPlayers = arena.getPlayerManager().getArenaPlayers().size();
    }
    
    private void updateSigns() {
+      int arenaPlayers = arena.getPlayerManager().getArenaPlayers().size();
       FileConfiguration config = new FileManager("Arenas").getConfig();
       if (config.isSet("Arenas." + arena.getName() + ".Signs")) {
          for (String s : config.getConfigurationSection("Arenas." + arena.getName() + ".Signs").getKeys(false)) {
@@ -101,7 +101,8 @@ public class ArenaChecker {
    }
    
    private void updateStarted() {
-      if (arenaPlayers <= 1) {
+      int arenaPlayers = arena.getPlayerManager().getArenaPlayers().size();
+      if (arenaPlayers < 1) {
          // Finished
          if (arenaPlayers == 1) {
             Player p = arena.getPlayerManager().getArenaPlayers().get(0).getPlayer();
@@ -119,24 +120,23 @@ public class ArenaChecker {
       if (arena.getSettings().getBoolSetting(ArenaSetting.RESTORE_ARENA_ONFINISH)) {
          MBPlugin.registerAsyncTask(new StaggeredRunnable(blocks));
       }
+      blocks = arena.getRegion().getBlockStates();
    }
    
    private void updateStopped() {
+      final int arenaPlayers = arena.getPlayerManager().getArenaPlayers().size();
       if (arenaPlayers >= arena.getSettings().getIntSetting(ArenaSetting.MIN_PLAYERS)) {
          if (!arena.getSettings().getBoolSetting(ArenaSetting.DISABLE_AUTO_START)) {
-            if (autoRunning) {
+            if (autoRunning)
                return;
-            }
             autoRunning = true;
             MBPlugin.registerRunnable(new BukkitRunnable() {
                @Override
                public void run() {
                   if (arenaPlayers >= arena.getSettings().getIntSetting(ArenaSetting.MIN_PLAYERS)) {
                      start();
-                  } else {
-                     autoRunning = false;
-                     return;
                   }
+                  autoRunning = false;
                }
             }, timer);
          } else {
@@ -156,9 +156,8 @@ public class ArenaChecker {
    }
    
    private void updatePlayers() {
-      Iterator<PlayerData> i = arena.getPlayerManager().getArenaPlayers().iterator();
-      while (i.hasNext()) {
-         PlayerData data = i.next();
+      List<PlayerData> players = arena.getPlayerManager().getArenaPlayers();
+      for (PlayerData data : players) {
          Player p = data.getPlayer();
          if (p.getScoreboard() != board) {
             p.setScoreboard(board);
@@ -166,6 +165,7 @@ public class ArenaChecker {
          if (data.lives < 1) {
             board.resetScores(p);
             arena.getPlayerManager().stopPlayer(data);
+            
          } else {
             // Player is dead
             ob.getScore(p).setScore(data.lives);

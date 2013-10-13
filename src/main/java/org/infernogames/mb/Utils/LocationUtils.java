@@ -91,4 +91,5 @@ public class LocationUtils {
    public static Block getTargetBlock(LivingEntity e, HashSet<Material> transparent, int maxDistance) {
       return getLineOfSight(e, transparent, maxDistance).get(0);
    }
+   
 }

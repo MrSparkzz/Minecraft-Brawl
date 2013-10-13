@@ -3,7 +3,6 @@ package org.infernogames.mb.Managers;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -22,24 +21,18 @@ public class FileManager {
    public static File dataFolder;
    
    private String name;
+   private FileStorage storage;
    
-   private static HashMap<String, FileStorage>loadedConfig = new HashMap<String, FileStorage>();
-   
-   public static FileManager getFromArena(Arena arena){
+   public static FileManager getFromArena(Arena arena) {
       return getFromArenaName(arena.getName());
    }
    
-   public static FileManager getFromArenaName(String name){
+   public static FileManager getFromArenaName(String name) {
       return new FileManager("Arenas" + File.separator + name);
    }
    
    public FileManager(String name) {
       this.name = name;
-      for(String s : loadedConfig.keySet()){
-         if(s.equals(name)){
-            return;
-         }
-      }
       File file = new File(dataFolder + File.separator + name + ".yml");
       if (!file.exists()) {
          try {
@@ -48,7 +41,7 @@ public class FileManager {
             e.printStackTrace();
          }
       }
-      loadedConfig.put(name, new FileStorage(file));
+      storage = new FileStorage(file);
    }
    
    public void addDefault(String path, Object thing) {
@@ -77,21 +70,11 @@ public class FileManager {
    }
    
    public FileConfiguration getConfig() {
-      for(Entry<String, FileStorage> s : loadedConfig.entrySet()){
-         if(s.getKey().equals(getName())){
-            return s.getValue().getConfig();
-         }
-      }
-      return new YamlConfiguration();
+      return getStorage().getConfig();
    }
    
-   private FileStorage getStorage(){
-      for(Entry<String, FileStorage> s : loadedConfig.entrySet()){
-         if(s.getKey().equals(getName())){
-            return s.getValue();
-         }
-      }
-      return null;
+   private FileStorage getStorage() {
+      return storage;
    }
    
    public void saveConfig() {
@@ -106,29 +89,38 @@ public class FileManager {
       getStorage().reload();
    }
    
-   public String getName(){
+   public String getName() {
       return name;
    }
    
-   public class FileStorage{
+   private static HashMap<File, FileConfiguration> configs = new HashMap<File, FileConfiguration>();
+   
+   public class FileStorage {
       
       private FileConfiguration config;
       private File file;
       
-      public FileStorage(File file){
+      public FileStorage(File file) {
          this.file = file;
          reload();
       }
       
-      public void save() throws IOException{
+      public void save() throws IOException {
          config.save(file);
       }
       
-      public void reload(){
+      public void reload() {
+         for (File file : configs.keySet()) {
+            if (file.equals(this.file)) {
+               config = configs.get(file);
+               return;
+            }
+         }
          config = YamlConfiguration.loadConfiguration(file);
+         configs.put(file, config);
       }
       
-      public FileConfiguration getConfig(){
+      public FileConfiguration getConfig() {
          return config;
       }
       

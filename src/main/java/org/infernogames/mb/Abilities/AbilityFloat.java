@@ -1,5 +1,9 @@
 package org.infernogames.mb.Abilities;
 
+import org.bukkit.entity.Player;
+import org.infernogames.mb.Managers.PlayerManager;
+import org.infernogames.mb.Managers.PlayerManager.PlayerData;
+
 /**
  * 
  * @author Paul, Breezeyboy
@@ -13,7 +17,12 @@ public class AbilityFloat extends MBAbility {
       super("Float");
    }
    
-   public int getFloatTimes() {
+   public int getFloatTimes(Player p) {
+      PlayerData d = PlayerManager.getPlayerArena(p).getPlayerManager().getPlayer(p);
+      String[] args = d.c.getAbilityArguments("Float");
+      if (args.length >= 1) {
+         return Integer.parseInt(args[0]);
+      }
       return floatTimes;
    }
 }

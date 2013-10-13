@@ -1,12 +1,12 @@
-Name: Mario
-Description: Bro!
-Icon: FIREBALL
+Name: Enderman
+Description: Whoooosh
+Icon: ENDER_PEARL
 Items:
-  - BLAZE_ROD
+  - ENDER_PEARL
 Armor:
-  Helmet: type=LEATHER_HELMET;rgb=255,31,31
+  Helmet: type=SKULL_ITEM;dura=3;owner=MHF_Enderman
   Chestplate: type=LEATHER_CHESTPLATE;rgb=255,31,31
   Leggings: type=LEATHER_LEGGINGS;rgb=255,31,31
   Boots: type=LEATHER_BOOTS;rgb=255,31,31
 Abilities:
-  - Fireball;15;369
+  - Teleport;368

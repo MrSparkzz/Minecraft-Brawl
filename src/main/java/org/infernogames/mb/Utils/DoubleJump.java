@@ -40,14 +40,14 @@ public class DoubleJump implements Listener {
                Location l = player.getLocation().subtract(0, 1, 0);
                if (!l.getBlock().getType().equals(Material.AIR)) {
                   player.setAllowFlight(true);
-                  if (data.c.hasAbility("Float")) {
+                  if (!data.c.hasAbility("Float")) {
                      return;
                   }
-                  if (!kirby.containsKey(player.getName())) {
-                     kirby.put(player.getName(), 0);
-                  } else if (kirby.get(player.getName()) != 0) {
-                     kirby.remove(player.getName());
-                     kirby.put(player.getName(), 0);
+                  if (!floats.containsKey(player.getName())) {
+                     floats.put(player.getName(), 0);
+                  } else if (floats.get(player.getName()) != 0) {
+                     floats.remove(player.getName());
+                     floats.put(player.getName(), 0);
                   }
                }
             }
@@ -55,7 +55,7 @@ public class DoubleJump implements Listener {
       }, 0, 3);
    }
    
-   public static HashMap<String, Integer> kirby = new HashMap<String, Integer>();
+   public static HashMap<String, Integer> floats = new HashMap<String, Integer>();
    
    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
    public void onPlayerToggleFlight(final PlayerToggleFlightEvent event) {
@@ -67,14 +67,15 @@ public class DoubleJump implements Listener {
          event.setCancelled(true);
          Arena a = PlayerManager.getPlayerArena(player);
          PlayerData data = a.getPlayerManager().getPlayer(player);
-         if (kirby.containsKey(player.getName()) && data.c.hasAbility("Float")) {
-            int j = kirby.get(player.getName());
-            if (j < ((AbilityFloat) a.getPlayerManager().getPlayer(player).c.getAbility("Float")).getFloatTimes()) {
-               kirby.remove(player.getName());
-               kirby.put(player.getName(), j + 1);
+         if (floats.containsKey(player.getName()) && data.c.hasAbility("Float")) {
+            int j = floats.get(player.getName());
+            AbilityFloat fl = (AbilityFloat) a.getPlayerManager().getPlayer(player).c.getAbility("Float");
+            if (j < fl.getFloatTimes(player)) {
+               floats.remove(player.getName());
+               floats.put(player.getName(), j + 1);
                player.setAllowFlight(true);
             } else {
-               kirby.remove(player.getName());
+               floats.remove(player.getName());
                return;
             }
          }
@@ -84,15 +85,14 @@ public class DoubleJump implements Listener {
          final Vector normal = new Vector(-(Math.cos(pitch) * Math.sin(yaw)) / 1.5, -Math.sin(pitch) / 1.5,
                   Math.cos(pitch) * Math.cos(yaw) / 1.5);
          
-         if (a.getPlayerManager().getPlayer(player).c.hasAbility("Float")) {
-            normal.setY(0.75 + Math.abs(normal.getY()) * 0.98);
+         if (!a.getPlayerManager().getPlayer(player).c.hasAbility("Float")) {
+            normal.setY(1 + Math.abs(normal.getY()) * 0.98);
          } else {
-            normal.setY(0.75 + Math.abs(normal.getY()) * 0.65);
+            normal.setY(1 + Math.abs(normal.getY()) * 0.65);
          }
          event.getPlayer().setVelocity(normal);
          
-         player.getWorld().playSound(player.getLocation(), Sound.ZOMBIE_INFECT, 0.5f, 1.8f);
+         player.getWorld().playSound(player.getLocation(), Sound.SPLASH, 0.5f, 1.8f);
       }
    }
-   
 }

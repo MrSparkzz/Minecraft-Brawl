@@ -61,6 +61,7 @@ public class DeathManager implements Listener {
                if (knocked.containsKey(data.toString())) {
                   data.removeLife(DeathCause.KNOCKED_OUT);
                   arena.broadcast(data + " was knocked out by " + knocked.get(data.toString()));
+                  knocked.remove(data.toString());
                } else {
                   data.removeLife(DeathCause.FALL_OUT);
                   arena.broadcast(data + " fell out!");

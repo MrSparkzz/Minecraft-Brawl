@@ -14,26 +14,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.infernogames.mb.Abilities.AbilityFireball;
-import org.infernogames.mb.Abilities.AbilityFlash;
-import org.infernogames.mb.Abilities.AbilityFloat;
-import org.infernogames.mb.Abilities.MBListener;
+import org.infernogames.mb.Abilities.*;
 import org.infernogames.mb.Arena.ArenaListener;
-import org.infernogames.mb.Commands.CommandCreation;
-import org.infernogames.mb.Commands.CommandDelete;
-import org.infernogames.mb.Commands.CommandHelp;
-import org.infernogames.mb.Commands.CommandJoin;
-import org.infernogames.mb.Commands.CommandLeave;
-import org.infernogames.mb.Commands.CommandModify;
-import org.infernogames.mb.Commands.MainCommand;
+import org.infernogames.mb.Commands.*;
 import org.infernogames.mb.Interfaces.ArenaManager;
-import org.infernogames.mb.Managers.AbilityManager;
-import org.infernogames.mb.Managers.ClassManager;
-import org.infernogames.mb.Managers.CreationManager;
-import org.infernogames.mb.Managers.FileManager;
-import org.infernogames.mb.Managers.MBArenaManager;
-import org.infernogames.mb.Utils.DoubleJump;
-import org.infernogames.mb.Utils.SignListener;
+import org.infernogames.mb.Managers.*;
+import org.infernogames.mb.Utils.*;
 
 /**
  * 
@@ -66,6 +52,8 @@ public class MBPlugin extends JavaPlugin {
       AbilityManager.registerAbility(new AbilityFireball());
       AbilityManager.registerAbility(new AbilityFlash());
       AbilityManager.registerAbility(new AbilityFloat());
+      AbilityManager.registerAbility(new AbilityEnderpearlTeleport());
+      AbilityManager.registerAbility(new AbilityExplode());
       
       registerListener(new DoubleJump());
       registerListener(new ArenaListener());
@@ -80,16 +68,14 @@ public class MBPlugin extends JavaPlugin {
             arenaManager.addArena(CreationManager.createArena(s));
          }
       }
-      FileManager cMan = new FileManager("Config");
-      cMan.addDefault("Default_Lives", 5);
-      cMan.saveConfig();
       
       loadClass("Mario");
       loadClass("Kirby");
+      loadClass("Enderman");
       
       ClassManager.loadClasses();
       
-      log.info("[MinecraftBrawl] v" + getDescription().getVersion() + " enabled.");
+      log.info("[MinecraftBrawl] v" + getVersion() + " enabled.");
    }
    
    private void loadClass(String name) {
@@ -135,7 +121,7 @@ public class MBPlugin extends JavaPlugin {
    
    @Override
    public void onDisable() {
-      log.info("[MinecraftBrawl] v" + this.getDescription().getVersion() + " disabled.");
+      log.info("[MinecraftBrawl] v" + getVersion() + " disabled.");
    }
    
    public static void registerRunnable(BukkitRunnable r, long delay) {

@@ -16,6 +16,7 @@ import org.infernogames.mb.MBClass;
 import org.infernogames.mb.MBPlugin;
 import org.infernogames.mb.Arena.Arena;
 import org.infernogames.mb.Arena.ArenaRegion.WarpType;
+import org.infernogames.mb.Arena.ArenaSettings.ArenaSetting;
 import org.infernogames.mb.Managers.DeathManager.DeathCause;
 import org.infernogames.mb.Utils.IconMenu;
 import org.infernogames.mb.Utils.Msg;
@@ -79,8 +80,8 @@ public class PlayerManager {
       p.getInventory().setArmorContents(null);
       p.setGameMode(GameMode.ADVENTURE);
       
-      p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 99999, 0));
-      p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 99999, 0));
+      p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 99999, 2));
+      p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 99999, 1));
       p.setCanPickupItems(false);
       
       p.teleport(a.getRegion().getWarp(WarpType.LOBBY));
@@ -160,7 +161,7 @@ public class PlayerManager {
             b = p.getScoreboard();
          }
          
-         lives = 5;
+         lives = a.getSettings().getIntSetting(ArenaSetting.STARTING_LIVES);
          this.a = a;
          this.c = c;
       }
@@ -186,6 +187,7 @@ public class PlayerManager {
          lives--;
          p.setHealth(p.getMaxHealth());
          p.teleport(a.getRegion().getWarp(WarpType.SPAWN));
+         c.setupPlayer(p);
       }
       
       public Player getPlayer() {

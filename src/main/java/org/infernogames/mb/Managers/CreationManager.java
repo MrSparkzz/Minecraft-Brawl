@@ -96,7 +96,7 @@ public class CreationManager {
             return "You did not set the second position!";
          }
          if (lobby == null) {
-            return "You did not set the lobby war[!";
+            return "You did not set the lobby warp!";
          }
          if (spawns.isEmpty()) {
             return "You did not add any spawns!";

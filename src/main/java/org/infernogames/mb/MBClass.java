@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -28,11 +27,8 @@ public class MBClass {
    protected Material icon;
    protected int data;
    
-   private final Material[] armor = new Material[] { Material.LEATHER_BOOTS, Material.LEATHER_LEGGINGS,
-            Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET, Material.IRON_BOOTS, Material.IRON_LEGGINGS,
-            Material.IRON_CHESTPLATE, Material.IRON_HELMET, Material.GOLD_BOOTS, Material.GOLD_LEGGINGS,
-            Material.GOLD_CHESTPLATE, Material.GOLD_HELMET, Material.DIAMOND_BOOTS, Material.DIAMOND_LEGGINGS,
-            Material.DIAMOND_CHESTPLATE, Material.DIAMOND_HELMET };
+   public ItemStack boot = new ItemStack(Material.AIR), leg = new ItemStack(Material.AIR), chest = new ItemStack(
+            Material.AIR), helm = new ItemStack(Material.AIR);
    
    public MBClass(final String name, final String desc, final Material icon) {
       this(name, desc, icon, 0);
@@ -58,18 +54,17 @@ public class MBClass {
    }
    
    public void onPlayerSpawn(Player p) {
-      
+      // Code to be overriden
    }
    
    public void onPlayerDespawn(Player p) {
-      
+      // Code to be overriden
    }
    
    private HashMap<MBAbility, String[]> abilities = new HashMap<MBAbility, String[]>();
    
    public void addAbility(MBAbility a, String[] args) {
       abilities.put(a, args);
-      Bukkit.getLogger().info("Loaded ability " + a.name() + " for class " + name);
    }
    
    public HashMap<MBAbility, String[]> getAbilities() {
@@ -94,25 +89,18 @@ public class MBClass {
       return null;
    }
    
+   public String[] getAbilityArguments(String name) {
+      return abilities.get(getAbility(name));
+   }
+   
    public void setupPlayer(final Player p) {
       p.getInventory().clear();
-      final List<ItemStack> pArmor = new ArrayList<ItemStack>();
-      for (final ItemStack item : items) {
-         boolean isArmor = false;
-         for (final Material a : armor) {
-            if (a == item.getType()) {
-               isArmor = true;
-               pArmor.add(item);
-               break;
-            }
-         }
-         if (!isArmor) {
-            p.getInventory().addItem(item);
-         }
-      }
-      ItemStack[] items = new ItemStack[pArmor.size()];
-      pArmor.toArray(items);
-      p.getInventory().setArmorContents(items);
+      for (ItemStack item : items)
+         p.getInventory().addItem(item);
+      p.getInventory().setHelmet(helm);
+      p.getInventory().setChestplate(chest);
+      p.getInventory().setLeggings(leg);
+      p.getInventory().setBoots(boot);
       onPlayerSpawn(p);
    }
    
@@ -122,12 +110,12 @@ public class MBClass {
       items.add(i);
    }
    
-   public void armor(final Material ma, final Color c) {
+   public ItemStack armor(final Material ma, final Color c) {
       final ItemStack i = new ItemStack(ma, 1);
       final LeatherArmorMeta m = (LeatherArmorMeta) i.getItemMeta();
       m.setColor(c);
       i.setItemMeta(m);
-      items.add(i);
+      return i;
    }
    
    public ItemStack colorArmor(final Material ma, final Color c) {

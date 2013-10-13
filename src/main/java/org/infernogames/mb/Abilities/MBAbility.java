@@ -23,4 +23,12 @@ public class MBAbility {
    public String name() {
       return name;
    }
+   
+   public boolean rightClick(Action a) {
+      return a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK;
+   }
+   
+   public boolean leftClick(Action a) {
+      return a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK;
+   }
 }

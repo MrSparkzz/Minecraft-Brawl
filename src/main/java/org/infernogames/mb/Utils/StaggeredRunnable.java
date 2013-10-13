@@ -1,15 +1,13 @@
 package org.infernogames.mb.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.bukkit.block.BlockState;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.infernogames.mb.MBPlugin;
 
 public class StaggeredRunnable extends BukkitRunnable {
-   private List<BlockState> hugeList;
-   private List<BlockState> list = new ArrayList<BlockState>();
+   private List<BlockState> hugeList, list = new ArrayList<BlockState>();
    
    public StaggeredRunnable(List<BlockState> hugeList) {
       this.hugeList = hugeList;
@@ -27,9 +25,7 @@ public class StaggeredRunnable extends BukkitRunnable {
    }
    
    private class StaggeredTask extends BukkitRunnable {
-      
-      private int iteratorCount = 0;
-      private int maxIterationsPerTick = 100;
+      private int maxIterationsPerTick = 100, iteratorCount = 0;
       
       public StaggeredTask() {
          maxIterationsPerTick = list.size() / 3;
@@ -48,7 +44,5 @@ public class StaggeredRunnable extends BukkitRunnable {
             cancel();
          }
       }
-      
    }
-   
 }

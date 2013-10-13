@@ -10,4 +10,4 @@ Armor:
   Leggings: type=LEATHER_LEGGINGS;rgb=255,133,196
   Boots: type=LEATHER_BOOTS;rgb=255,133,196
 Abilities:
-  - Float
+  - Float;10

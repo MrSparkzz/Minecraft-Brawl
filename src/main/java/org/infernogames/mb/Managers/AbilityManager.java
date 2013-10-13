@@ -3,7 +3,8 @@ package org.infernogames.mb.Managers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+import org.infernogames.mb.MBPlugin;
 import org.infernogames.mb.Abilities.MBAbility;
 
 /**
@@ -36,6 +37,8 @@ public class AbilityManager {
    
    public static void registerAbility(MBAbility ab) {
       abilities.add(ab);
-      Bukkit.getLogger().info("Registerd Ability: " + ab.name());
+      if (ab instanceof Listener) {
+         MBPlugin.registerListener((Listener) ab);
+      }
    }
 }
