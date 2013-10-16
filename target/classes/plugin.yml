@@ -2,7 +2,7 @@ name: Minecraft Brawl
 main: org.infernogames.mb.MBPlugin
 description: Super Smash Plugin
 author: Ultimate
-version: 0.0.5.2(dev)-b${BUILD_NUMBER}
+version: 0.0.5.3(dev)-b${BUILD_NUMBER}
 website: http://mb.infernogames.org
 
 commands:
